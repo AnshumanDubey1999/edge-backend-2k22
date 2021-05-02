@@ -23,12 +23,6 @@ var UserSchema = new Schema(
             type: Boolean,
             default: false
         },
-        bills: [
-            {
-                name: String,
-                image: String
-            }
-        ],
         registeredEvents: [String]
     },
     { timestamps: true },

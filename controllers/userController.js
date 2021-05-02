@@ -16,25 +16,25 @@ exports.login = async (req, res) => {
             };
             isRegistered = false;
         }
-        user.isAdmin =
+        const isAdmin =
             req.user &&
             req.user.permissions &&
             req.user.permissions.includes('register');
         // user.isAdmin = tru
-        if (isRegistered) {
+        if (isRegistered && isAdmin != user.isAdmin) {
             user = await UserSchema.findOneAndUpdate(
                 { email: req.user.email },
-                user,
+                { isAdmin: isAdmin },
                 { upsert: true, new: true }
             ).lean();
         }
 
-        console.log('user', user);
+        // console.log('user', user);
         const token = generateAccessToken(
             {
                 name: user.name,
                 email: user.email,
-                isAdmin: user.isAdmin,
+                isAdmin: isAdmin,
                 contact: user.contact,
                 _id: user._id
             },
@@ -56,10 +56,6 @@ exports.login = async (req, res) => {
 
 exports.register = async (req, res) => {
     try {
-        if (req.user._id != null) {
-            throw new Error('User Already Present!');
-        }
-        console.log(req.user);
         const user = {
             name: req.user.name,
             contact: req.user.contact,
@@ -68,7 +64,6 @@ exports.register = async (req, res) => {
             year: req.body.year,
             instituteName: req.body.instituteName,
             isAdmin: req.user.isAdmin,
-            bills: [],
             registeredEvents: []
         };
         const newUser = await UserSchema.create(user);
