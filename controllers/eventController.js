@@ -17,7 +17,7 @@ exports.addEvent = (req, res) => {
     console.log(newEvent);
 
     eventModel
-        .create(req.body)
+        .create(newEvent)
         .then((event) => {
             res.status(200).json({ event });
         })
@@ -30,6 +30,7 @@ exports.addEvent = (req, res) => {
 exports.getAllEvents = (req, res) => {
     eventModel
         .find({})
+        .populate('category')
         .then((events) => {
             res.status(200).json({ events });
         })
@@ -48,6 +49,7 @@ exports.getEventByCode = (req, res) => {
 
     eventModel
         .findOne({ eventCode: code })
+        .populate('category')
         .then((event) => {
             res.status(200).json({ event });
         })
@@ -56,7 +58,8 @@ exports.getEventByCode = (req, res) => {
             res.status(500).json({ err });
         });
 };
-
+//registerUser works on adding user to each event to keep track of duplicate invocations.
+//This is supposed to be handled at user endpoints. In case those checks are also required here, these functions [registerUser,addToEvent,checkUserRegistration] can be referred.
 exports.registerUser = (req, res) => {
     const details = {
         eventCode: req.body.code,
@@ -155,6 +158,7 @@ exports.updateEvent = (req, res) => {
 
     eventModel
         .findOneAndUpdate(filter, updatedEvent, options)
+        .populate('category')
         .then((updatedDocument) => {
             if (updatedDocument) {
                 console.log(
@@ -173,15 +177,17 @@ exports.updateEvent = (req, res) => {
             res.status(500).json({ err });
         });
 };
-
+//santitizing fields after proper validations.
 exports.getSantizedEventObject = (req) => {
     var updatedEvent = {};
+    if (req.body.eventCode) updatedEvent['eventCode'] = req.body.eventCode;
     if (req.body.title) updatedEvent['title'] = req.body.title;
-    if (req.body.price) updatedEvent['eventPrice'] = req.body.eventPrice;
+    if (req.body.eventPrice) updatedEvent['eventPrice'] = req.body.eventPrice;
     if (req.body.desc) updatedEvent['desc'] = req.body.desc;
     if (req.body.isActive) updatedEvent['isActive'] = req.body.isActive;
     if (req.body.discount) updatedEvent['discount'] = req.body.discount;
     if (req.body.combos) updatedEvent['combos'] = req.body.combos;
+    if (req.body.cid) updatedEvent['category'] = req.body.cid;
 
     if (updatedEvent['title'])
         updatedEvent['title'] = updatedEvent['title']
@@ -199,7 +205,15 @@ exports.getSantizedEventObject = (req) => {
 // eslint-disable-next-line no-unused-vars
 exports.delete = (req, res, next) => {
     var id = req.body.id;
-    var code = req.body.code;
+    var code = req.body.eventCode;
+
+    const {error, value} = eventValidateSchema.validate(req.body);
+
+    if (error) {
+        console.log(error);
+        return res.status(400).json({ error });
+    }
+
     var filter = {};
     if (id != null) {
         filter = { _id: id };

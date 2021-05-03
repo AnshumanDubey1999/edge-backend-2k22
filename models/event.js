@@ -29,7 +29,11 @@ var eventSchema = new Schema(
             default: 0
         },
         combos: [],
-        userMap: Map
+        userMap: Map,
+        category: {
+            type: Schema.Types.ObjectId,
+            ref: 'Category'
+        }
     },
     { timestamps: true }
 );

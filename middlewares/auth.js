@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+// const user = require('../models/user');
 require('dotenv').config();
 
 const generateAccessToken = (user, expiresIn) => {
@@ -26,38 +27,60 @@ const getToken = (req) => {
     }
 };
 
-const auth = (req, res, next) => {
-    console.log(getToken(req));
-    jwt.verify(
+const auth = (req) => {
+    // console.log(getToken(req));
+    return jwt.verify(
         getToken(req),
         process.env.TOKEN_SECRET,
         function (err, decoded) {
             if (err || !decoded) {
-                return res.json({
+                return {
                     success: false,
                     err: err || 'Unexpected Error Occured!'
-                });
+                };
             } else {
-                // console.log(decoded)
-                req.user = decoded;
-                next();
+                return {
+                    success: true,
+                    user: decoded
+                };
             }
         }
     );
 };
 
 const isLoggedIn = (req, res, next) => {
-    if (!req.user) {
+    const response = auth(req);
+    if (!response.success) {
         res.json({
             success: false,
             message: 'Authentication Required!'
         });
-    } else if (req.user._id != null) {
+    } else if (response.user._id != null) {
+        req.user = response.user;
         next();
     } else {
         res.json({
             success: false,
             message: 'Temporary Token Found!'
+        });
+    }
+};
+
+const isTemporary = (req, res, next) => {
+    const response = auth(req);
+    // console.log(response)
+    if (!response.success) {
+        res.json({
+            success: false,
+            message: 'Authentication Required!'
+        });
+    } else if (response.user._id == null) {
+        req.user = response.user;
+        next();
+    } else {
+        res.json({
+            success: false,
+            message: 'Invalid Token Found!'
         });
     }
 };
@@ -78,4 +101,4 @@ const isAdmin = (req, res, next) => {
     }
 };
 
-module.exports = { isLoggedIn, auth, generateAccessToken, isAdmin };
+module.exports = { isLoggedIn, isTemporary, generateAccessToken, isAdmin };
