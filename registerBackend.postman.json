@@ -1,0 +1,72 @@
+{
+	"info": {
+		"_postman_id": "b1b8ba8a-8681-4dfd-863b-e1fed10419c4",
+		"name": "Register",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/users/login?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDIyZDg0YmZlNzJkYjQ4OWU1YTVhYTUiLCJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwicGhvbmUiOiIrOTE5MTIzMDMyMzE5IiwicGVybWlzc2lvbnMiOlsicmVzdWx0cyIsInJlZ2lzdGVyIl0sImF2YXRhciI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tTkxodXJTZ0hlT0EvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjbk0zcVBZeHc0WWl4ZFEwcExyOHYzWlFTZW1hZy9zOTYtYy9waG90by5qcGciLCJpYXQiOjE2MTk4OTU5MjMsImV4cCI6MTYxOTg5NjIyM30.vWXTPl6wKlqbiSVlf7lYJOJoMZCuxJHSnL3te8o7y58",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"login"
+					],
+					"query": [
+						{
+							"key": "access_token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDIyZDg0YmZlNzJkYjQ4OWU1YTVhYTUiLCJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwicGhvbmUiOiIrOTE5MTIzMDMyMzE5IiwicGVybWlzc2lvbnMiOlsicmVzdWx0cyIsInJlZ2lzdGVyIl0sImF2YXRhciI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tTkxodXJTZ0hlT0EvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjbk0zcVBZeHc0WWl4ZFEwcExyOHYzWlFTZW1hZy9zOTYtYy9waG90by5qcGciLCJpYXQiOjE2MTk4OTU5MjMsImV4cCI6MTYxOTg5NjIyM30.vWXTPl6wKlqbiSVlf7lYJOJoMZCuxJHSnL3te8o7y58"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhkYTYwMGU4ZjQ5YjVjN2IwMGViYjEiLCJpYXQiOjE2MTk5NDE5NjAsImV4cCI6MTYyMDAyODM2MH0.W-LmLHWiO4hwmnfEBWGxuTrM5pEgd5wjmuYhUVVemgk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"stream\":\"CSE\",\n    \"year\":\"3rd Year\",\n    \"instituteName\": \"TMSL\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/users/register",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
