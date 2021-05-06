@@ -6,7 +6,7 @@ const userController = require('../controllers/userController');
 //MIDDLEWARES
 const sso = require('../middlewares/sso-decoder');
 const Authenticate = require('../middlewares/auth');
-const validateUser = require('../validation/user')
+const validateUser = require('../validations/user');
 
 router.get('/login', sso.validate, userController.login);
 router.post(
