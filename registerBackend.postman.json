@@ -67,6 +67,318 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "CreateInvoice",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjAzMTQ5MDMsImV4cCI6MTYyMDQwMTMwM30.FERkLsI0prtF1AxE88cxsxPgytcqTXFwuGoglCalpFg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"eventCodes\": [\"1\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/invoices/create",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"invoices",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PayInvoice",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjAzMTQ5MDMsImV4cCI6MTYyMDQwMTMwM30.FERkLsI0prtF1AxE88cxsxPgytcqTXFwuGoglCalpFg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "eventCodes",
+							"value": "1",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "invoice_id",
+							"value": " 60940bf6e7c4c919872c3e01",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "bill",
+							"type": "file",
+							"src": "/home/anshumandubey/Downloads/WhatsApp Image 2021-05-06 at 19.24.32.jpeg"
+						},
+						{
+							"key": "eventCodes",
+							"value": "2",
+							"type": "text",
+							"disabled": true
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/invoices/6094333c996a1f52378029c8/pay",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"invoices",
+						"6094333c996a1f52378029c8",
+						"pay"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ViewInvoice",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjAzMTQ5MDMsImV4cCI6MTYyMDQwMTMwM30.FERkLsI0prtF1AxE88cxsxPgytcqTXFwuGoglCalpFg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/invoices/6094333c996a1f52378029c8/view",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"invoices",
+						"6094333c996a1f52378029c8",
+						"view"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MyInvoices",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjAzMTQ5MDMsImV4cCI6MTYyMDQwMTMwM30.FERkLsI0prtF1AxE88cxsxPgytcqTXFwuGoglCalpFg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/invoices/?page=1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"invoices",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Invoices",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjAzMTQ5MDMsImV4cCI6MTYyMDQwMTMwM30.FERkLsI0prtF1AxE88cxsxPgytcqTXFwuGoglCalpFg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/invoices/allInvoices?page=1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"invoices",
+						"allInvoices"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ApproveInvoice",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjAzMTQ5MDMsImV4cCI6MTYyMDQwMTMwM30.FERkLsI0prtF1AxE88cxsxPgytcqTXFwuGoglCalpFg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"invoice_id\": \"6094333c996a1f52378029c8\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/invoices/approveInvoice",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"invoices",
+						"approveInvoice"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteInvoice",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjAzMTQ5MDMsImV4cCI6MTYyMDQwMTMwM30.FERkLsI0prtF1AxE88cxsxPgytcqTXFwuGoglCalpFg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"invoice_id\": \"6094333c996a1f52378029c8\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/invoices/deleteInvoice",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"invoices",
+						"deleteInvoice"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
