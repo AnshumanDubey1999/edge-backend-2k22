@@ -28,7 +28,7 @@ exports.addCategory = (req, res) => {
 
 exports.getAllCategories = (req, res) => {
     categoryModel
-        .find({})
+        .getCategories()
         .then((categories) => {
             res.status(200).json({ categories });
         })
@@ -46,7 +46,7 @@ exports.getCategoryById = (req, res) => {
     const id = req.params.id;
 
     categoryModel
-        .findOne({ _id: id })
+        .getCategoryById(id)
         .then((category) => {
             res.status(200).json({ category });
         })
