@@ -75,13 +75,13 @@
 					"type": "bearer",
 					"bearer": [
 						{
-							"key": "password",
-							"value": "{{regT1}}",
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjA1NjQ4NzMsImV4cCI6MTYyMDY1MTI3M30.Xjc2QkHatgQBWTtJX3BANKWcPy4ZDskcfPP0DGxnPjE",
 							"type": "string"
 						},
 						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjAzMTQ5MDMsImV4cCI6MTYyMDQwMTMwM30.FERkLsI0prtF1AxE88cxsxPgytcqTXFwuGoglCalpFg",
+							"key": "password",
+							"value": "{{regT1}}",
 							"type": "string"
 						}
 					]
@@ -165,14 +165,14 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/invoices/6094333c996a1f52378029c8/pay",
+					"raw": "localhost:3000/invoices/60943c099ceded5bb723239e/pay",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"invoices",
-						"6094333c996a1f52378029c8",
+						"60943c099ceded5bb723239e",
 						"pay"
 					]
 				}
@@ -221,13 +221,13 @@
 					"type": "bearer",
 					"bearer": [
 						{
-							"key": "password",
-							"value": "{{regT1}}",
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjA1NjQ4NzMsImV4cCI6MTYyMDY1MTI3M30.Xjc2QkHatgQBWTtJX3BANKWcPy4ZDskcfPP0DGxnPjE",
 							"type": "string"
 						},
 						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjAzMTQ5MDMsImV4cCI6MTYyMDQwMTMwM30.FERkLsI0prtF1AxE88cxsxPgytcqTXFwuGoglCalpFg",
+							"key": "password",
+							"value": "{{regT1}}",
 							"type": "string"
 						}
 					]
@@ -359,7 +359,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"invoice_id\": \"6094333c996a1f52378029c8\"\n}",
+					"raw": "{\n    \"invoice_id\": \"60943c099ceded5bb723239e\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -375,6 +375,294 @@
 					"path": [
 						"invoices",
 						"deleteInvoice"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPaymentImage",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjA1NjQ4NzMsImV4cCI6MTYyMDY1MTI3M30.Xjc2QkHatgQBWTtJX3BANKWcPy4ZDskcfPP0DGxnPjE",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/invoices/60940bf6e7c4c919872c3e01/getImage",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"invoices",
+						"60940bf6e7c4c919872c3e01",
+						"getImage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Events",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/events",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddEvents",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"eventPrice\": 500,\n            \"isActive\": true,\n            \"discount\": 0,\n            \"combos\": [\n                \n            ],\n            \"eventCode\": \"6\",\n            \"title\": \"Event6\",\n            \"desc\": \"Cool event\",\n            \n            \"eventType\": \"EDGE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/events/add",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"events",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AllUsers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjA1NjQ4NzMsImV4cCI6MTYyMDY1MTI3M30.Xjc2QkHatgQBWTtJX3BANKWcPy4ZDskcfPP0DGxnPjE",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/users/allUsers?page=1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"allUsers"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MyProfile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjA1NjQ4NzMsImV4cCI6MTYyMDY1MTI3M30.Xjc2QkHatgQBWTtJX3BANKWcPy4ZDskcfPP0DGxnPjE",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/users/myProfile",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"myProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateProfile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjA1NjQ4NzMsImV4cCI6MTYyMDY1MTI3M30.Xjc2QkHatgQBWTtJX3BANKWcPy4ZDskcfPP0DGxnPjE",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"stream\":\"CSE\",\n    \"year\":\"3rd Year\",\n    \"instituteName\": \"Techno Main Salt Lake\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/users/updateProfile",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"updateProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ViewUser",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjA1NjQ4NzMsImV4cCI6MTYyMDY1MTI3M30.Xjc2QkHatgQBWTtJX3BANKWcPy4ZDskcfPP0DGxnPjE",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/users/viewUser/608e5d940e96222db70c73da",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"viewUser",
+						"608e5d940e96222db70c73da"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjA1NjQ4NzMsImV4cCI6MTYyMDY1MTI3M30.Xjc2QkHatgQBWTtJX3BANKWcPy4ZDskcfPP0DGxnPjE",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\": \"608e5d940e96222db70c73da\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/users/deleteUser",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"deleteUser"
 					]
 				}
 			},

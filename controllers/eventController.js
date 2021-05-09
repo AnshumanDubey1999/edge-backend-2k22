@@ -188,6 +188,7 @@ exports.getSantizedEventObject = (req) => {
     if (req.body.discount) updatedEvent['discount'] = req.body.discount;
     if (req.body.combos) updatedEvent['combos'] = req.body.combos;
     if (req.body.cid) updatedEvent['category'] = req.body.cid;
+    if (req.body.eventType) updatedEvent['eventType'] = req.body.eventType;
 
     if (updatedEvent['title'])
         updatedEvent['title'] = updatedEvent['title']
@@ -199,6 +200,11 @@ exports.getSantizedEventObject = (req) => {
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;');
 
+    if (updatedEvent['eventType'])
+        updatedEvent['eventType'] = updatedEvent['eventType']
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
     return updatedEvent;
 };
 
@@ -207,7 +213,7 @@ exports.delete = (req, res, next) => {
     var id = req.body.id;
     var code = req.body.eventCode;
 
-    const {error, value} = eventValidateSchema.validate(req.body);
+    const { error, value } = eventValidateSchema.validate(req.body);
 
     if (error) {
         console.log(error);

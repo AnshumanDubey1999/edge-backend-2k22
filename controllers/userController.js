@@ -89,3 +89,90 @@ exports.register = async (req, res) => {
         });
     }
 };
+
+exports.myProfile = async (req, res) => {
+    try {
+        const user = await UserSchema.findById(req.user._id);
+        res.status(200).json({
+            success: true,
+            user: user
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            err: error
+        });
+    }
+};
+
+exports.updateProfile = async (req, res) => {
+    try {
+        const user = await UserSchema.findById(req.user._id);
+        user.stream = req.body.stream;
+        user.instituteName = req.body.instituteName;
+        user.year = req.body.year;
+        await user.save();
+        res.status(200).json({
+            success: true,
+            user: user
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            err: error
+        });
+    }
+};
+
+//ADMIN ONLY
+exports.viewUser = async (req, res) => {
+    try {
+        const user = await UserSchema.findById(req.params.user_id);
+        res.status(200).json({
+            success: true,
+            user: user
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            err: error
+        });
+    }
+};
+
+exports.allUsers = async (req, res) => {
+    try {
+        const limit = 20;
+        const skip = (Number(req.query.page) - 1) * 20;
+        const users = await UserSchema.find().skip(skip).limit(limit).lean();
+        res.status(200).json({
+            success: true,
+            users: users
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            err: error
+        });
+    }
+};
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const user = await UserSchema.findByIdAndDelete(req.body.user_id);
+        res.status(200).json({
+            success: true,
+            user: user
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            err: error.message
+        });
+    }
+};

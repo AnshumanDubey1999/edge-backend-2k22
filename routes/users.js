@@ -15,5 +15,36 @@ router.post(
     validateUser.register,
     userController.register
 );
+router.get('/myProfile', Authenticate.isLoggedIn, userController.myProfile);
+
+router.post(
+    '/updateProfile',
+    Authenticate.isLoggedIn,
+    validateUser.updateProfile,
+    userController.updateProfile
+);
+
+//ADMIN ROUTES
+router.get(
+    '/allUsers',
+    Authenticate.isLoggedIn,
+    Authenticate.isAdmin,
+    validateUser.allUsers,
+    userController.allUsers
+);
+router.get(
+    '/viewUser/:user_id',
+    Authenticate.isLoggedIn,
+    Authenticate.isAdmin,
+    validateUser.viewUser,
+    userController.viewUser
+);
+router.post(
+    '/deleteUser',
+    Authenticate.isLoggedIn,
+    Authenticate.isAdmin,
+    validateUser.deleteUser,
+    userController.deleteUser
+);
 
 module.exports = router;

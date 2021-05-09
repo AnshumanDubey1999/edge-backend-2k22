@@ -1,6 +1,9 @@
 const UserSchema = require('../models/user');
 const InvoiceSchema = require('../models/invoice');
 const EventSchema = require('../models/event');
+const s3 = require('../middlewares/s3').s3;
+
+require('dotenv').config();
 
 const getTotalAndValidity = async (eventCodes, registeredEvents) => {
     if (registeredEvents.some((event) => eventCodes.includes(event)))
@@ -12,6 +15,7 @@ const getTotalAndValidity = async (eventCodes, registeredEvents) => {
         };
 
     let sum = 0;
+    let intraCount = 0;
     let validity = true;
     for (let i = 0; i < eventCodes.length; i++) {
         const event = await EventSchema.findByEventCode(eventCodes[i]).lean();
@@ -19,7 +23,22 @@ const getTotalAndValidity = async (eventCodes, registeredEvents) => {
             validity = false;
             break;
         }
+        if (event.eventType == 'INTRA') intraCount++;
         sum += event.eventPrice;
+    }
+    if (intraCount > 0) {
+        if (intraCount != eventCodes.length) {
+            return {
+                sum: 0,
+                validity: false,
+                error: 'Mixture of Intra and Edge Events Found.'
+            };
+        }
+        return {
+            sum: Number(process.env.INTRA_AMOUNT) || 300,
+            validity: true,
+            intra: true
+        };
     }
     return {
         sum: sum,
@@ -92,9 +111,36 @@ exports.viewInvoice = async (req, res) => {
     }
 };
 
+exports.getImage = async (req, res) => {
+    try {
+        const invoice = await InvoiceSchema.findById(req.params.invoice_id);
+        if (!(req.user.isAdmin || req.user._id == invoice.user))
+            throw new Error('User does not have permission to view invoice.');
+        s3.getObject(
+            {
+                Bucket: 'edge-results',
+                Key: 'invoice/' + req.params.invoice_id + '.jpg'
+            },
+            (err, data) => {
+                if (err) {
+                    res.send({ error: err });
+                } else {
+                    res.send(data.Body);
+                }
+            }
+        );
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            err: error.message
+        });
+    }
+};
+
 exports.createInvoice = async (req, res) => {
     try {
-        const user = await UserSchema.findById(req.user._id).lean();
+        const user = await UserSchema.findById(req.user._id);
         const eventCodes = req.body.eventCodes;
         const response = await getTotalAndValidity(
             eventCodes,
@@ -106,6 +152,29 @@ exports.createInvoice = async (req, res) => {
                 error: response.error
             });
         }
+
+        //FOR INTRA
+        if (response.intra) {
+            if (user.intraInvoiceId != null) {
+                const invoice = await InvoiceSchema.findById(
+                    user.intraInvoiceId
+                );
+                for (let i = 0; i < eventCodes.length; i++) {
+                    const code = eventCodes[i];
+                    if (!invoice.events.includes(code))
+                        invoice.events.push(code);
+                }
+                user.registeredEvents.push(...eventCodes);
+                await invoice.save();
+                await user.save();
+                return res.status(200).json({
+                    success: true,
+                    invoice: invoice,
+                    intraInvoice: true
+                });
+            }
+        }
+
         const invoice = {
             user: req.user._id,
             amount: response.sum,
@@ -113,6 +182,12 @@ exports.createInvoice = async (req, res) => {
         };
 
         const newInvoice = await InvoiceSchema.create(invoice);
+
+        if (response.intra) {
+            user.intraInvoiceId = newInvoice._id;
+            await user.save();
+        }
+
         res.status(200).json({
             success: true,
             invoice: newInvoice

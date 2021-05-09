@@ -6,9 +6,7 @@ const invoiceController = require('../controllers/invoiceController');
 //MIDDLEWARES
 const Authenticate = require('../middlewares/auth');
 const validateInvoice = require('../validations/invoice');
-const upload = require('../middlewares/s3');
-
-
+const upload = require('../middlewares/s3').upload;
 
 router.get(
     '/',
@@ -29,6 +27,13 @@ router.get(
     Authenticate.isLoggedIn,
     validateInvoice.viewInvoice,
     invoiceController.viewInvoice
+);
+
+router.get(
+    '/:invoice_id/getImage',
+    Authenticate.isLoggedIn,
+    validateInvoice.getImage,
+    invoiceController.getImage
 );
 
 router.post(

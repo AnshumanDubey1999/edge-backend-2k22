@@ -1,4 +1,4 @@
-const { validate, ValidationError, Joi } = require('express-validation');
+const { validate, Joi } = require('express-validation');
 
 const validateEventCodes = {
     body: Joi.object({
@@ -36,6 +36,7 @@ exports.updateInvoice = validate(validateEventCodes, {}, {});
 
 exports.viewInvoice = validate(validateInvoiceId, {}, {});
 exports.payInvoice = validate(validateInvoiceId, {}, {});
+exports.getImage = validate(validateInvoiceId, {}, {});
 
 exports.approveInvoice = validate(validateBodyInvoiceId, {}, {});
 exports.deleteInvoice = validate(validateBodyInvoiceId, {}, {});
