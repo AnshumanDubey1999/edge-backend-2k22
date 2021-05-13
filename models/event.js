@@ -48,6 +48,9 @@ eventSchema.statics.getEventByCode = function (code) {
     return this.findOne({ eventCode: code }).populate('category');
 };
 
+eventSchema.statics.findByEventCode = function (code) {
+    return this.findOne({ eventCode: code });
+};
 eventSchema.statics.getAllEvents = function () {
     return this.find({}).populate('category');
 };
