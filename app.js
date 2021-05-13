@@ -3,25 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var mongoose = require('mongoose');
-var mongoUri = require('./config.json').dev.MONGODB_URI;
+var cors = require('cors');
+const { ValidationError } = require('express-validation');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var invoicesRouter = require('./routes/invoices');
 var eventsRouter = require('./routes/events');
-var categRouter = require('./routes/categories');
 
 var app = express();
-
-mongoose
-    .connect(mongoUri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
-    })
-    .then(() => {
-        console.log('DB connected!');
-    });
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,14 +20,14 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/invoices', invoicesRouter);
 app.use('/events', eventsRouter);
-app.use('/categories', categRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -47,6 +38,9 @@ app.use(function (req, res, next) {
 // eslint-disable-next-line no-unused-vars
 app.use(function (err, req, res, _next) {
     // set locals, only providing error in development
+    if (err instanceof ValidationError) {
+        return res.status(err.statusCode).json(err);
+    }
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 

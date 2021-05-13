@@ -14,6 +14,10 @@ var UserSchema = new Schema(
         stream: String,
         year: String,
         instituteName: String,
+        intraInvoiceId: {
+            type: mongoose.Schema.Types.ObjectId,
+            default: null
+        },
         contact: {
             type: String,
             required: true,
@@ -23,12 +27,6 @@ var UserSchema = new Schema(
             type: Boolean,
             default: false
         },
-        bills: [
-            {
-                name: String,
-                image: String
-            }
-        ],
         registeredEvents: [String]
     },
     { timestamps: true },
