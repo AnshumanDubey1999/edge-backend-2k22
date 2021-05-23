@@ -10,14 +10,14 @@
         "ecmaVersion": 12
     },
     "rules": {
-        "node/shebang": "error",
-        "indent": ["error", 4],
-        "prefer-const": ["error", {
+        "node/shebang": "warn",
+        "indent": ["warn", 4],
+        "prefer-const": ["warn", {
             "destructuring": "any",
             "ignoreReadBeforeAssign": false
         }],
-        "quotes": ["error", "single"],
-        "semi": ["error", "always"],
+        "quotes": ["warn", "single"],
+        "semi": ["warn", "always"],
         "linebreak-style": 0,
         "no-use-before-define": 0,
         "no-tabs": 0,
@@ -37,13 +37,13 @@
         "func-names": 0,
         "implicit-arrow-linebreak": 0,
         "node/no-extraneous-require": [
-            "error",
+            "warn",
             {
                 "allowModules": ["chalk"]
             }
         ],
         "prettier/prettier": [
-            "error",
+            "warn",
             {
                 "singleQuote": true,
                 "trailingComma": "none",
