@@ -20,6 +20,7 @@
     "express-validation": "^3.0.8",
     "fs": "0.0.1-security",
     "http-errors": "~1.6.3",
+    "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.7",
     "morgan": "~1.9.1",

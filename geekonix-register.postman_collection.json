@@ -1,0 +1,491 @@
+{
+	"info": {
+		"_postman_id": "1c3d9986-8423-40d7-ba60-84e0cee4965b",
+		"name": "geekonix-register",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add event",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "Event7",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "desc",
+							"value": "Cool event",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "eventCode",
+							"value": "7",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "eventPrice",
+							"value": "400",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "combos",
+							"value": "6097e32abd791921a0101e06",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "combos",
+							"value": "6097e321bd791921a0101e05",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "cid",
+							"value": "608f10fc1e8d444d645aeaf0",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "eventType",
+							"value": "EDGE",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/events/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"events",
+						"add"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Event3",
+							"disabled": true
+						},
+						{
+							"key": "desc",
+							"value": "Cool event",
+							"disabled": true
+						},
+						{
+							"key": "eventCode",
+							"value": "3",
+							"disabled": true
+						},
+						{
+							"key": "eventPrice",
+							"value": "200",
+							"disabled": true
+						},
+						{
+							"key": "combos",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Gett all events",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Event(s)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "eventCode",
+							"value": "6",
+							"type": "text",
+							"disabled": true
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/events/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"events",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get event by code",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/events/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"events",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update event",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "eventCode",
+							"value": "8",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "title",
+							"value": "Updated 5 23",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "desc",
+							"value": "Cool event updated1",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "eventPrice",
+							"value": "560",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "combos",
+							"value": "608e182ed1577f38e8f87615",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "combos",
+							"value": "608e182ed1577f38e8f87616",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "combos",
+							"value": "608e182ed1577f38e8f87617",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "isActive",
+							"value": "true",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "discount",
+							"value": "1",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "cid",
+							"value": "608f111d1e8d444d645aeaf3",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "eventType",
+							"value": "EDGE",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/events/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"events",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllCategories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get category by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:3000/categories/608f111d1e8d444d645aeaf3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"categories",
+						"608f111d1e8d444d645aeaf3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a category",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "categ5",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "desc",
+							"value": "new categ<html>ddf</html>",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/categories/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"categories",
+						"add"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Categories",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "608f11021e8d444d645aeaf2",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/categories/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"categories",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update category",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "categ4",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "desc",
+							"value": "new categ<html>ddf</html>",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "608f111d1e8d444d645aeaf3",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/categories/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"categories",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Events as queried",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/events/query",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"events",
+						"query"
+					],
+					"query": [
+						{
+							"key": "eventPrice",
+							"value": "200",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "608f1363b87f9b41b8c45729",
+							"disabled": true
+						},
+						{
+							"key": "eventType",
+							"value": "INTRA",
+							"disabled": true
+						},
+						{
+							"key": "isActive",
+							"value": "true",
+							"disabled": true
+						},
+						{
+							"key": "discount",
+							"value": "10",
+							"disabled": true
+						},
+						{
+							"key": "combos",
+							"value": "true",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,8 +1,10 @@
 /* eslint-disable no-undef */
 const eventModel = require('../models/event');
 const errorCodes = require('../error_codes.json');
-const eventValidateSchema = require('../validations/event_validation_schema').eventSchema;
-const paramsValidationSchema = require('../validations/event_validation_schema').eventParamsSchema;
+const eventValidateSchema = require('../validations/event_validation_schema')
+    .eventSchema;
+const paramsValidationSchema = require('../validations/event_validation_schema')
+    .eventParamsSchema;
 
 exports.addEvent = (req, res) => {
     console.log(req.body);
@@ -29,14 +31,25 @@ exports.addEvent = (req, res) => {
 
 exports.getAllEvents = (req, res) => {
     eventModel
-        .find({})
-        .populate('category')
+        .getAllEvents()
         .then((events) => {
             res.status(200).json({ events });
         })
         .catch((err) => {
             console.log(err);
             res.status(500).json({ err });
+        });
+};
+
+exports.getEvents = (req, res) => {
+    eventModel
+        .getEventsByQuery(req.query)
+        .then((events) => {
+            return res.status(200).json({ events });
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).json({ err });
         });
 };
 
@@ -48,83 +61,13 @@ exports.getEventByCode = (req, res) => {
     const code = req.params.eventCode;
 
     eventModel
-        .findOne({ eventCode: code })
-        .populate('category')
+        .getEventByCode(code)
         .then((event) => {
             res.status(200).json({ event });
         })
         .catch((err) => {
             console.log(err);
             res.status(500).json({ err });
-        });
-};
-//registerUser works on adding user to each event to keep track of duplicate invocations.
-//This is supposed to be handled at user endpoints. In case those checks are also required here, these functions [registerUser,addToEvent,checkUserRegistration] can be referred.
-exports.registerUser = (req, res) => {
-    const details = {
-        eventCode: req.body.code,
-        uid: req.body.uid
-    };
-    eventModel
-        .findOne({ eventCode: details.eventCode })
-        .then((event) => {
-            if (
-                event.userMap != undefined &&
-                event.userMap.get(details.uid) != undefined
-            )
-                return res.status(400).json({
-                    msg: 'User already registered with an associated event',
-                    error_code: errorCodes.UserAlreadyPresent
-                });
-
-            for (eid of event.combos) {
-                if (this.checkUserRegistration(eid, details.uid))
-                    return res.status(400).json({
-                        msg: 'User already registered with an associated event',
-                        error_code: errorCodes.UserAlreadyPresent
-                    });
-            }
-            if (event.userMap == undefined) event.userMap = new Map();
-            event.userMap.set(details.uid, true);
-            for (eid of event.combos) {
-                this.addToEvent(eid, details.uid);
-            }
-            event.save();
-            res.status(200).json({ event });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({ err });
-        });
-};
-
-exports.addToEvent = (id, uid) => {
-    eventModel
-        .findById(id)
-        .then((event) => {
-            if (event.userMap == undefined) event.userMap = new Map();
-            event.userMap.set(uid, true);
-            event.save();
-        })
-        .catch((err) => {
-            console.log(err);
-            return err;
-        });
-};
-
-exports.checkUserRegistration = (id, uid) => {
-    eventModel
-        .findById(id)
-        .then((event) => {
-            if (
-                event.userMap != undefined &&
-                event.userMap.get(uid) != undefined
-            )
-                return true;
-        })
-        .catch((err) => {
-            console.log(err);
-            return err;
         });
 };
 
