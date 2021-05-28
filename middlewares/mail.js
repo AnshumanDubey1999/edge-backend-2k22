@@ -37,15 +37,17 @@ module.exports.sendPaymentConfirmationMail = async (user, invoice, payment) => {
         text: `Your Payment for ${
             (invoice.events.length == 1 ? 'event ' : 'events ') +
             invoice.events.join(' ,')
-        } has been completed. The payment is: ${invoice._id}.`,
+        } has been completed. The invoice id is: ${invoice._id}.`,
         html: ejs.render(
-            readFileSync(path.join(__dirname, '../views/mail.ejs'), 'utf8'),
+            readFileSync(
+                path.join(__dirname, '../views/successMail.ejs'),
+                'utf8'
+            ),
             {
-                data: {
-                    user,
-                    invoice,
-                    payment
-                }
+                user,
+                invoice,
+                payment,
+                baseURL: process.env.BASE_URL
             }
         )
     };
@@ -68,15 +70,17 @@ module.exports.sendPaymentRejectionMail = async (payment, email) => {
         Payment ID: ${payment.id}
         Amount: ${payment.amount / 100 + ' ' + payment.currency}
         Refund ID: ${payment.refundId}
-        Your ammount will be refunded within 5-7 working days.`
-        // html: ejs.render(
-        //     readFileSync(path.join(__dirname, '../views/mail.ejs'), 'utf8'),
-        //     {
-        //         data: {
-        //             payment
-        //         }
-        //     }
-        // )
+        Your ammount will be refunded within 5-7 working days.`,
+        html: ejs.render(
+            readFileSync(
+                path.join(__dirname, '../views/rejectedMail.ejs'),
+                'utf8'
+            ),
+            {
+                payment,
+                baseURL: process.env.BASE_URL
+            }
+        )
     };
 
     return new Promise((resolve, reject) => {
@@ -141,15 +145,14 @@ module.exports.sendRefundFailureMail = async (refund, email) => {
     });
 };
 
-module.exports.sendAdminErrorMail = async (error, req) => {
+module.exports.sendAdminErrorMail = async (error, req, during) => {
     var mailOptions = {
         to: process.env.ADMIN_MAIL,
         from: process.env.EMAIL_ID,
-        subject: 'Razor Error | Yawlit | Urgent',
+        subject: 'Razor Error | EDGE 2021 | Urgent',
         text: String(error) + '\n\n\n' + JSON.stringify(req.body),
-        html: `<strong>${String(error)}<br/><br/>${JSON.stringify(
-            req.body
-        )}</strong>`
+        html: `<h2>Error caused during: ${during}</h2><br/>
+        <strong>${String(error)}<br/><br/>${JSON.stringify(req.body)}</strong>`
     };
 
     return new Promise((resolve, reject) => {

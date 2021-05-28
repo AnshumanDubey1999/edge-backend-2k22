@@ -11,6 +11,7 @@ var usersRouter = require('./routes/users');
 var invoicesRouter = require('./routes/invoices');
 var eventsRouter = require('./routes/events');
 var categoryRouter = require('./routes/categories');
+var razorPayRouter = require('./routes/razorpay');
 
 var app = express();
 app.use(cors());
@@ -30,6 +31,7 @@ app.use('/users', usersRouter);
 app.use('/invoices', invoicesRouter);
 app.use('/events', eventsRouter);
 app.use('/categories', categoryRouter);
+app.use('/confirmPayments', razorPayRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

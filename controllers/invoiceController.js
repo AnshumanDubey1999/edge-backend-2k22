@@ -189,7 +189,7 @@ exports.createInvoice = async (req, res) => {
 
         const order = await razorpay.generateOrder(
             invoice.amount,
-            invoice._id,
+            String(invoice._id),
             user.email
         );
         invoice.order_id = order.id;
@@ -197,7 +197,8 @@ exports.createInvoice = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            invoice: invoice
+            invoice: invoice,
+            order: order
         });
     } catch (error) {
         console.log(error);
