@@ -6,7 +6,7 @@ const invoiceController = require('../controllers/invoiceController');
 //MIDDLEWARES
 const Authenticate = require('../middlewares/auth');
 const validateInvoice = require('../validations/invoice');
-const upload = require('../middlewares/s3').upload;
+// const upload = require('../middlewares/s3').upload;
 
 router.get(
     '/',
@@ -29,28 +29,28 @@ router.get(
     invoiceController.viewInvoice
 );
 
-router.get(
-    '/:invoice_id/getImage',
-    Authenticate.isLoggedIn,
-    validateInvoice.getImage,
-    invoiceController.getImage
-);
+// router.get(
+//     '/:invoice_id/getImage',
+//     Authenticate.isLoggedIn,
+//     validateInvoice.getImage,
+//     invoiceController.getImage
+// );
 
-router.post(
-    '/:invoice_id/update',
-    Authenticate.isLoggedIn,
-    validateInvoice.createInvoice,
-    invoiceController.createInvoice
-);
+// router.post(
+//     '/:invoice_id/update',
+//     Authenticate.isLoggedIn,
+//     validateInvoice.createInvoice,
+//     invoiceController.createInvoice
+// );
 
-router.post(
-    '/:invoice_id/pay',
-    Authenticate.isLoggedIn,
-    validateInvoice.payInvoice,
-    invoiceController.validatePayment,
-    upload.single('bill'),
-    invoiceController.payInvoice
-);
+// router.post(
+//     '/:invoice_id/pay',
+//     Authenticate.isLoggedIn,
+//     validateInvoice.payInvoice,
+//     invoiceController.validatePayment,
+//     upload.single('bill'),
+//     invoiceController.payInvoice
+// );
 
 //ADMIN ONLY
 router.get(
@@ -61,13 +61,13 @@ router.get(
     invoiceController.allInvoices
 );
 
-router.post(
-    '/approveInvoice',
-    Authenticate.isLoggedIn,
-    Authenticate.isAdmin,
-    validateInvoice.approveInvoice,
-    invoiceController.approveInvoice
-);
+// router.post(
+//     '/approveInvoice',
+//     Authenticate.isLoggedIn,
+//     Authenticate.isAdmin,
+//     validateInvoice.approveInvoice,
+//     invoiceController.approveInvoice
+// );
 
 router.post(
     '/deleteInvoice',
