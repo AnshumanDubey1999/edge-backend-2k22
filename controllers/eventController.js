@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 const eventModel = require('../models/event');
-const errorCodes = require('../error_codes.json');
 const eventValidateSchema = require('../validations/event_validation_schema')
     .eventSchema;
 const paramsValidationSchema = require('../validations/event_validation_schema')
@@ -9,14 +8,13 @@ const paramsValidationSchema = require('../validations/event_validation_schema')
 exports.addEvent = (req, res) => {
     console.log(req.body);
     var newEvent = {};
-    const { error, value } = eventValidateSchema.validate(req.body);
+    const { error } = eventValidateSchema.validate(req.body);
     if (error) {
         console.log(error);
         return res.status(400).json({ error });
     }
 
     newEvent = this.getSantizedEventObject(req);
-    console.log(newEvent);
 
     eventModel
         .create(newEvent)
@@ -54,7 +52,7 @@ exports.getEvents = (req, res) => {
 };
 
 exports.getEventByCode = (req, res) => {
-    const { error, value } = paramsValidationSchema.validate(req.params);
+    const { error } = paramsValidationSchema.validate(req.params);
     if (error) {
         return res.status(400).json({ error });
     }
@@ -76,8 +74,7 @@ exports.updateEvent = (req, res) => {
     var updatedEvent = {};
     const options = { new: true };
 
-    console.log(req.body);
-    const { error, value } = eventValidateSchema.validate(req.body);
+    const { error } = eventValidateSchema.validate(req.body);
     if (error) {
         console.log(error);
         return res.status(400).json({ error });
@@ -156,7 +153,7 @@ exports.delete = (req, res, next) => {
     var id = req.body.id;
     var code = req.body.eventCode;
 
-    const { error, value } = eventValidateSchema.validate(req.body);
+    const { error } = eventValidateSchema.validate(req.body);
 
     if (error) {
         console.log(error);

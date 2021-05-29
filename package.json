@@ -27,7 +27,9 @@
     "multer": "^1.4.2",
     "multer-s3": "^2.9.0",
     "request": "^2.88.2",
-    "request-promise": "^4.2.6"
+    "request-promise": "^4.2.6",
+    "serverless-functions-base-path": "^1.0.32",
+    "serverless-http": "^2.7.0"
   },
   "devDependencies": {
     "eslint": "^7.22.0",

@@ -1,4 +1,3 @@
-const { fileLoader } = require('ejs');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 

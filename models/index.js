@@ -1,3 +1,4 @@
+/* eslint-disable no-process-exit */
 const mongoose = require('mongoose');
 mongoose.Promise = Promise;
 

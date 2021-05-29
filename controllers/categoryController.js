@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
 const categoryModel = require('../models/category');
-const errorCodes = require('../error_codes.json');
-const categoryValidateSchema = require('../validations/category_validation_schema').categorySchema;
+const categoryValidateSchema = require('../validations/category_validation_schema')
+    .categorySchema;
 
 exports.addCategory = (req, res) => {
     console.log(req.body);
     var newCategory = {};
-    const { error, value } = categoryValidateSchema.validate(req.body);
+    const { error } = categoryValidateSchema.validate(req.body);
     if (error) {
         console.log(error);
         return res.status(400).json({ error });
@@ -39,7 +39,7 @@ exports.getAllCategories = (req, res) => {
 };
 
 exports.getCategoryById = (req, res) => {
-    const { error, value } = categoryValidateSchema.validate(req.params);
+    const { error } = categoryValidateSchema.validate(req.params);
     if (error) {
         return res.status(400).json({ error });
     }
@@ -62,7 +62,7 @@ exports.updateCategory = (req, res) => {
     const options = { new: true };
 
     console.log(req.body);
-    const { error, value } = categoryValidateSchema.validate(req.body);
+    const { error } = categoryValidateSchema.validate(req.body);
     if (error) {
         console.log(error);
         return res.status(400).json({ error });
@@ -128,7 +128,7 @@ exports.delete = (req, res, next) => {
         filter = { _id: id };
     }
 
-    const { error, value } = categoryValidateSchema.validate(req.body);
+    const { error } = categoryValidateSchema.validate(req.body);
 
     if (error) {
         console.log(error);
