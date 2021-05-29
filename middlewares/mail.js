@@ -47,7 +47,8 @@ module.exports.sendPaymentConfirmationMail = async (user, invoice, payment) => {
                 user,
                 invoice,
                 payment,
-                baseURL: process.env.BASE_URL
+                baseURL: process.env.BASE_URL,
+                token: 'none'
             }
         )
     };
@@ -78,7 +79,8 @@ module.exports.sendPaymentRejectionMail = async (payment, email) => {
             ),
             {
                 payment,
-                baseURL: process.env.BASE_URL
+                baseURL: process.env.BASE_URL,
+                token: 'none'
             }
         )
     };

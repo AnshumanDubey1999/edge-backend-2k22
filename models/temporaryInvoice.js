@@ -24,6 +24,6 @@ var TemporaryInvoiceSchema = new Schema(
     { collection: 'temporary_invoices' }
 );
 
-TemporaryInvoiceSchema.index({ createdAt: 1 }, { expireAfterSeconds: 600 });
+// TemporaryInvoiceSchema.index({ createdAt: 1 }, { expireAfterSeconds: 600 });
 
 module.exports = mongoose.model('temporary_invoices', TemporaryInvoiceSchema);

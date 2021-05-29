@@ -11,17 +11,16 @@ const mail = require('../middlewares/mail');
 async function initiateRefund(payment, order, reason, req, temporaryInvoice) {
     try {
         const email = order.notes.email;
-        const refVal = await Refund.create({
-            temporaryInvoice: temporaryInvoice
+        const refund = await razor.generateRefund(payment.id, email, reason);
+        await Refund.create({
+            temporaryInvoice: temporaryInvoice,
+            refundID: refund.id,
+            amount: refund.amount,
+            currency: refund.currency,
+            payment_id: refund.payment_id,
+            notes: refund.notes,
+            status: refund.status
         });
-        const refund = await razor.generateRefund(
-            payment.id,
-            email,
-            payment.refundReason
-        );
-        console.log(refund);
-        Object.assign(refVal, refund);
-        await refVal.save();
         payment.refundRequired = true;
         payment.refundReason = reason;
         payment.refundId = refund.id;
@@ -153,21 +152,22 @@ router.post('/confirm', razor.verifyRazorWare, async (req, res) => {
             await user.save();
             await mail.sendPaymentConfirmationMail(user, invoice, payment);
         } else if (req.body.event == 'refund.processed') {
-            const refund = Refund.findByRefundID(
+            // console.log(req.body)
+            const refund = await Refund.findByRefundID(
                 req.body.payload.refund.entity.id
             );
             refund.status = 'processed';
             await refund.save();
-            const email = req.body.payload.refund.entity.notes.email;
-            await mail.sendRefundSuccessMail(refund, email);
+            // const email = req.body.payload.refund.entity.notes.email;
+            // await mail.sendRefundSuccessMail(refund, email);
         } else if (req.body.event == 'refund.failed') {
-            const refund = Refund.findByRefundID(
+            const refund = await Refund.findByRefundID(
                 req.body.payload.refund.entity.id
             );
             refund.status = 'failed';
             await refund.save();
-            const email = req.body.payload.refund.entity.notes.email;
-            await mail.sendRefundFailureMail(refund, email);
+            // const email = req.body.payload.refund.entity.notes.email;
+            // await mail.sendRefundFailureMail(refund, email);
         }
     } catch (e) {
         // console.log('Line 125')

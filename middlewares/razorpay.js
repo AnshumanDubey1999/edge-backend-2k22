@@ -34,7 +34,6 @@ exports.verifyRazorWare = (req, res, next) => {
 };
 exports.generateRefund = (payment_id, email, reason) => {
     return instance.payments.refund(payment_id, {
-        speed: 'optimum',
         notes: {
             email: email,
             reason: reason

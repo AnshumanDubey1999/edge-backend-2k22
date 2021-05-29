@@ -98,8 +98,8 @@ exports.myInvoices = async (req, res) => {
 
 exports.viewInvoice = async (req, res) => {
     try {
-        const invoice = await (
-            await InvoiceSchema.findById(req.params.invoice_id)
+        const invoice = await InvoiceSchema.findById(
+            req.params.invoice_id
         ).populate('payment_details');
         if (!(req.user.isAdmin || req.user._id == invoice.user))
             throw new Error('User does not have permission to view invoice.');

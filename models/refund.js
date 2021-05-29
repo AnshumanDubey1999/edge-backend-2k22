@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var RefundSchema = new Schema(
     {
-        id: String,
+        refundID: String,
         entity: String,
         amount: Number,
         receipt: String,
@@ -20,8 +20,8 @@ var RefundSchema = new Schema(
     { collection: 'refunds' }
 );
 
-RefundSchema.statics.findByRefundID = function (id) {
-    return this.findOne({ id: id });
+RefundSchema.statics.findByRefundID = function (refundID) {
+    return this.findOne({ refundID });
 };
 
 module.exports = mongoose.model('refunds', RefundSchema);

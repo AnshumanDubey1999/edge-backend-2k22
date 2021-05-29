@@ -6,15 +6,15 @@ var logger = require('morgan');
 var cors = require('cors');
 const { ValidationError } = require('express-validation');
 
+var app = express();
+app.use(cors());
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var invoicesRouter = require('./routes/invoices');
 var eventsRouter = require('./routes/events');
 var categoryRouter = require('./routes/categories');
 var razorPayRouter = require('./routes/razorpay');
-
-var app = express();
-app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
