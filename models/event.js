@@ -36,7 +36,8 @@ var eventSchema = new Schema(
         },
         eventType: {
             type: String,
-            required: true
+            required: true,
+            enum: ['INTRA', 'EDGE']
         }
     },
     { timestamps: true }

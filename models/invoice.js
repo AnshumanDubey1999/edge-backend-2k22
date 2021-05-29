@@ -11,22 +11,23 @@ var InvoiceSchema = new Schema(
             type: Number,
             required: true
         },
+        type: {
+            type: String,
+            enum: ['INTRA', 'EDGE']
+        },
         events: [String],
-        isPaid: {
-            type: Boolean,
-            default: false
+        payment_id: {
+            type: String,
+            required: true
         },
-        hasIssues: {
-            type: Boolean,
-            default: false
-        },
-        isApproved: {
-            type: Boolean,
-            default: false
-        },
-        approvedBy: {
+        payment_details: {
             type: mongoose.Schema.Types.ObjectID,
-            ref: 'users'
+            ref: 'payments',
+            required: true
+        },
+        order_id: {
+            type: String,
+            required: true
         }
     },
     { timestamps: true },

@@ -1,0 +1,83 @@
+<div
+  style="
+    background-image: linear-gradient(to right, #dfd5d5 100%, white 0%);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 420px;
+    margin: auto;
+  "
+>
+  <div
+    style="
+      border: none;
+      outline: 0;
+      display: inline-block;
+      padding: 8px;
+      color: rgb(109, 38, 38);
+      background-color: #000;
+      text-align: center;
+      width: 405px;
+      font-size: 18px;
+    "
+  >
+    <div style="width: 30%; float: left">
+      <img
+        src="https://edg.co.in/assets/geekonix-logo.png"
+        style="height: 10vh; width: 10vh"
+      />
+    </div>
+    <div
+      style="
+        width: 50%;
+        float: left;
+        color: white;
+        font-family: 'Jomhuria';
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        word-spacing: 2px;
+        padding-left: 70px;
+        padding-top: 22px;
+        font-size: 23px;
+      "
+    >
+      Invoice
+    </div>
+  </div>
+  <center>
+    <h3 style="font-family: 'Jomhuria', cursive; font-family: 'Lora', serif">
+      You have a new Invoice <br />
+    </h3>
+    <div style="padding-bottom: 10px; font-weight: 1000"></div>
+    <table >
+      <tr>
+        <td style="text-align: left;">Invoice ID</td>
+        <td style="color: #971515; text-align: right;"><%= invoice._id %></td>
+      </tr>
+      <tr>
+        <td style="text-align: left;">Amount</td>
+        <td style="color: #971515; text-align: right;"><%= payment.amount/100 +" "+ payment.currency%></td>
+      </tr>
+      <tr>
+        <td style="text-align: left;">Payment Method</td>
+        <td style="color: #971515; text-align: right;"><%= payment.method %></td>
+      </tr>
+      <tr>
+        <td style="text-align: left;">Events</td>
+        <td style="color: #971515; text-align: right;"><%= invoice.events.join(', ') %></td>
+      </tr>
+    </table>
+  </center>
+  <div
+    style="
+      border: none;
+      outline: 0;
+      padding: 8px;
+      color: white;
+      background-color: #000;
+      text-align: left;
+      width: 405px;
+      font-size: 15px;
+    "
+  >
+    Regards,<br />Team Geekonix
+  </div>
+</div>
