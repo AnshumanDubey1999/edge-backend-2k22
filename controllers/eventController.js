@@ -6,7 +6,6 @@ const paramsValidationSchema = require('../validations/event_validation_schema')
     .eventParamsSchema;
 
 exports.addEvent = (req, res) => {
-    console.log(req.body);
     var newEvent = {};
     const { error } = eventValidateSchema.validate(req.body);
     if (error) {
@@ -81,7 +80,6 @@ exports.updateEvent = (req, res) => {
     }
 
     updatedEvent = this.getSantizedEventObject(req);
-    console.log(updatedEvent);
 
     if (req.body.eventCode != undefined) {
         filter = { eventCode: req.body.eventCode };
@@ -101,16 +99,12 @@ exports.updateEvent = (req, res) => {
         .populate('category')
         .then((updatedDocument) => {
             if (updatedDocument) {
-                console.log(
-                    `Successfully updated document: ${updatedDocument}.`
-                );
+                res.status(200).json(updatedDocument);
             } else {
-                console.log('No document matches the provided query.');
                 res.status(500).json({
                     msg: 'No document matches the provided query.'
                 });
             }
-            res.status(200).json(updatedDocument);
         })
         .catch((err) => {
             console.log(err);

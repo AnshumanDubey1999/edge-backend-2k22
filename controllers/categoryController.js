@@ -4,7 +4,6 @@ const categoryValidateSchema = require('../validations/category_validation_schem
     .categorySchema;
 
 exports.addCategory = (req, res) => {
-    console.log(req.body);
     var newCategory = {};
     const { error } = categoryValidateSchema.validate(req.body);
     if (error) {
@@ -13,7 +12,6 @@ exports.addCategory = (req, res) => {
     }
 
     newCategory = this.getSantizedCategoryObject(req);
-    console.log(newCategory);
 
     categoryModel
         .create(newCategory)
@@ -61,7 +59,6 @@ exports.updateCategory = (req, res) => {
     var updatedCategory = {};
     const options = { new: true };
 
-    console.log(req.body);
     const { error } = categoryValidateSchema.validate(req.body);
     if (error) {
         console.log(error);
@@ -69,7 +66,6 @@ exports.updateCategory = (req, res) => {
     }
 
     updatedCategory = this.getSantizedCategoryObject(req);
-    console.log(updatedCategory);
 
     if (req.body.id) {
         filter = { _id: req.body.id };
@@ -85,16 +81,12 @@ exports.updateCategory = (req, res) => {
         .findOneAndUpdate(filter, updatedCategory, options)
         .then((updatedDocument) => {
             if (updatedDocument) {
-                console.log(
-                    `Successfully updated document: ${updatedDocument}.`
-                );
+                res.status(200).json(updatedDocument);
             } else {
-                console.log('No document matches the provided query.');
                 res.status(500).json({
                     msg: 'No document matches the provided query.'
                 });
             }
-            res.status(200).json(updatedDocument);
         })
         .catch((err) => {
             console.log(err);
