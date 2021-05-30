@@ -10,7 +10,8 @@ const register = {
 
 const validatePage = {
     query: Joi.object({
-        page: Joi.number().min(1).required()
+        page: Joi.number().min(1).required(),
+        eventCode: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{1,500}$'))
     })
 };
 

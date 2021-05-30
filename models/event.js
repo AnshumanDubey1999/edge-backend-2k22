@@ -49,6 +49,10 @@ eventSchema.statics.getEventByCode = function (code) {
     return this.findOne({ eventCode: code }).populate('category');
 };
 
+eventSchema.statics.getEventTitles = function (codes) {
+    return this.find({ eventCode: { $in: codes } }).select(['title']);
+};
+
 eventSchema.statics.findByEventCode = function (code) {
     return this.findOne({ eventCode: code });
 };

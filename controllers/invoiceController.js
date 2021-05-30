@@ -49,32 +49,6 @@ const getTotalAndValidity = async (eventCodes, registeredEvents) => {
     };
 };
 
-// exports.validatePayment = async (req, res, next) => {
-//     try {
-//         const user = await UserSchema.findById(req.user._id);
-//         const invoice = await InvoiceSchema.findById(req.params.invoice_id);
-//         const eventCodes = invoice.events;
-//         if (invoice.user != req.user._id) {
-//             throw new Error('User does not have permission to update invoice.');
-//         } else if (invoice.isPaid) {
-//             throw new Error('User has already paid for this invoice.');
-//         } else if (
-//             user.registeredEvents.some((event) => eventCodes.includes(event))
-//         ) {
-//             throw new Error(
-//                 'User has already paid for one or more events in this invoice.'
-//             );
-//         }
-//         return next();
-//     } catch (error) {
-//         // console.log(error);
-//         res.json({
-//             success: false,
-//             err: error.message
-//         });
-//     }
-// };
-
 exports.myInvoices = async (req, res) => {
     try {
         const limit = 20;
@@ -116,32 +90,56 @@ exports.viewInvoice = async (req, res) => {
     }
 };
 
-// exports.getImage = async (req, res) => {
-//     try {
-//         const invoice = await InvoiceSchema.findById(req.params.invoice_id);
-//         if (!(req.user.isAdmin || req.user._id == invoice.user))
-//             throw new Error('User does not have permission to view invoice.');
-//         s3.getObject(
-//             {
-//                 Bucket: 'edge-results',
-//                 Key: 'invoice/' + req.params.invoice_id + '.jpg'
-//             },
-//             (err, data) => {
-//                 if (err) {
-//                     res.send({ error: err });
-//                 } else {
-//                     res.send(data.Body);
-//                 }
-//             }
-//         );
-//     } catch (error) {
-//         console.log(error);
-//         res.json({
-//             success: false,
-//             err: error.message
-//         });
-//     }
-// };
+exports.verifyMailToken = async (req, res) => {
+    try {
+        // req.user = {
+        //     isMailToken: false,
+        //     paymentSuccess: false,
+        //     invoice: {
+        //         _id: 'asdffa-ffaf-ggegsdg-dsgsd',
+        //         amount: 74521,
+        //         events: [
+        //             {
+        //                 title: 'FLAWLESS'
+        //             },
+        //             {
+        //                 title: 'BUG HUNT'
+        //             },
+        //             {
+        //                 title: 'WEB DEV'
+        //             },
+        //             {
+        //                 title: 'FLAWLESS'
+        //             },
+        //             {
+        //                 title: 'BUG HUNT'
+        //             },
+        //             {
+        //                 title: 'WEB DEV'
+        //             }
+        //         ]
+        //     },
+        //     payment: {
+        //         method: 'UPI',
+        //         amount: 56644,
+        //         refundId: 'fsdfds-gdgds-ffdg-dfgdg',
+        //         refundReason: 'Aise hi',
+        //         id: 'pay_sffedsggrgrgrg'
+        //     }
+        // };
+        if (req.user.paymentSuccess) {
+            res.render('successMail', req.user);
+        } else {
+            res.render('rejectedMail', req.user);
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            err: error.message
+        });
+    }
+};
 
 exports.createInvoice = async (req, res) => {
     try {
@@ -208,80 +206,6 @@ exports.createInvoice = async (req, res) => {
         });
     }
 };
-
-// exports.updateInvoice = async (req, res) => {
-//     try {
-//         const invoice = await InvoiceSchema.findById(req.params.invoice_id);
-//         if (!(req.user.isAdmin || req.user._id == invoice.user))
-//             throw new Error('User does not have permission to view invoice.');
-//         if (invoice.isPaid) {
-//             return res.status(200).json({
-//                 success: false,
-//                 error: 'No modification allowed after payment is completed!'
-//             });
-//         }
-//         const user = await UserSchema.findById(req.user._id).lean();
-//         const eventCodes = req.body.eventCodes;
-//         const response = await getTotalAndValidity(
-//             eventCodes,
-//             user.registeredEvents
-//         );
-//         if (!response.validity) {
-//             return res.status(200).json({
-//                 success: false,
-//                 error: response.error
-//             });
-//         }
-//         invoice.amount = response.sum;
-//         invoice.events = eventCodes;
-//         await invoice.save();
-//         res.status(200).json({
-//             success: true,
-//             invoice: invoice
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         res.json({
-//             success: false,
-//             err: error.message
-//         });
-//     }
-// };
-
-// exports.payInvoice = async (req, res) => {
-//     try {
-//         const user = await UserSchema.findById(req.user._id);
-//         const invoice = await InvoiceSchema.findById(req.params.invoice_id);
-//         const eventCodes = invoice.events;
-//         // if (
-//         //     invoice.isPaid ||
-//         //     user.registeredEvents.some((event) => eventCodes.includes(event))
-//         // ) {
-//         //     //eventCodes has elements common with registeredEvents
-//         //     invoice.isPaid = true;
-//         //     invoice.hasIssues = true;
-//         //     await invoice.save();
-//         //     return res.status(200).json({
-//         //         success: false,
-//         //         error: 'User already has paid for one or more events'
-//         //     });
-//         // }
-//         invoice.isPaid = true;
-//         user.registeredEvents.push(...eventCodes);
-//         await user.save();
-//         await invoice.save();
-//         res.status(200).json({
-//             success: true,
-//             invoice: invoice
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         res.json({
-//             success: false,
-//             err: error.message
-//         });
-//     }
-// };
 
 //ADMIN ONLY
 exports.allInvoices = async (req, res) => {

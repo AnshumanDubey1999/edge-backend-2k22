@@ -1,4 +1,5 @@
 const UserSchema = require('../models/user');
+const EventSchema = require('../models/event');
 const generateAccessToken = require('../middlewares/auth').generateAccessToken;
 
 exports.login = async (req, res) => {
@@ -129,7 +130,12 @@ exports.updateProfile = async (req, res) => {
 //ADMIN ONLY
 exports.viewUser = async (req, res) => {
     try {
-        const user = await UserSchema.findById(req.params.user_id);
+        const user = await UserSchema.findById(req.params.user_id)
+            .select(['name', 'email', 'registeredEvents'])
+            .lean();
+        user.registeredEvents = await EventSchema.getEventTitles(
+            user.registeredEvents
+        );
         res.status(200).json({
             success: true,
             user: user
@@ -147,7 +153,17 @@ exports.allUsers = async (req, res) => {
     try {
         const limit = 20;
         const skip = (Number(req.query.page) - 1) * 20;
-        const users = await UserSchema.find().skip(skip).limit(limit).lean();
+        let query = {};
+        if (req.query.eventCode) {
+            query = {
+                registeredEvents: { $in: req.query.eventCode }
+            };
+        }
+        const users = await UserSchema.find(query)
+            .select(['name', 'email', 'registeredEvents'])
+            .skip(skip)
+            .limit(limit)
+            .lean();
         res.status(200).json({
             success: true,
             users: users

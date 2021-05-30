@@ -39,4 +39,11 @@ UserSchema.statics.findByEmail = function (email) {
     return this.findOne({ email: email });
 };
 
+UserSchema.statics.findUsersRegisteredToEvent = function (eventCode) {
+    return this.find({ registeredEvents: { $in: eventCode } }).select([
+        'name',
+        'email'
+    ]);
+};
+
 module.exports = mongoose.model('users', UserSchema);
