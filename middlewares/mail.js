@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer');
+const EventSchema = require('../models/event');
+const generateAccessToken = require('./auth').generateAccessToken;
 const ejs = require('ejs');
 const { readFileSync } = require('fs');
 const path = require('path');
@@ -21,15 +23,44 @@ const transport = nodemailer.createTransport(
     }
 );
 
-// eslint-disable-next-line no-unused-vars
-// transport.verify((error, _success) => {
-//     if (error) {
-//         console.log(error);
-//     } else {
-//         console.log('Server is ready to take our messages');
-//     }
-// });
+//eslint-disable-next-line no-unused-vars
+transport.verify((error, _success) => {
+    if (error) {
+        console.log(error);
+    } else {
+        console.log('Server is ready to take our messages');
+    }
+});
+
 module.exports.sendPaymentConfirmationMail = async (user, invoice, payment) => {
+    const a = String(invoice._id);
+    const id =
+        a.slice(0, 4) +
+        '-' +
+        a.slice(4, 8) +
+        '-' +
+        a.slice(8, 12) +
+        '-' +
+        a.slice(12, 16) +
+        '-' +
+        a.slice(16);
+    const events = await EventSchema.getEventTitles(invoice.events);
+    const token = generateAccessToken(
+        {
+            isMailToken: true,
+            paymentSuccess: true,
+            invoice: {
+                _id: id,
+                amount: payment.amount,
+                events: events
+            },
+            payment: {
+                method: payment.method
+            }
+        },
+        '100y',
+        process.env.MAIL_TOKEN_SECRET
+    );
     var mailOptions = {
         from: process.env.EMAIL_ID,
         to: user.email,
@@ -44,11 +75,16 @@ module.exports.sendPaymentConfirmationMail = async (user, invoice, payment) => {
                 'utf8'
             ),
             {
-                user,
-                invoice,
-                payment,
-                baseURL: process.env.BASE_URL,
-                token: 'none'
+                isMailToken: false,
+                invoice: {
+                    _id: id,
+                    amount: payment.amount,
+                    events: events
+                },
+                payment: {
+                    method: payment.method
+                },
+                token: token
             }
         )
     };
@@ -62,6 +98,31 @@ module.exports.sendPaymentConfirmationMail = async (user, invoice, payment) => {
 };
 
 module.exports.sendPaymentRejectionMail = async (payment, email) => {
+    const a = String(payment.refundId);
+    const id =
+        a.slice(0, 4) +
+        '-' +
+        a.slice(4, 8) +
+        '-' +
+        a.slice(8, 12) +
+        '-' +
+        a.slice(12, 16) +
+        '-' +
+        a.slice(16);
+    const token = generateAccessToken(
+        {
+            isMailToken: true,
+            paymentSuccess: false,
+            payment: {
+                amount: payment.amount,
+                refundId: id,
+                refundReason: payment.refundReason,
+                id: payment.id
+            }
+        },
+        '100y',
+        process.env.MAIL_TOKEN_SECRET
+    );
     var mailOptions = {
         from: process.env.EMAIL_ID,
         to: email,
@@ -78,9 +139,14 @@ module.exports.sendPaymentRejectionMail = async (payment, email) => {
                 'utf8'
             ),
             {
-                payment,
-                baseURL: process.env.BASE_URL,
-                token: 'none'
+                isMailToken: false,
+                payment: {
+                    amount: payment.amount,
+                    refundId: id,
+                    refundReason: payment.refundReason,
+                    id: payment.id
+                },
+                token: token
             }
         )
     };
@@ -93,59 +159,59 @@ module.exports.sendPaymentRejectionMail = async (payment, email) => {
     });
 };
 
-module.exports.sendRefundSuccessMail = async (refund, email) => {
-    var mailOptions = {
-        from: process.env.EMAIL_ID,
-        to: email,
-        subject: 'Amount Refunded Successfully',
-        text: `Your Payment has been refunded. 
-        Refund ID: ${refund.id}
-        Amount: ${refund.amount / 100 + ' ' + refund.currency}.`
-        // html: ejs.render(
-        //     readFileSync(path.join(__dirname, '../views/mail.ejs'), 'utf8'),
-        //     {
-        //         data: {
-        //             refund
-        //         }
-        //     }
-        // )
-    };
+// module.exports.sendRefundSuccessMail = async (refund, email) => {
+//     var mailOptions = {
+//         from: process.env.EMAIL_ID,
+//         to: email,
+//         subject: 'Amount Refunded Successfully',
+//         text: `Your Payment has been refunded.
+//         Refund ID: ${refund.id}
+//         Amount: ${refund.amount / 100 + ' ' + refund.currency}.`
+//         // html: ejs.render(
+//         //     readFileSync(path.join(__dirname, '../views/mail.ejs'), 'utf8'),
+//         //     {
+//         //         data: {
+//         //             refund
+//         //         }
+//         //     }
+//         // )
+//     };
 
-    return new Promise((resolve, reject) => {
-        transport.sendMail(mailOptions, function (err, info) {
-            if (err) reject(err);
-            else resolve(info);
-        });
-    });
-};
+//     return new Promise((resolve, reject) => {
+//         transport.sendMail(mailOptions, function (err, info) {
+//             if (err) reject(err);
+//             else resolve(info);
+//         });
+//     });
+// };
 
-module.exports.sendRefundFailureMail = async (refund, email) => {
-    var mailOptions = {
-        from: process.env.EMAIL_ID,
-        to: email,
-        bcc: process.env.ADMIN_MAIL,
-        subject: 'Amount Refunded Falied',
-        text: `Your Payment has been refunded. 
-        Refund ID: ${refund.id}
-        Amount: ${refund.amount / 100 + ' ' + refund.currency}.
-        Contact ${process.env.ADMIN_MAIL} to sort out the issue.`
-        // html: ejs.render(
-        //     readFileSync(path.join(__dirname, '../views/mail.ejs'), 'utf8'),
-        //     {
-        //         data: {
-        //             refund
-        //         }
-        //     }
-        // )
-    };
+// module.exports.sendRefundFailureMail = async (refund, email) => {
+//     var mailOptions = {
+//         from: process.env.EMAIL_ID,
+//         to: email,
+//         bcc: process.env.ADMIN_MAIL,
+//         subject: 'Amount Refunded Falied',
+//         text: `Your Payment has been refunded.
+//         Refund ID: ${refund.id}
+//         Amount: ${refund.amount / 100 + ' ' + refund.currency}.
+//         Contact ${process.env.ADMIN_MAIL} to sort out the issue.`
+//         // html: ejs.render(
+//         //     readFileSync(path.join(__dirname, '../views/mail.ejs'), 'utf8'),
+//         //     {
+//         //         data: {
+//         //             refund
+//         //         }
+//         //     }
+//         // )
+//     };
 
-    return new Promise((resolve, reject) => {
-        transport.sendMail(mailOptions, function (err, info) {
-            if (err) reject(err);
-            else resolve(info);
-        });
-    });
-};
+//     return new Promise((resolve, reject) => {
+//         transport.sendMail(mailOptions, function (err, info) {
+//             if (err) reject(err);
+//             else resolve(info);
+//         });
+//     });
+// };
 
 module.exports.sendAdminErrorMail = async (error, req, during) => {
     var mailOptions = {

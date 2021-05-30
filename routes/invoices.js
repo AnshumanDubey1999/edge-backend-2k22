@@ -15,6 +15,12 @@ router.get(
     invoiceController.myInvoices
 );
 
+router.get(
+    '/verifyMailToken',
+    Authenticate.isMailToken,
+    invoiceController.verifyMailToken
+);
+
 router.post(
     '/create',
     Authenticate.isLoggedIn,

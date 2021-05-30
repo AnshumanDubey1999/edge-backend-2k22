@@ -74,7 +74,6 @@ router.post('/confirm', razor.verifyRazorWare, async (req, res) => {
                 );
                 return;
             }
-            await TemporaryInvoice.findByIdAndDelete(temporaryInvoice._id);
 
             //If incorrect amount
             // console.log(temporaryInvoice.amount, payment.orderDetails.amount_paid/100)
@@ -150,6 +149,7 @@ router.post('/confirm', razor.verifyRazorWare, async (req, res) => {
                 user.intraInvoiceId = invoice._id;
             user.registeredEvents.push(...temporaryInvoice.events);
             await user.save();
+            await TemporaryInvoice.findByIdAndDelete(temporaryInvoice._id);
             await mail.sendPaymentConfirmationMail(user, invoice, payment);
         } else if (req.body.event == 'refund.processed') {
             // console.log(req.body)
