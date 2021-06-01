@@ -31,14 +31,15 @@ exports.login = async (req, res) => {
         }
 
         // console.log('user', user);
+        const tokenData = {
+            name: user.name,
+            email: user.email,
+            isAdmin: isAdmin,
+            _id: user._id
+        };
+        if (!isRegistered) tokenData.avatar = req.user.avatar;
         const token = generateAccessToken(
-            {
-                name: user.name,
-                email: user.email,
-                isAdmin: isAdmin,
-                contact: user.contact,
-                _id: user._id
-            },
+            tokenData,
             isRegistered ? '1d' : '1hr'
         );
         res.status(200).json({
@@ -61,6 +62,7 @@ exports.register = async (req, res) => {
             name: req.user.name,
             contact: req.user.contact,
             email: req.user.email,
+            avatar: req.user.avatar,
             stream: req.body.stream,
             year: req.body.year,
             instituteName: req.body.instituteName,
@@ -156,14 +158,47 @@ exports.allUsers = async (req, res) => {
         let query = {};
         if (req.query.eventCode) {
             query = {
-                registeredEvents: { $in: req.query.eventCode }
+                $expr: {
+                    $in: [req.query.eventCode, '$registeredEvents']
+                }
             };
         }
-        const users = await UserSchema.find(query)
-            .select(['name', 'email', 'registeredEvents'])
-            .skip(skip)
-            .limit(limit)
-            .lean();
+        // const users = await UserSchema.find(query)
+        //     .skip(skip)
+        //     .limit(limit)
+        //     .populate('intraInvoiceId', 'amount');
+
+        const users = await UserSchema.aggregate([
+            { $match: query },
+            { $skip: skip },
+            { $limit: limit },
+            {
+                $lookup: {
+                    from: 'events',
+                    // localField: 'registeredEvents',
+                    // foreignField: 'eventCode',
+                    let: { registeredEvents: '$registeredEvents' },
+                    pipeline: [
+                        {
+                            $match: {
+                                // $in: ['eventCode', '$$registeredEvents']
+                                $expr: {
+                                    $in: ['$eventCode', '$$registeredEvents']
+                                }
+                            }
+                        },
+                        {
+                            $project: {
+                                _id: 1,
+                                title: 1,
+                                eventCode: 1
+                            }
+                        }
+                    ],
+                    as: 'registeredEvents'
+                }
+            }
+        ]);
         res.status(200).json({
             success: true,
             users: users

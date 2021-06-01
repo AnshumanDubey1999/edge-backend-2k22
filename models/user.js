@@ -27,7 +27,8 @@ var UserSchema = new Schema(
             type: Boolean,
             default: false
         },
-        registeredEvents: [String]
+        registeredEvents: [String],
+        avatar: String
     },
     { timestamps: true },
     { collection: 'users' }
