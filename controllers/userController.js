@@ -167,9 +167,15 @@ exports.allUsers = async (req, res) => {
         //     .skip(skip)
         //     .limit(limit)
         //     .populate('intraInvoiceId', 'amount');
-
+        let documentCount = await UserSchema.aggregate([
+            { $match: query },
+            { $group: { _id: null, n: { $sum: 1 } } }
+        ]);
+        // console.log(documentCount, documentCount[0].n);
+        documentCount = documentCount[0].n;
         const users = await UserSchema.aggregate([
             { $match: query },
+            // { $count: 'documentCount' },
             { $skip: skip },
             { $limit: limit },
             {
@@ -199,6 +205,13 @@ exports.allUsers = async (req, res) => {
                 }
             }
         ]);
+        res.setHeader(
+            'Content-Range',
+            `posts ${skip}-${Math.min(
+                documentCount,
+                skip + 20
+            )}/${documentCount}`
+        );
         res.status(200).json({
             success: true,
             users: users
