@@ -175,7 +175,7 @@ exports.allUsers = async (req, res) => {
     try {
         const limit = 20;
         const skip = (Number(req.query.page) - 1) * 20;
-        const query = {
+        let query = {
             $and: []
         };
         if (req.query.eventCode) {
@@ -207,6 +207,7 @@ exports.allUsers = async (req, res) => {
                 }
             });
         }
+        if (query.$and.length == 0) query = {};
         let documentCount = await UserSchema.aggregate([
             { $match: query },
             { $group: { _id: null, n: { $sum: 1 } } }
