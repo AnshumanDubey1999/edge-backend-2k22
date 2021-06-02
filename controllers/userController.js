@@ -132,12 +132,32 @@ exports.updateProfile = async (req, res) => {
 //ADMIN ONLY
 exports.viewUser = async (req, res) => {
     try {
-        const user = await UserSchema.findById(req.params.user_id)
-            .select(['name', 'email', 'registeredEvents'])
-            .lean();
-        user.registeredEvents = await EventSchema.getEventTitles(
-            user.registeredEvents
-        );
+        let query = {};
+        if (req.query.id) {
+            query = {
+                _id: req.query.id
+            };
+        } else if (req.query.email) {
+            query = {
+                email: req.query.email
+            };
+        } else if (req.query.contact) {
+            query = {
+                contact: req.query.contact
+            };
+        } else {
+            return res.status(200).json({
+                success: false,
+                error: 'Need id, email or contact to find user.'
+            });
+        }
+
+        const user = await UserSchema.findOne(query).lean();
+        if (user) {
+            user.registeredEvents = await EventSchema.getEventTitles(
+                user.registeredEvents
+            );
+        }
         res.status(200).json({
             success: true,
             user: user
@@ -155,39 +175,54 @@ exports.allUsers = async (req, res) => {
     try {
         const limit = 20;
         const skip = (Number(req.query.page) - 1) * 20;
-        let query = {};
+        const query = {
+            $and: []
+        };
         if (req.query.eventCode) {
-            query = {
+            query['$and'].push({
                 $expr: {
                     $in: [req.query.eventCode, '$registeredEvents']
                 }
-            };
+            });
         }
-        // const users = await UserSchema.find(query)
-        //     .skip(skip)
-        //     .limit(limit)
-        //     .populate('intraInvoiceId', 'amount');
+        if (req.query.stream) {
+            query['$and'].push({
+                stream: req.query.stream
+            });
+        }
+        if (req.query.year) {
+            query['$and'].push({
+                year: req.query.year
+            });
+        }
+        if (req.query.instituteName) {
+            query['$and'].push({
+                instituteName: req.query.instituteName
+            });
+        }
+        if (req.query.name) {
+            query['$and'].push({
+                $text: {
+                    $search: req.query.name
+                }
+            });
+        }
         let documentCount = await UserSchema.aggregate([
             { $match: query },
             { $group: { _id: null, n: { $sum: 1 } } }
         ]);
-        // console.log(documentCount, documentCount[0].n);
-        documentCount = documentCount[0].n;
+        documentCount = documentCount[0] ? documentCount[0].n : 0;
         const users = await UserSchema.aggregate([
             { $match: query },
-            // { $count: 'documentCount' },
             { $skip: skip },
             { $limit: limit },
             {
                 $lookup: {
                     from: 'events',
-                    // localField: 'registeredEvents',
-                    // foreignField: 'eventCode',
                     let: { registeredEvents: '$registeredEvents' },
                     pipeline: [
                         {
                             $match: {
-                                // $in: ['eventCode', '$$registeredEvents']
                                 $expr: {
                                     $in: ['$eventCode', '$$registeredEvents']
                                 }
@@ -205,15 +240,13 @@ exports.allUsers = async (req, res) => {
                 }
             }
         ]);
-        res.setHeader(
-            'Content-Range',
-            `posts ${skip}-${Math.min(
-                documentCount,
-                skip + 20
-            )}/${documentCount}`
-        );
         res.status(200).json({
             success: true,
+            totalDocuments: documentCount,
+            range: `${skip}-${Math.min(
+                documentCount,
+                skip + 20
+            )}/${documentCount}`,
             users: users
         });
     } catch (error) {

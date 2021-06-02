@@ -33,7 +33,7 @@ router.get(
     userController.allUsers
 );
 router.get(
-    '/viewUser/:user_id',
+    '/viewUser',
     Authenticate.isLoggedIn,
     Authenticate.isAdmin,
     validateUser.viewUser,

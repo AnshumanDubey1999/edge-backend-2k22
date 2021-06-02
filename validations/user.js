@@ -11,13 +11,19 @@ const register = {
 const validatePage = {
     query: Joi.object({
         page: Joi.number().min(1).required(),
-        eventCode: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{1,500}$'))
+        eventCode: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{1,500}$')),
+        stream: Joi.string().max(31),
+        year: Joi.string(),
+        instituteName: Joi.string().max(51),
+        name: Joi.string().max(31)
     })
 };
 
 const validateUserId = {
-    params: Joi.object({
-        user_id: Joi.string().required()
+    query: Joi.object({
+        id: Joi.string(),
+        email: Joi.string().email(),
+        contact: Joi.string()
     })
 };
 
