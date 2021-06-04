@@ -31,14 +31,15 @@ exports.login = async (req, res) => {
         }
 
         // console.log('user', user);
+        const tokenData = {
+            name: user.name,
+            email: user.email,
+            isAdmin: isAdmin,
+            _id: user._id
+        };
+        if (!isRegistered) tokenData.avatar = req.user.avatar;
         const token = generateAccessToken(
-            {
-                name: user.name,
-                email: user.email,
-                isAdmin: isAdmin,
-                contact: user.contact,
-                _id: user._id
-            },
+            tokenData,
             isRegistered ? '1d' : '1hr'
         );
         res.status(200).json({
@@ -61,6 +62,7 @@ exports.register = async (req, res) => {
             name: req.user.name,
             contact: req.user.contact,
             email: req.user.email,
+            avatar: req.user.avatar,
             stream: req.body.stream,
             year: req.body.year,
             instituteName: req.body.instituteName,
@@ -130,12 +132,32 @@ exports.updateProfile = async (req, res) => {
 //ADMIN ONLY
 exports.viewUser = async (req, res) => {
     try {
-        const user = await UserSchema.findById(req.params.user_id)
-            .select(['name', 'email', 'registeredEvents'])
-            .lean();
-        user.registeredEvents = await EventSchema.getEventTitles(
-            user.registeredEvents
-        );
+        let query = {};
+        if (req.query.id) {
+            query = {
+                _id: req.query.id
+            };
+        } else if (req.query.email) {
+            query = {
+                email: req.query.email
+            };
+        } else if (req.query.contact) {
+            query = {
+                contact: req.query.contact
+            };
+        } else {
+            return res.status(200).json({
+                success: false,
+                error: 'Need id, email or contact to find user.'
+            });
+        }
+
+        const user = await UserSchema.findOne(query).lean();
+        if (user) {
+            user.registeredEvents = await EventSchema.getEventTitles(
+                user.registeredEvents
+            );
+        }
         res.status(200).json({
             success: true,
             user: user
@@ -153,19 +175,79 @@ exports.allUsers = async (req, res) => {
     try {
         const limit = 20;
         const skip = (Number(req.query.page) - 1) * 20;
-        let query = {};
+        let query = {
+            $and: []
+        };
         if (req.query.eventCode) {
-            query = {
-                registeredEvents: { $in: req.query.eventCode }
-            };
+            query['$and'].push({
+                $expr: {
+                    $in: [req.query.eventCode, '$registeredEvents']
+                }
+            });
         }
-        const users = await UserSchema.find(query)
-            .select(['name', 'email', 'registeredEvents'])
-            .skip(skip)
-            .limit(limit)
-            .lean();
+        if (req.query.stream) {
+            query['$and'].push({
+                stream: req.query.stream
+            });
+        }
+        if (req.query.year) {
+            query['$and'].push({
+                year: req.query.year
+            });
+        }
+        if (req.query.instituteName) {
+            query['$and'].push({
+                instituteName: req.query.instituteName
+            });
+        }
+        if (req.query.name) {
+            query['$and'].push({
+                $text: {
+                    $search: req.query.name
+                }
+            });
+        }
+        if (query.$and.length == 0) query = {};
+        let documentCount = await UserSchema.aggregate([
+            { $match: query },
+            { $group: { _id: null, n: { $sum: 1 } } }
+        ]);
+        documentCount = documentCount[0] ? documentCount[0].n : 0;
+        const users = await UserSchema.aggregate([
+            { $match: query },
+            { $skip: skip },
+            { $limit: limit },
+            {
+                $lookup: {
+                    from: 'events',
+                    let: { registeredEvents: '$registeredEvents' },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $in: ['$eventCode', '$$registeredEvents']
+                                }
+                            }
+                        },
+                        {
+                            $project: {
+                                _id: 1,
+                                title: 1,
+                                eventCode: 1
+                            }
+                        }
+                    ],
+                    as: 'registeredEvents'
+                }
+            }
+        ]);
         res.status(200).json({
             success: true,
+            totalDocuments: documentCount,
+            range: `${skip}-${Math.min(
+                documentCount,
+                skip + 20
+            )}/${documentCount}`,
             users: users
         });
     } catch (error) {

@@ -27,13 +27,15 @@ var UserSchema = new Schema(
             type: Boolean,
             default: false
         },
-        registeredEvents: [String]
+        registeredEvents: [String],
+        avatar: String
     },
     { timestamps: true },
     { collection: 'users' }
 );
 
 UserSchema.index({ email: 1 });
+UserSchema.index({ name: 'text' });
 
 UserSchema.statics.findByEmail = function (email) {
     return this.findOne({ email: email });
