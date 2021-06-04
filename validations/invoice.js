@@ -15,7 +15,9 @@ const validateEventCodes = {
 
 const validateInvoiceId = {
     params: Joi.object({
-        invoice_id: Joi.string().required()
+        invoice_id: Joi.string()
+            .pattern(new RegExp('^[a-zA-Z0-9]{24,24}$'))
+            .required()
     })
 };
 
@@ -27,7 +29,9 @@ const validatePage = {
 
 const validateBodyInvoiceId = {
     body: Joi.object({
-        invoice_id: Joi.string().required()
+        invoice_id: Joi.string()
+            .pattern(new RegExp('^[a-zA-Z0-9]{24,24}$'))
+            .required()
     })
 };
 

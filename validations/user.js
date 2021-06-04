@@ -13,7 +13,17 @@ const validatePage = {
         page: Joi.number().min(1).required(),
         eventCode: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{1,500}$')),
         stream: Joi.string().max(31),
-        year: Joi.string(),
+        year: Joi.string().max(10),
+        instituteName: Joi.string().max(51),
+        name: Joi.string().max(31)
+    })
+};
+
+const validateCSVRequest = {
+    query: Joi.object({
+        eventCode: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{1,500}$')),
+        stream: Joi.string().max(31),
+        year: Joi.string().max(10),
         instituteName: Joi.string().max(51),
         name: Joi.string().max(31)
     })
@@ -21,7 +31,7 @@ const validatePage = {
 
 const validateUserId = {
     query: Joi.object({
-        id: Joi.string(),
+        id: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{24,24}$')),
         email: Joi.string().email(),
         contact: Joi.string()
     })
@@ -29,7 +39,9 @@ const validateUserId = {
 
 const validateBodyUserId = {
     body: Joi.object({
-        user_id: Joi.string().required()
+        user_id: Joi.string()
+            .pattern(new RegExp('^[a-zA-Z0-9]{24,24}$'))
+            .required()
     })
 };
 
@@ -37,6 +49,7 @@ exports.register = validate(register, {}, {});
 exports.updateProfile = validate(register, {}, {});
 
 exports.allUsers = validate(validatePage, {}, {});
+exports.toCSV = validate(validateCSVRequest, {}, {});
 
 exports.viewUser = validate(validateUserId, {}, {});
 exports.deleteUser = validate(validateBodyUserId, {}, {});
