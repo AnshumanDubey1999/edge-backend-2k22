@@ -47,4 +47,12 @@ router.post(
     userController.deleteUser
 );
 
+router.get(
+    '/toCSV',
+    Authenticate.isLoggedIn,
+    Authenticate.isAdmin,
+    validateUser.toCSV,
+    userController.toCSV
+);
+
 module.exports = router;

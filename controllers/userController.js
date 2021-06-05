@@ -1,6 +1,7 @@
 const UserSchema = require('../models/user');
 const EventSchema = require('../models/event');
 const generateAccessToken = require('../middlewares/auth').generateAccessToken;
+const fastCsv = require('fast-csv');
 
 exports.login = async (req, res) => {
     try {
@@ -35,6 +36,7 @@ exports.login = async (req, res) => {
             name: user.name,
             email: user.email,
             isAdmin: isAdmin,
+            contact: user.contact,
             _id: user._id
         };
         if (!isRegistered) tokenData.avatar = req.user.avatar;
@@ -273,4 +275,56 @@ exports.deleteUser = async (req, res) => {
             err: error.message
         });
     }
+};
+
+exports.toCSV = (req, res) => {
+    const query = {};
+    const queryText = ['ALL', 'ALL', 'ALL', 'ALL', 'ALL'];
+    if (req.query.name) {
+        query['$text'] = {
+            $search: req.query.name
+        };
+        queryText[0] = req.query.name;
+    }
+    if (req.query.eventCode) {
+        query['registeredEvents'] = { $in: [req.query.eventCode] };
+        queryText[1] = req.query.eventCode;
+    }
+    if (req.query.stream) {
+        query['stream'] = req.query.stream;
+        queryText[2] = req.query.stream;
+    }
+    if (req.query.year) {
+        query['year'] = req.query.year;
+        queryText[3] = req.query.year;
+    }
+    if (req.query.instituteName) {
+        query['instituteName'] = req.query.instituteName;
+        queryText[4] = req.query.instituteName;
+    }
+    const cursor = UserSchema.find(query);
+
+    const transformer = (doc) => {
+        return {
+            Id: doc._id,
+            Name: doc.name,
+            Email: doc.email,
+            Contact: doc.contact,
+            Stream: doc.stream,
+            Year: doc.year,
+            College: doc.instituteName,
+            Events: doc.registeredEvents.join(','),
+            Invoice: doc.intraInvoiceId
+        };
+    };
+
+    const filename = 'users(' + queryText.join('|') + ').csv';
+
+    res.setHeader('Content-disposition', `attachment; filename=${filename}`);
+    res.writeHead(200, { 'Content-Type': 'text/csv' });
+
+    res.flushHeaders();
+
+    var csvStream = fastCsv.format({ headers: true }).transform(transformer);
+    cursor.stream().pipe(csvStream).pipe(res);
 };

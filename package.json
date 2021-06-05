@@ -18,6 +18,7 @@
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "express-validation": "^3.0.8",
+    "fast-csv": "^4.3.6",
     "fs": "0.0.1-security",
     "http-errors": "~1.6.3",
     "joi": "^17.4.0",
