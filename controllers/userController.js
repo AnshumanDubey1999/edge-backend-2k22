@@ -36,6 +36,7 @@ exports.login = async (req, res) => {
             name: user.name,
             email: user.email,
             isAdmin: isAdmin,
+            contact: user.contact,
             _id: user._id
         };
         if (!isRegistered) tokenData.avatar = req.user.avatar;
