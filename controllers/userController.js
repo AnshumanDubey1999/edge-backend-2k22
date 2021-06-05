@@ -2,6 +2,7 @@ const UserSchema = require('../models/user');
 const EventSchema = require('../models/event');
 const generateAccessToken = require('../middlewares/auth').generateAccessToken;
 const fastCsv = require('fast-csv');
+const TokenSchema = require('../models/token');
 
 exports.login = async (req, res) => {
     try {
@@ -327,4 +328,46 @@ exports.toCSV = (req, res) => {
 
     var csvStream = fastCsv.format({ headers: true }).transform(transformer);
     cursor.stream().pipe(csvStream).pipe(res);
+};
+
+exports.saveAdminToken = async (req, res) => {
+    try {
+        const token = await TokenSchema.create({
+            token:
+                req.headers['Authorization'] ||
+                req.headers['authorization'] ||
+                req.cookies.token
+        });
+        res.status(200).json({
+            success: true,
+            id: token._id
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            err: error
+        });
+    }
+};
+
+exports.fetchAdminToken = async (req, res) => {
+    try {
+        let tokenID =
+            req.headers['Authorization'] ||
+            req.headers['authorization'] ||
+            req.cookies.token;
+        if (tokenID.match(/Bearer/i)) tokenID = tokenID.split(' ')[1];
+        const token = await TokenSchema.findByIdAndDelete(tokenID).lean();
+        res.status(200).json({
+            success: true,
+            token: token.token
+        });
+    } catch (error) {
+        // console.log(error);
+        res.json({
+            success: false,
+            err: error
+        });
+    }
 };
