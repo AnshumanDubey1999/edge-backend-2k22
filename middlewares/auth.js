@@ -19,7 +19,6 @@ const generateAccessToken = (
 const getToken = (req) => {
     try {
         const tokenString = (
-            req.query.token ||
             req.headers['Authorization'] ||
             req.headers['authorization'] ||
             req.cookies.token
