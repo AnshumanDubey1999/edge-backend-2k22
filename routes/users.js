@@ -62,10 +62,6 @@ router.get(
     userController.saveAdminToken
 );
 
-router.get(
-    '/fetchAdminToken',
-    validateUser.fetchAdminToken,
-    userController.fetchAdminToken
-);
+router.get('/fetchAdminToken', userController.fetchAdminToken);
 
 module.exports = router;

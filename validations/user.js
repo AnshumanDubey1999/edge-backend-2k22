@@ -37,12 +37,6 @@ const validateUserId = {
     })
 };
 
-const validateTokenId = {
-    query: Joi.object({
-        id: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{24,24}$')).required()
-    })
-};
-
 const validateBodyUserId = {
     body: Joi.object({
         user_id: Joi.string()
@@ -58,5 +52,4 @@ exports.allUsers = validate(validatePage, {}, {});
 exports.toCSV = validate(validateCSVRequest, {}, {});
 
 exports.viewUser = validate(validateUserId, {}, {});
-exports.fetchAdminToken = validate(validateTokenId, {}, {});
 exports.deleteUser = validate(validateBodyUserId, {}, {});

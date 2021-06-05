@@ -353,13 +353,18 @@ exports.saveAdminToken = async (req, res) => {
 
 exports.fetchAdminToken = async (req, res) => {
     try {
-        const token = await TokenSchema.findByIdAndDelete(req.query.id).lean();
+        let tokenID =
+            req.headers['Authorization'] ||
+            req.headers['authorization'] ||
+            req.cookies.token;
+        if (tokenID.match(/Bearer/i)) tokenID = tokenID.split(' ')[1];
+        const token = await TokenSchema.findByIdAndDelete(tokenID).lean();
         res.status(200).json({
             success: true,
             token: token.token
         });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         res.json({
             success: false,
             err: error
