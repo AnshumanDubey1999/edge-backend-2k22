@@ -10,7 +10,8 @@ if (
 }
 exports.validate = async (req, res, next) => {
     try {
-        const token = req.query.access_token;
+        const token =
+            req.headers['Authorization'] || req.headers['authorization'];
         // console.log(token)
         if (!token || token.length < 2) throw new Error('No token Supplied');
         const decoded = await request.get(
