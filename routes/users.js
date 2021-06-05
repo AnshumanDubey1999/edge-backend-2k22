@@ -55,4 +55,17 @@ router.get(
     userController.toCSV
 );
 
+router.get(
+    '/saveAdminToken',
+    Authenticate.isLoggedIn,
+    Authenticate.isAdmin,
+    userController.saveAdminToken
+);
+
+router.get(
+    '/fetchAdminToken',
+    validateUser.fetchAdminToken,
+    userController.fetchAdminToken
+);
+
 module.exports = router;
