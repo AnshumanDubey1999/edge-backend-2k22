@@ -38,7 +38,13 @@ var eventSchema = new Schema(
             type: String,
             required: true,
             enum: ['INTRA', 'EDGE']
-        }
+        },
+        club: {
+            type: String,
+            default: ''
+        },
+        rules: [],
+        contacts: []
     },
     { timestamps: true }
 );
