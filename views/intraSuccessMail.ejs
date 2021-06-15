@@ -18,18 +18,15 @@
 			margin: 0;
 			padding: 0;
 		}
-
 		table,
 		td,
 		tr {
 			vertical-align: top;
 			border-collapse: collapse;
 		}
-
 		* {
 			line-height: inherit;
 		}
-
 		a[x-apple-data-detectors=true] {
 			color: inherit !important;
 			text-decoration: none !important;
@@ -37,80 +34,62 @@
 	</style>
 <style id="media-query" type="text/css">
 		@media (max-width: 660px) {
-
 			.block-grid,
 			.col {
 				min-width: 320px !important;
 				max-width: 100% !important;
 				display: block !important;
 			}
-
 			.block-grid {
 				width: 100% !important;
 			}
-
 			.col {
 				width: 100% !important;
 			}
-
 			.col_cont {
 				margin: 0 auto;
 			}
-
 			img.fullwidth,
 			img.fullwidthOnMobile {
 				max-width: 100% !important;
 			}
-
 			.no-stack .col {
 				min-width: 0 !important;
 				display: table-cell !important;
 			}
-
 			.no-stack.two-up .col {
 				width: 50% !important;
 			}
-
 			.no-stack .col.num2 {
 				width: 16.6% !important;
 			}
-
 			.no-stack .col.num3 {
 				width: 25% !important;
 			}
-
 			.no-stack .col.num4 {
 				width: 33% !important;
 			}
-
 			.no-stack .col.num5 {
 				width: 41.6% !important;
 			}
-
 			.no-stack .col.num6 {
 				width: 50% !important;
 			}
-
 			.no-stack .col.num7 {
 				width: 58.3% !important;
 			}
-
 			.no-stack .col.num8 {
 				width: 66.6% !important;
 			}
-
 			.no-stack .col.num9 {
 				width: 75% !important;
 			}
-
 			.no-stack .col.num10 {
 				width: 83.3% !important;
 			}
-
 			.video-block {
 				max-width: none !important;
 			}
-
 			.mobile_hide {
 				min-height: 0px;
 				max-height: 0px;
@@ -119,7 +98,6 @@
 				overflow: hidden;
 				font-size: 0px;
 			}
-
 			.desktop_hide {
 				display: block !important;
 				max-height: none !important;
@@ -131,7 +109,6 @@
 			.icons-inner {
 				text-align: center;
 			}
-
 			.icons-inner td {
 				margin: 0 auto;
 			}
@@ -228,8 +205,6 @@
 	</div>
 	</div>
 	</div>
-
-<% invoice.comboData.forEach(combo => { %>
 	<div style="background-color:transparent;">
 	<div class="block-grid mixed-two-up no-stack" style="min-width: 320px; max-width: 640px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; Margin: 0 auto; background-color: #000000f3;">
 	<div style="border-collapse: collapse;display: table;width: 100%;background-color:#000000f3;">
@@ -256,17 +231,17 @@
 	</tbody>
 	</table>
 	<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 30px; padding-top: 10px; padding-bottom: 10px; font-family: Tahoma, sans-serif"><![endif]-->
-	<div style="color:#232323;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:1px;padding-left:30px;">
+	<div style="color:#232323;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:30px;">
 	<div class="txtTinyMce-wrapper" style="line-height: 1.2; font-size: 12px; color: #232323; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
-	<p style="margin: 0; font-size: 16px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 19px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 16px;"><strong><span style=""><%= combo.title +' ['+combo.eventCode+']'%> </span></strong></span></p>
+	<p style="margin: 0; font-size: 16px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 19px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 16px;"><strong><span style="">INTRA EVENT REGISTRATION</span></strong></span></p>
 	</div>
 	</div>
 	<!--[if mso]></td></tr></table><![endif]-->
 	<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 30px; padding-top: 0px; padding-bottom: 10px; font-family: Tahoma, sans-serif"><![endif]-->
 	<div style="color:#232323;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;padding-top:0px;padding-right:10px;padding-bottom: 15px;padding-left:30px;">
 		<div class="txtTinyMce-wrapper" style="line-height: 1.2; font-size: 12px; color: #232323; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
-		<% combo.events.forEach(event => { %> 
-			<p style="margin: 0; font-size: 12px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 14px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 12px;"><span style=""><%= "➤ "+event.title +' ['+event.eventCode+']' %></span></span></p>
+		<% invoice.events.forEach(event => { %> 
+			<p style="margin: 0; font-size: 12px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 14px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 12px;"><span style=""><%= "➤ "+event.title %></span></span></p>
 		<% }) %> 
 	</div>
 </div>
@@ -281,7 +256,7 @@
 	<div class="col num5" style="display: table-cell; vertical-align: top; max-width: 320px; min-width: 265px; background-color: #f2f2f2; width: 241px;">
 	<div class="col_cont" style="width:100% !important;">
 	<!--[if (!mso)&(!IE)]><!-->
-	<div style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:25px solid #000000f3; padding-top:0px; padding-bottom:<%= (combo.events.length-1)*14 -9%>px; padding-right: 0px; padding-left: 0px;">
+	<div style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:25px solid #000000f3; padding-top:0px; padding-bottom:<%= (invoice.events.length-1)*14 %>px; padding-right: 0px; padding-left: 0px;">
 	<!--<![endif]-->
 	<div class="mobile_hide">
 	<table border="0" cellpadding="0" cellspacing="0" class="divider" role="presentation" style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;" valign="top" width="100%">
@@ -303,7 +278,7 @@
 	<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 30px; padding-left: 0px; padding-top: 10px; padding-bottom: 10px; font-family: Tahoma, sans-serif"><![endif]-->
 	<div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;padding-top:10px;padding-right:30px;padding-bottom:10px;padding-left:0px;">
 	<div class="txtTinyMce-wrapper" style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
-	<p style="margin: 0; font-size: 16px; line-height: 1.2; word-break: break-word; text-align: right; mso-line-height-alt: 19px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 16px;">₹ <%= (combo.eventPrice).toFixed(2) %> </span></p>
+	<p style="margin: 0; font-size: 16px; line-height: 1.2; word-break: break-word; text-align: right; mso-line-height-alt: 19px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 16px;">₹ <%= (invoice.amount/100).toFixed(2) %> </span></p>
 	</div>
 	</div>
 	<!--[if mso]></td></tr></table><![endif]-->
@@ -332,99 +307,6 @@
 	</div>
 	</div>
 	</div>
-<% }); %> 
-
-<% invoice.eventData.forEach(event => { %>
-	<div style="background-color:transparent;">
-		<div class="block-grid mixed-two-up no-stack" style="min-width: 320px; max-width: 640px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; Margin: 0 auto; background-color: #000000f3;">
-		<div style="border-collapse: collapse;display: table;width: 100%;background-color:#000000f3;">
-		<!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:transparent;"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:640px"><tr class="layout-full-width" style="background-color:#000000f3"><![endif]-->
-		<!--[if (mso)|(IE)]><td align="center" width="373" style="background-color:#000000f3;width:373px; border-top: 0px solid transparent; border-left: none; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style='padding-top:0px;padding-bottom:0px' width='25' bgcolor='#000000f3'><table role='presentation' width='25' cellpadding='0' cellspacing='0' border='0'><tr><td>&nbsp;</td></tr></table></td><td style="padding-right: 0px; padding-left: 0px; padding-top:0px; padding-bottom:0px;background-color:#f2f2f2;"><![endif]-->
-		<div class="col num7" style="display: table-cell; vertical-align: top; max-width: 320px; min-width: 371px; background-color: #f2f2f2; width: 348px;">
-		<div class="col_cont" style="width:100% !important;">
-		<!--[if (!mso)&(!IE)]><!-->
-		<div style="border-top:0px solid transparent; border-left:25px solid #000000f3; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
-		<!--<![endif]-->
-		<table border="0" cellpadding="0" cellspacing="0" class="divider" role="presentation" style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;" valign="top" width="100%">
-		<tbody>
-		<tr style="vertical-align: top;" valign="top">
-		<td class="divider_inner" style="word-break: break-word; vertical-align: top; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px;" valign="top">
-		<table align="center" border="0" cellpadding="0" cellspacing="0" class="divider_content" height="15" role="presentation" style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-top: 0px solid transparent; height: 15px; width: 100%;" valign="top" width="100%">
-		<tbody>
-		<tr style="vertical-align: top;" valign="top">
-		<td height="15" style="word-break: break-word; vertical-align: top; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;" valign="top"><span></span></td>
-		</tr>
-		</tbody>
-		</table>
-		</td>
-		</tr>
-		</tbody>
-		</table>
-		<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 30px; padding-top: 10px; padding-bottom: 10px; font-family: Tahoma, sans-serif"><![endif]-->
-		<div style="color:#232323;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:1px;padding-left:30px;">
-		<div class="txtTinyMce-wrapper" style="line-height: 1.2; font-size: 12px; color: #232323; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
-		<p style="margin: 0; font-size: 16px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 19px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 16px;"><strong><span style=""><%= event.title +' ['+event.eventCode+']' %></span></strong></span></p>
-		</div>
-		</div>
-		<!--[if mso]></td></tr></table><![endif]-->
-		<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 30px; padding-top: 0px; padding-bottom: 10px; font-family: Tahoma, sans-serif"><![endif]-->
-		<div style="color:#232323;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;padding-top:0px;padding-right:10px;padding-bottom: 15px;padding-left:30px;">
-			<div class="txtTinyMce-wrapper" style="line-height: 1.2; font-size: 12px; color: #232323; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
-
-				<p style="margin: 0; font-size: 12px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 14px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 12px;"><span style=""><%= event.subtitle %></span></span></p>
-
-		</div>
-	</div>
-		<!--[if mso]></td></tr></table><![endif]-->
-		<!--[if (!mso)&(!IE)]><!-->
-		</div>
-		<!--<![endif]-->
-		</div>
-		</div>
-		<!--[if (mso)|(IE)]></td></tr></table><![endif]-->
-		<!--[if (mso)|(IE)]></td><td align="center" width="266" style="background-color:#000000f3;width:266px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: none;" valign="top"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top:0px; padding-bottom:0px;background-color:#f2f2f2;"><![endif]-->
-		<div class="col num5" style="display: table-cell; vertical-align: top; max-width: 320px; min-width: 265px; background-color: #f2f2f2; width: 241px;">
-		<div class="col_cont" style="width:100% !important;">
-		<!--[if (!mso)&(!IE)]><!-->
-		<div style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:25px solid #000000f3; padding-top:0px; padding-bottom:20px; padding-right: 0px; padding-left: 0px;">
-		<!--<![endif]-->
-		<div class="mobile_hide">
-		<table border="0" cellpadding="0" cellspacing="0" class="divider" role="presentation" style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;" valign="top" width="100%">
-		<tbody>
-		<tr style="vertical-align: top;" valign="top">
-		<td class="divider_inner" style="word-break: break-word; vertical-align: top; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px;" valign="top">
-		<table align="center" border="0" cellpadding="0" cellspacing="0" class="divider_content" height="15" role="presentation" style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-top: 0px solid transparent; height: 15px; width: 100%;" valign="top" width="100%">
-		<tbody>
-		<tr style="vertical-align: top;" valign="top">
-		<td height="15" style="word-break: break-word; vertical-align: top; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;" valign="top"><span></span></td>
-		</tr>
-		</tbody>
-		</table>
-		</td>
-		</tr>
-		</tbody>
-		</table>
-		</div>
-		<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 30px; padding-left: 0px; padding-top: 10px; padding-bottom: 10px; font-family: Tahoma, sans-serif"><![endif]-->
-		<div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;padding-top:10px;padding-right:30px;padding-bottom:10px;padding-left:0px;">
-		<div class="txtTinyMce-wrapper" style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
-		<p style="margin: 0; font-size: 16px; line-height: 1.2; word-break: break-word; text-align: right; mso-line-height-alt: 19px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 16px;">₹ <%= (event.eventPrice).toFixed(2) %> </span></p>
-		</div>
-		</div>
-		<!--[if mso]></td></tr></table><![endif]-->
-
-		<!--[if (!mso)&(!IE)]><!-->
-		</div>
-		<!--<![endif]-->
-		</div>
-		</div>
-		<!--[if (mso)|(IE)]></td><td style='padding-top:0px;padding-bottom:0px' width='25' bgcolor='#000000f3'><table role='presentation' width='25' cellpadding='0' cellspacing='0' border='0'><tr><td>&nbsp;</td></tr></table></td></tr></table><![endif]-->
-		<!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
-		</div>
-		</div>
-		</div>
-<% }); %> 
-
 	<div style="background-color:transparent;">
 	<div class="block-grid" style="min-width: 320px; max-width: 640px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; Margin: 0 auto; background-color: #f2f2f2;">
 	<div style="border-collapse: collapse;display: table;width: 100%;background-color:#f2f2f2;">

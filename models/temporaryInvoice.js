@@ -11,6 +11,27 @@ var TemporaryInvoiceSchema = new Schema(
             type: Number,
             required: true
         },
+        eventData: [
+            {
+                title: String,
+                subtitle: String,
+                eventCode: String,
+                eventPrice: Number
+            }
+        ],
+        comboData: [
+            {
+                title: String,
+                eventCode: String,
+                eventPrice: Number,
+                events: [
+                    {
+                        title: String,
+                        eventCode: String
+                    }
+                ]
+            }
+        ],
         type: {
             type: String,
             enum: ['INTRA', 'EDGE']

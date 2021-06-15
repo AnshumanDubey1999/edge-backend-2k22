@@ -26,16 +26,22 @@ exports.addEvent = (req, res) => {
         });
 };
 
-exports.getAllEvents = (req, res) => {
-    eventModel
-        .getAllEvents()
-        .then((events) => {
-            res.status(200).json({ events });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({ err });
+exports.getAllEvents = async (req, res) => {
+    try {
+        const filter = {};
+        if (req.query.club) filter.club = req.query.club;
+        const events = await eventModel.find(filter);
+        res.status(200).json({
+            success: true,
+            events: events
         });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            err: error.message
+        });
+    }
 };
 
 exports.getEvents = (req, res) => {
@@ -116,6 +122,7 @@ exports.getSantizedEventObject = (req) => {
     var updatedEvent = {};
     if (req.body.eventCode) updatedEvent['eventCode'] = req.body.eventCode;
     if (req.body.title) updatedEvent['title'] = req.body.title;
+    if (req.body.subtitle) updatedEvent['subtitle'] = req.body.subtitle;
     if (req.body.eventPrice) updatedEvent['eventPrice'] = req.body.eventPrice;
     if (req.body.desc) updatedEvent['desc'] = req.body.desc;
     if (req.body.isActive) updatedEvent['isActive'] = req.body.isActive;

@@ -141,6 +141,8 @@ router.post('/confirm', razor.verifyRazorWare, async (req, res) => {
                 amount: temporaryInvoice.amount,
                 type: temporaryInvoice.type,
                 events: temporaryInvoice.events,
+                eventData: temporaryInvoice.eventData,
+                comboData: temporaryInvoice.comboData,
                 order_id: temporaryInvoice.order_id,
                 payment_id: payment.razorid,
                 payment_details: payment._id

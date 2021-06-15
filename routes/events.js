@@ -5,9 +5,9 @@ var router = express.Router();
 var Authenticate = require('../middlewares/auth');
 
 //user and admin
-router.get('/', Authenticate.isLoggedIn, eventContoller.getAllEvents);
-router.get('/query',  Authenticate.isLoggedIn, eventContoller.getEvents);
-router.get('/:eventCode', Authenticate.isLoggedIn, eventContoller.getEventByCode);
+router.get('/', eventContoller.getAllEvents);
+router.get('/query',  eventContoller.getEvents);
+router.get('/:eventCode', eventContoller.getEventByCode);
 
 
 //admin
