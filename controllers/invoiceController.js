@@ -298,6 +298,14 @@ exports.createInvoice = async (req, res) => {
                 });
             }
         }
+        if (response.sum == 0) {
+            user.registeredEvents.push(...eventCodes);
+            await user.save();
+            return res.status(200).json({
+                success: true,
+                freeEvents: true
+            });
+        }
 
         const invoice = await TemporaryInvoiceSchema.create({
             user: req.user._id,

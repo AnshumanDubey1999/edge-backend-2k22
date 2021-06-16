@@ -9,9 +9,15 @@
 			"name": "Login",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDIyZDg0YmZlNzJkYjQ4OWU1YTVhYTUiLCJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwicGhvbmUiOiIrOTE5MTIzMDMyMzE5IiwicGVybWlzc2lvbnMiOlsicmVzdWx0cyIsInJlZ2lzdGVyIl0sImF2YXRhciI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tTkxodXJTZ0hlT0EvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjbk0zcVBZeHc0WWl4ZFEwcExyOHYzWlFTZW1hZy9zOTYtYy9waG90by5qcGciLCJpYXQiOjE2MjM4NjgyNTIsImV4cCI6MTYyMzg2ODU1Mn0.dF5D-G3oO43M351eStWUsapqplrCRoxzs8rSGf_cAg8",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "localhost:3000/users/login?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDIyZDg0YmZlNzJkYjQ4OWU1YTVhYTUiLCJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwicGhvbmUiOiIrOTE5MTIzMDMyMzE5IiwicGVybWlzc2lvbnMiOlsicmVzdWx0cyIsInJlZ2lzdGVyIl0sImF2YXRhciI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tTkxodXJTZ0hlT0EvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjbk0zcVBZeHc0WWl4ZFEwcExyOHYzWlFTZW1hZy9zOTYtYy9waG90by5qcGciLCJpYXQiOjE2MTk4OTU5MjMsImV4cCI6MTYxOTg5NjIyM30.vWXTPl6wKlqbiSVlf7lYJOJoMZCuxJHSnL3te8o7y58",
+					"raw": "localhost:3000/users/login",
 					"host": [
 						"localhost"
 					],
@@ -23,7 +29,8 @@
 					"query": [
 						{
 							"key": "access_token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDIyZDg0YmZlNzJkYjQ4OWU1YTVhYTUiLCJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwicGhvbmUiOiIrOTE5MTIzMDMyMzE5IiwicGVybWlzc2lvbnMiOlsicmVzdWx0cyIsInJlZ2lzdGVyIl0sImF2YXRhciI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tTkxodXJTZ0hlT0EvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjbk0zcVBZeHc0WWl4ZFEwcExyOHYzWlFTZW1hZy9zOTYtYy9waG90by5qcGciLCJpYXQiOjE2MTk4OTU5MjMsImV4cCI6MTYxOTg5NjIyM30.vWXTPl6wKlqbiSVlf7lYJOJoMZCuxJHSnL3te8o7y58"
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDIyZDg0YmZlNzJkYjQ4OWU1YTVhYTUiLCJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwicGhvbmUiOiIrOTE5MTIzMDMyMzE5IiwicGVybWlzc2lvbnMiOlsicmVzdWx0cyIsInJlZ2lzdGVyIl0sImF2YXRhciI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tTkxodXJTZ0hlT0EvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjbk0zcVBZeHc0WWl4ZFEwcExyOHYzWlFTZW1hZy9zOTYtYy9waG90by5qcGciLCJpYXQiOjE2MjM4Njc4NDIsImV4cCI6MTYyMzg2ODE0Mn0.zsI4L-NijgNBkz_nVfOuZO28gCKlnC3XHV2WWwdG510",
+							"disabled": true
 						}
 					]
 				}
@@ -157,12 +164,7 @@
 							"type": "text",
 							"disabled": true
 						}
-					],
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					]
 				},
 				"url": {
 					"raw": "localhost:3000/invoices/60943c099ceded5bb723239e/pay",
@@ -421,13 +423,19 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/events",
+					"raw": "localhost:3000/events?club=curbrain",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"events"
+					],
+					"query": [
+						{
+							"key": "club",
+							"value": "curbrain"
+						}
 					]
 				}
 			},
@@ -436,11 +444,26 @@
 		{
 			"name": "AddEvents",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MGJiMWNiYzUwYjk3MTAwMTVkYjRiNDUiLCJpYXQiOjE2MjM4NjgyNjQsImV4cCI6MTYyMzk1NDY2NH0.Qyg441hqJEmA9LvGurRDnQy4wzh26qLoU-wGG0CaUrA",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n   \"eventPrice\": 500,\n            \"isActive\": true,\n            \"discount\": 0,\n            \"combos\": [\n                \n            ],\n            \"eventCode\": \"6\",\n            \"title\": \"Event6\",\n            \"desc\": \"Cool event\",\n            \n            \"eventType\": \"EDGE\"\n}",
+					"raw": "{\n   \"eventPrice\": 100,\n    \"isActive\": true,\n    \"discount\": 0,\n    \"combos\": [\n    ],\n    \"eventCode\": \"TEST01\",\n    \"title\": \"Coding QUIZ\",\n    \"subtitle\": \"Test ur coding trivia\",\n    \"desc\": \"A quiz to test how much u know about coding\",\n    \"club\": \"curbrain\",\n    \"eventType\": \"EDGE\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -469,7 +492,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjA1NjQ4NzMsImV4cCI6MTYyMDY1MTI3M30.Xjc2QkHatgQBWTtJX3BANKWcPy4ZDskcfPP0DGxnPjE",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiX2lkIjoiNjBiM2NiY2I0ZDZjMDUzNDkwZDMwNjc2IiwiaWF0IjoxNjIyNjU2MTc5LCJleHAiOjE2MjI3NDI1Nzl9.chKkm3KUSq6BUf-0Xnk9TYfJxg2c1MWxwaefhPQ-zRI",
 							"type": "string"
 						},
 						{
@@ -482,7 +505,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/users/allUsers?page=1",
+					"raw": "localhost:3000/users/allUsers?page=1&name=das&year=2nd&instituteName=TMSL&stream=FT&eventCode=13",
 					"host": [
 						"localhost"
 					],
@@ -495,6 +518,26 @@
 						{
 							"key": "page",
 							"value": "1"
+						},
+						{
+							"key": "name",
+							"value": "das"
+						},
+						{
+							"key": "year",
+							"value": "2nd"
+						},
+						{
+							"key": "instituteName",
+							"value": "TMSL"
+						},
+						{
+							"key": "stream",
+							"value": "FT"
+						},
+						{
+							"key": "eventCode",
+							"value": "13"
 						}
 					]
 				}
@@ -589,7 +632,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MDhlNWQ5NDBlOTYyMjJkYjcwYzczZGEiLCJpYXQiOjE2MjA1NjQ4NzMsImV4cCI6MTYyMDY1MTI3M30.Xjc2QkHatgQBWTtJX3BANKWcPy4ZDskcfPP0DGxnPjE",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiX2lkIjoiNjBiM2NiY2I0ZDZjMDUzNDkwZDMwNjc2IiwiaWF0IjoxNjIyNjU2MTc5LCJleHAiOjE2MjI3NDI1Nzl9.chKkm3KUSq6BUf-0Xnk9TYfJxg2c1MWxwaefhPQ-zRI",
 							"type": "string"
 						},
 						{
@@ -611,15 +654,20 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/users/viewUser/608e5d940e96222db70c73da",
+					"raw": "localhost:3000/users/viewUser?contact=%2B917595864064",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"users",
-						"viewUser",
-						"608e5d940e96222db70c73da"
+						"viewUser"
+					],
+					"query": [
+						{
+							"key": "contact",
+							"value": "%2B917595864064"
+						}
 					]
 				}
 			},
@@ -663,6 +711,157 @@
 					"path": [
 						"users",
 						"deleteUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ExportToCSV",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiX2lkIjoiNjBiM2NiY2I0ZDZjMDUzNDkwZDMwNjc2IiwiaWF0IjoxNjIyODMxMjUxLCJleHAiOjE2MjI5MTc2NTF9.rzHUsCEoB0Dpp9TrL3ujWyv6zZrtYEOiOnKxjYyrkIc",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/users/toCSV?name=anshuman",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"toCSV"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "anshuman"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FetchAdminToken",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "60bb7373feaedc349b9da87d",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/users/fetchAdminToken",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"fetchAdminToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SaveAdminToken",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiX2lkIjoiNjBiYjFjYmM1MGI5NzEwMDE1ZGI0YjQ1IiwiaWF0IjoxNjIyODc1MzI0LCJleHAiOjE2MjI5NjE3MjR9.lA4dvpfs-ZbG05yRAqJJQNWCYLBgeVEXlXZpRS0oxAc",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/users/saveAdminToken",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"saveAdminToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateEvent",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MGJiMWNiYzUwYjk3MTAwMTVkYjRiNDUiLCJpYXQiOjE2MjM4NjgyNjQsImV4cCI6MTYyMzk1NDY2NH0.Qyg441hqJEmA9LvGurRDnQy4wzh26qLoU-wGG0CaUrA",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"eventPrice\": 0,\n    \"isActive\": true,\n    \"discount\": 0,\n    \"combos\": [\n    ],\n    \"eventCode\": \"TEST01\",\n    \"title\": \"Coding QUIZZ\",\n    \"subtitle\": \"Test ur coding trivia\",\n    \"desc\": \"A quiz to test how much u know about coding\",\n    \"club\": \"curbrain\",\n    \"eventType\": \"EDGE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/events/edit",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"events",
+						"edit"
 					]
 				}
 			},

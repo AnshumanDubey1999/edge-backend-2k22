@@ -99,7 +99,6 @@ exports.updateEvent = (req, res) => {
             error:
                 'request body must have an event code or id associated with it'
         });
-
     eventModel
         .findOneAndUpdate(filter, updatedEvent, options)
         .populate('category')
@@ -123,7 +122,7 @@ exports.getSantizedEventObject = (req) => {
     if (req.body.eventCode) updatedEvent['eventCode'] = req.body.eventCode;
     if (req.body.title) updatedEvent['title'] = req.body.title;
     if (req.body.subtitle) updatedEvent['subtitle'] = req.body.subtitle;
-    if (req.body.eventPrice) updatedEvent['eventPrice'] = req.body.eventPrice;
+    updatedEvent['eventPrice'] = req.body.eventPrice || 0;
     if (req.body.desc) updatedEvent['desc'] = req.body.desc;
     if (req.body.isActive) updatedEvent['isActive'] = req.body.isActive;
     if (req.body.discount) updatedEvent['discount'] = req.body.discount;
