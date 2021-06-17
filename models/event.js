@@ -56,7 +56,7 @@ var eventSchema = new Schema(
                 'infocus'
             ]
         },
-        rules: [],
+        rules: String,
         contacts: []
     },
     { timestamps: true }

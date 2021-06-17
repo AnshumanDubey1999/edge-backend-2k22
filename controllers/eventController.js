@@ -131,7 +131,7 @@ exports.getSantizedEventObject = (req) => {
     if (req.body.eventType) updatedEvent['eventType'] = req.body.eventType;
     if (req.body.club) updatedEvent['club'] = req.body.club;
     if (req.body.rules) updatedEvent['rules'] = req.body.rules;
-    if (req.body.rules) updatedEvent['contacts'] = req.body.contacts;
+    if (req.body.contacts) updatedEvent['contacts'] = req.body.contacts;
 
     if (updatedEvent['title'])
         updatedEvent['title'] = updatedEvent['title']

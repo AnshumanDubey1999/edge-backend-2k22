@@ -15,7 +15,7 @@ exports.eventSchema = Joi.object({
     cid: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{24,24}$')),
     eventType: Joi.string().valid('INTRA', 'EDGE'),
     club: Joi.string().required(),
-    rules: Joi.array(),
+    rules: Joi.string(),
     contacts: Joi.array()
 });
 exports.eventParamsSchema = Joi.object({
