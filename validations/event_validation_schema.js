@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { validate } = require('express-validation');
 
 exports.eventSchema = Joi.object({
     id: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{24,24}$')),
@@ -22,3 +23,11 @@ exports.eventParamsSchema = Joi.object({
     id: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{24,24}$')),
     eventCode: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{1,500}$'))
 });
+
+const validateEventId = {
+    query: Joi.object({
+        _id: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{24,24}$')).required()
+    })
+};
+
+exports.addImage = validate(validateEventId, {}, {});

@@ -866,6 +866,250 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "EventAddImage",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MGJiMWNiYzUwYjk3MTAwMTVkYjRiNDUiLCJpYXQiOjE2MjQxMTQ2MTUsImV4cCI6MTYyNDIwMTAxNX0.KsVj9HFpJ71INjvBoKBvzSSdVSCCIQU9RVFfQzMmkkk",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "poster",
+							"type": "file",
+							"src": "/home/anshumandubey/Downloads/EDGE2021.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/events/addImage?_id=60c907d8198e8f33a123cc3f",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"events",
+						"addImage"
+					],
+					"query": [
+						{
+							"key": "_id",
+							"value": "60c907d8198e8f33a123cc3f"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SponsorDelete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MGJiMWNiYzUwYjk3MTAwMTVkYjRiNDUiLCJpYXQiOjE2MjQxMTQ2MTUsImV4cCI6MTYyNDIwMTAxNX0.KsVj9HFpJ71INjvBoKBvzSSdVSCCIQU9RVFfQzMmkkk",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/sponsors/delete?_id=60ce0640a043df14dee416ab",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"sponsors",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "_id",
+							"value": "60ce0640a043df14dee416ab"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SponsorUpdate",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MGJiMWNiYzUwYjk3MTAwMTVkYjRiNDUiLCJpYXQiOjE2MjQxMTQ2MTUsImV4cCI6MTYyNDIwMTAxNX0.KsVj9HFpJ71INjvBoKBvzSSdVSCCIQU9RVFfQzMmkkk",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"_id\": \"60ce0640a043df14dee416ab\",\n    \"name\": \"Amazon\",\n    \"order\": \"1\",\n    \"tag\": \"We wanna rule u\",\n    \"link\": \"https://amazon.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/sponsors/update",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"sponsors",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SponsorAddImage",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MGJiMWNiYzUwYjk3MTAwMTVkYjRiNDUiLCJpYXQiOjE2MjQxMTQ2MTUsImV4cCI6MTYyNDIwMTAxNX0.KsVj9HFpJ71INjvBoKBvzSSdVSCCIQU9RVFfQzMmkkk",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "logo",
+							"type": "file",
+							"src": "/home/anshumandubey/Downloads/EDGE2021.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/sponsors/addImage?_id=60ce0640a043df14dee416ab",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"sponsors",
+						"addImage"
+					],
+					"query": [
+						{
+							"key": "_id",
+							"value": "60ce0640a043df14dee416ab"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SponsorAdd",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MGJiMWNiYzUwYjk3MTAwMTVkYjRiNDUiLCJpYXQiOjE2MjQxMTQ2MTUsImV4cCI6MTYyNDIwMTAxNX0.KsVj9HFpJ71INjvBoKBvzSSdVSCCIQU9RVFfQzMmkkk",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Amazon\",\n    \"order\": \"1\",\n    \"tag\": \"We wanna rule u\",\n    \"link\": \"https://amazon.in\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/sponsors/add",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"sponsors",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SponsorAll",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/sponsors",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"sponsors"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

@@ -26,6 +26,20 @@ exports.addEvent = (req, res) => {
         });
 };
 
+exports.addImage = async (req, res) => {
+    // console.log(req.file.filename);
+    try {
+        res.status('200').json({
+            sucess: true
+        });
+    } catch (e) {
+        res.status('200').json({
+            sucess: false,
+            error: String(e)
+        });
+    }
+};
+
 exports.getAllEvents = async (req, res) => {
     try {
         const filter = {};
