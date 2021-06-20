@@ -194,10 +194,15 @@ exports.delete = (req, res, next) => {
     eventModel
         .deleteOne(filter)
         .then((result) => {
-            res.status(200).json({ success: true, result });
+            if (result.deletedCount == 0)
+                res.status(200).json({
+                    success: false,
+                    err: 'Invalid Event Code!'
+                });
+            else res.status(200).json({ success: true, result });
         })
         .catch((err) => {
-            console.log(err);
+            console.log({ err });
             res.status(500).json({ success: false, err });
         });
 };
