@@ -13,7 +13,7 @@ const getTotalAndValidity = async (eventCodes, registeredEvents) => {
         return {
             sum: 0,
             validity: false,
-            error: 'User already has paid for one or more events'
+            error: 'You have already paid for one or more events'
         };
     }
     let sum = 0;

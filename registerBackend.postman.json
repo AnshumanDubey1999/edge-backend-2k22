@@ -1110,6 +1110,74 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "EventDelete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MGJiMWNiYzUwYjk3MTAwMTVkYjRiNDUiLCJpYXQiOjE2MjQxNzIzNjUsImV4cCI6MTYyNDI1ODc2NX0.09DXoddLIWX2lp-nECOgphgLsqwCgIVJ2D5CQdnHbis",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"eventCode\": \"DELETE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/events/delete",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"events",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VerifyMailToken",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc01haWxUb2tlbiI6dHJ1ZSwicGF5bWVudFN1Y2Nlc3MiOnRydWUsImludm9pY2UiOnsiX2lkIjoiNjBkMC00ODgyLTEyZjEtMTAzMS0yOWZmYmIyYiIsImFtb3VudCI6OTAwLCJldmVudERhdGEiOlt7Il9pZCI6IjYwZDA0NzQyNDI1YTk0MmEyYzg2Y2QxMSIsInRpdGxlIjoiQlVHSFVOVCIsInN1YnRpdGxlIjoiRGVidWcgdGhlIGNvZGVzIiwiZXZlbnRDb2RlIjoiRURHMDMiLCJldmVudFByaWNlIjo0fV0sImNvbWJvRGF0YSI6W3siX2lkIjoiNjBkMDQ3NDI0MjVhOTQyYTJjODZjZDBkIiwidGl0bGUiOiJmZGdnZmRnaGZkaCIsImV2ZW50Q29kZSI6IlRFU1RDTzEiLCJldmVudFByaWNlIjo1LCJldmVudHMiOlt7Il9pZCI6IjYwZDA0NzQyNDI1YTk0MmEyYzg2Y2QwZSIsInRpdGxlIjoiQ1JZUFRPUVVFU1QiLCJldmVudENvZGUiOiJFREcwMiJ9LHsiX2lkIjoiNjBkMDQ3NDI0MjVhOTQyYTJjODZjZDBmIiwidGl0bGUiOiJXRUIgREVWRUxPUE1FTlQiLCJldmVudENvZGUiOiJFREcwNCJ9LHsiX2lkIjoiNjBkMDQ3NDI0MjVhOTQyYTJjODZjZDEwIiwidGl0bGUiOiJBZGkgU3RvcnkgMiIsImV2ZW50Q29kZSI6IlRFU1QwMDEifV19XX0sInBheW1lbnQiOnsibWV0aG9kIjoidXBpIn0sImlhdCI6MTYyNDI2Mjc4NiwiZXhwIjo0NzgwMDIyNzg2fQ.Q6RXUxtgybC14opyRr3CdOcYXtKN2mEvn8ACHOI39I8",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/invoices/verifyMailToken",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"invoices",
+						"verifyMailToken"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
