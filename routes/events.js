@@ -4,6 +4,7 @@ var eventContoller = require('../controllers/eventController');
 var router = express.Router();
 var Authenticate = require('../middlewares/auth');
 const upload = require('../middlewares/s3').event_upload;
+const logo_upload = require('../middlewares/s3').logo_upload;
 const imageValidator = require('../validations/event_validation_schema').addImage;
 
 //user and admin
@@ -21,6 +22,14 @@ router.post(
     imageValidator, 
     upload.single('poster'), 
     eventContoller.addImage
+);
+router.post(
+    '/addLogo', 
+    Authenticate.isLoggedIn,  
+    Authenticate.isAdmin, 
+    imageValidator, 
+    logo_upload.single('logo'), 
+    eventContoller.addLogo
 );
 router.put('/edit', Authenticate.isLoggedIn,  Authenticate.isAdmin, eventContoller.updateEvent);
 router.delete('/delete', Authenticate.isLoggedIn,  Authenticate.isAdmin, eventContoller.delete);
