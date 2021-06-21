@@ -72,4 +72,33 @@ const sponsor_upload = multer({
     storage: sponsor_s3Storage
 });
 
-module.exports = { event_upload, sponsor_upload };
+const logo_s3Storage = multerS3({
+    s3: s3,
+    bucket: 'edge-results',
+    key: function (req, file, cb) {
+        // console.log({file, query});
+        const uid = req.query._id;
+        cb(null, 'events/logo_' + uid + '.jpg');
+        // cb(null, file.originalname); //use Date.now() for unique file keys
+    }
+});
+
+const logo_upload = multer({
+    limits: {
+        fileSize: 10 * 1000 * 1000
+    },
+    fileFilter(req, file, cb) {
+        file.originalname = file.originalname.toLowerCase();
+        if (
+            !file.originalname.endsWith('.jpg') &&
+            !file.originalname.endsWith('.jpeg') &&
+            !file.originalname.endsWith('.png')
+        ) {
+            return cb(new Error('File must be a Image'));
+        }
+        cb(undefined, true);
+    },
+    storage: logo_s3Storage
+});
+
+module.exports = { event_upload, sponsor_upload, logo_upload };
