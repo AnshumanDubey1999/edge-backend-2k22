@@ -46,6 +46,7 @@ exports.login = async (req, res) => {
             isRegistered ? '1d' : '1hr'
         );
         res.status(200).json({
+            success: true,
             isRegistered: isRegistered,
             user: user,
             token: token
@@ -83,6 +84,7 @@ exports.register = async (req, res) => {
             '1d'
         );
         res.status(200).json({
+            success: true,
             isRegistered: true,
             user: user,
             token: token

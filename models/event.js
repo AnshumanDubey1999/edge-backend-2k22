@@ -7,6 +7,7 @@ var eventSchema = new Schema(
             type: String,
             required: true
         },
+        subtitle: String,
         desc: {
             type: String,
             required: true
@@ -41,9 +42,21 @@ var eventSchema = new Schema(
         },
         club: {
             type: String,
-            default: ''
+            required: true,
+            enum: [
+                'curbrain',
+                'cybercrusade',
+                'rrc',
+                'ciic',
+                'createit',
+                'geekdesign',
+                'elevation',
+                'foodforfun',
+                'newron',
+                'infocus'
+            ]
         },
-        rules: [],
+        rules: String,
         contacts: []
     },
     { timestamps: true }
@@ -55,6 +68,10 @@ eventSchema.statics.getEventByCode = function (code) {
     return this.findOne({ eventCode: code }).populate('category');
 };
 
+eventSchema.statics.getEventByClub = function (club) {
+    return this.find({ club: club });
+};
+
 eventSchema.statics.getEventTitles = function (codes) {
     return this.find({ eventCode: { $in: codes } }).select(['title']);
 };
@@ -62,6 +79,11 @@ eventSchema.statics.getEventTitles = function (codes) {
 eventSchema.statics.findByEventCode = function (code) {
     return this.findOne({ eventCode: code });
 };
+
+eventSchema.statics.findAllByEventCode = function (codes) {
+    return this.find({ eventCode: { $in: codes } });
+};
+
 eventSchema.statics.getAllEvents = function () {
     return this.find({}).populate('category');
 };

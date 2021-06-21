@@ -10,7 +10,7 @@ exports.addEvent = (req, res) => {
     const { error } = eventValidateSchema.validate(req.body);
     if (error) {
         console.log(error);
-        return res.status(400).json({ error });
+        return res.status(400).json({ success: false, error });
     }
 
     newEvent = this.getSantizedEventObject(req);
@@ -18,53 +18,73 @@ exports.addEvent = (req, res) => {
     eventModel
         .create(newEvent)
         .then((event) => {
-            res.status(200).json({ event });
+            res.status(200).json({ success: true, event });
         })
         .catch((err) => {
             console.log(err);
-            res.status(500).json({ err });
+            res.status(500).json({ success: false, err });
         });
 };
 
-exports.getAllEvents = (req, res) => {
-    eventModel
-        .getAllEvents()
-        .then((events) => {
-            res.status(200).json({ events });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({ err });
+exports.addImage = async (req, res) => {
+    // console.log(req.file.filename);
+    try {
+        res.status('200').json({
+            sucess: true
         });
+    } catch (e) {
+        res.status('200').json({
+            sucess: false,
+            error: String(e)
+        });
+    }
+};
+
+exports.getAllEvents = async (req, res) => {
+    try {
+        const filter = {};
+        if (req.query.club) filter.club = req.query.club;
+        const events = await eventModel.find(filter);
+        res.status(200).json({
+            success: true,
+            events: events
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            err: error.message
+        });
+    }
 };
 
 exports.getEvents = (req, res) => {
     eventModel
         .getEventsByQuery(req.query)
         .then((events) => {
-            return res.status(200).json({ events });
+            return res.status(200).json({ success: true, events });
         })
         .catch((err) => {
             console.log(err);
-            return res.status(500).json({ err });
+            return res.status(500).json({ success: false, err });
         });
 };
 
 exports.getEventByCode = (req, res) => {
     const { error } = paramsValidationSchema.validate(req.params);
     if (error) {
-        return res.status(400).json({ error });
+        return res.status(400).json({ success: false, error });
     }
     const code = req.params.eventCode;
 
     eventModel
         .getEventByCode(code)
         .then((event) => {
-            res.status(200).json({ event });
+            res.status(200).json({ success: true, event });
         })
         .catch((err) => {
             console.log(err);
-            res.status(500).json({ err });
+            res.status(500).json({ success: false, err });
         });
 };
 
@@ -76,7 +96,7 @@ exports.updateEvent = (req, res) => {
     const { error } = eventValidateSchema.validate(req.body);
     if (error) {
         console.log(error);
-        return res.status(400).json({ error });
+        return res.status(400).json({ success: false, error });
     }
 
     updatedEvent = this.getSantizedEventObject(req);
@@ -90,25 +110,26 @@ exports.updateEvent = (req, res) => {
 
     if (!filter)
         return res.status(400).json({
+            success: false,
             error:
                 'request body must have an event code or id associated with it'
         });
-
     eventModel
         .findOneAndUpdate(filter, updatedEvent, options)
         .populate('category')
         .then((updatedDocument) => {
             if (updatedDocument) {
-                res.status(200).json(updatedDocument);
+                res.status(200).json({ success: true, updatedDocument });
             } else {
                 res.status(500).json({
+                    success: false,
                     msg: 'No document matches the provided query.'
                 });
             }
         })
         .catch((err) => {
             console.log(err);
-            res.status(500).json({ err });
+            res.status(500).json({ success: false, err });
         });
 };
 //santitizing fields after proper validations.
@@ -116,7 +137,8 @@ exports.getSantizedEventObject = (req) => {
     var updatedEvent = {};
     if (req.body.eventCode) updatedEvent['eventCode'] = req.body.eventCode;
     if (req.body.title) updatedEvent['title'] = req.body.title;
-    if (req.body.eventPrice) updatedEvent['eventPrice'] = req.body.eventPrice;
+    if (req.body.subtitle) updatedEvent['subtitle'] = req.body.subtitle;
+    updatedEvent['eventPrice'] = req.body.eventPrice || 0;
     if (req.body.desc) updatedEvent['desc'] = req.body.desc;
     if (req.body.isActive) updatedEvent['isActive'] = req.body.isActive;
     if (req.body.discount) updatedEvent['discount'] = req.body.discount;
@@ -125,7 +147,7 @@ exports.getSantizedEventObject = (req) => {
     if (req.body.eventType) updatedEvent['eventType'] = req.body.eventType;
     if (req.body.club) updatedEvent['club'] = req.body.club;
     if (req.body.rules) updatedEvent['rules'] = req.body.rules;
-    if (req.body.rules) updatedEvent['contacts'] = req.body.contacts;
+    if (req.body.contacts) updatedEvent['contacts'] = req.body.contacts;
 
     if (updatedEvent['title'])
         updatedEvent['title'] = updatedEvent['title']
@@ -150,27 +172,37 @@ exports.delete = (req, res, next) => {
     var id = req.body.id;
     var code = req.body.eventCode;
 
-    const { error } = eventValidateSchema.validate(req.body);
+    // const { error } = eventValidateSchema.validate(req.body);
 
-    if (error) {
-        console.log(error);
-        return res.status(400).json({ error });
-    }
+    // if (error) {
+    //     console.log(error);
+    //     return res.status(400).json({ error });
+    // }
 
     var filter = {};
     if (id != null) {
         filter = { _id: id };
     } else if (code != null) {
         filter = { eventCode: code };
+    } else {
+        return res.status(400).json({
+            success: false,
+            message: 'Either id or eventCode required in req.body'
+        });
     }
 
     eventModel
-        .deleteMany(filter)
+        .deleteOne(filter)
         .then((result) => {
-            res.status(200).json({ result });
+            if (result.deletedCount == 0)
+                res.status(200).json({
+                    success: false,
+                    err: 'Invalid Event Code!'
+                });
+            else res.status(200).json({ success: true, result });
         })
         .catch((err) => {
-            console.log(err);
-            res.status(500).json({ err });
+            console.log({ err });
+            res.status(500).json({ success: false, err });
         });
 };

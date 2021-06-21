@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer');
-const EventSchema = require('../models/event');
 const generateAccessToken = require('./auth').generateAccessToken;
 const ejs = require('ejs');
 const { readFileSync } = require('fs');
@@ -44,7 +43,6 @@ module.exports.sendPaymentConfirmationMail = async (user, invoice, payment) => {
         a.slice(12, 16) +
         '-' +
         a.slice(16);
-    const events = await EventSchema.getEventTitles(invoice.events);
     const token = generateAccessToken(
         {
             isMailToken: true,
@@ -52,7 +50,8 @@ module.exports.sendPaymentConfirmationMail = async (user, invoice, payment) => {
             invoice: {
                 _id: id,
                 amount: payment.amount,
-                events: events
+                eventData: invoice.eventData,
+                comboData: invoice.comboData
             },
             payment: {
                 method: payment.method
@@ -79,7 +78,8 @@ module.exports.sendPaymentConfirmationMail = async (user, invoice, payment) => {
                 invoice: {
                     _id: id,
                     amount: payment.amount,
-                    events: events
+                    eventData: invoice.eventData,
+                    comboData: invoice.comboData
                 },
                 payment: {
                     method: payment.method

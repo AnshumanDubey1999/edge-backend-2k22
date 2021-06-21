@@ -8,25 +8,89 @@ const razorpay = require('../middlewares/razorpay');
 require('dotenv').config();
 
 const getTotalAndValidity = async (eventCodes, registeredEvents) => {
-    if (registeredEvents.some((event) => eventCodes.includes(event)))
+    if (registeredEvents.some((event) => eventCodes.includes(event))) {
         //eventCodes has elements common with registeredEvents
         return {
             sum: 0,
             validity: false,
-            error: 'User already has paid for one or more events'
+            error: 'You have already paid for one or more events'
         };
-
+    }
     let sum = 0;
     let intraCount = 0;
-    let validity = true;
-    for (let i = 0; i < eventCodes.length; i++) {
-        const event = await EventSchema.findByEventCode(eventCodes[i]).lean();
-        if (event == undefined) {
-            validity = false;
-            break;
-        }
+    const comboData = [];
+    const eventData = [];
+    const events = await EventSchema.findAllByEventCode(eventCodes);
+    if (events.length != eventCodes.length) {
+        //Not all eventCodes resulted in an event
+        return {
+            sum: 0,
+            validity: false,
+            error: 'Invalid Event Code'
+        };
+    }
+
+    for (let i = 0; i < events.length; i++) {
+        const event = events[i];
         if (event.eventType == 'INTRA') intraCount++;
         sum += event.eventPrice;
+
+        //If Combo
+        if (event.combos && event.combos.length > 0) {
+            if (
+                event.combos.some((e) => eventCodes.includes(e)) ||
+                event.combos.some((e) => registeredEvents.includes(e)) ||
+                event.combos.includes(event.eventCode)
+            ) {
+                //eventCodes has elements common with registeredEvents or eventCodes
+                return {
+                    sum: 0,
+                    validity: false,
+                    error: 'The combo is invalid!'
+                };
+            }
+
+            //Check eventCode Validity
+            const comboEvents = await EventSchema.findAllByEventCode(
+                event.combos
+            );
+            if (
+                comboEvents.length != event.combos.length ||
+                comboEvents.some((e) => e.combos && e.combos.length > 0)
+            ) {
+                //Not all event.combos resulted in an event or a combo points to another combo
+                return {
+                    sum: 0,
+                    validity: false,
+                    error: 'Invalid Event Found!'
+                };
+            }
+            //Remove ComboCode and put eventCode
+            const comboEventData = [];
+            comboEvents.forEach((ce) => {
+                comboEventData.push({
+                    title: ce.title,
+                    eventCode: ce.eventCode
+                });
+            });
+            comboData.push({
+                title: event.title,
+                eventCode: event.eventCode,
+                eventPrice: event.eventPrice,
+                events: comboEventData
+            });
+
+            //Removing combo from eventCodes and adding events of combo to it
+            eventCodes.splice(eventCodes.indexOf(event.eventCode), 1);
+            eventCodes.push(...event.combos);
+        } else {
+            eventData.push({
+                title: event.title,
+                subtitle: event.subtitle,
+                eventCode: event.eventCode,
+                eventPrice: event.eventPrice
+            });
+        }
     }
     if (intraCount > 0) {
         if (intraCount != eventCodes.length) {
@@ -43,9 +107,11 @@ const getTotalAndValidity = async (eventCodes, registeredEvents) => {
         };
     }
     return {
-        sum: sum,
-        validity: validity,
-        error: validity ? '' : 'Invalid Event Code'
+        sum,
+        validity: true,
+        eventData,
+        comboData,
+        eventCodes
     };
 };
 
@@ -93,42 +159,97 @@ exports.viewInvoice = async (req, res) => {
 exports.verifyMailToken = async (req, res) => {
     try {
         // req.user = {
-        //     isMailToken: false,
-        //     paymentSuccess: false,
+        //     isMailToken: true,
+        //     paymentSuccess: true,
         //     invoice: {
         //         _id: 'asdffa-ffaf-ggegsdg-dsgsd',
-        //         amount: 74521,
-        //         events: [
+        //         amount: 59000,
+        //         // events: [
+        //         //     {
+        //         //         title: 'FLAWLESS'
+        //         //     },
+        //         //     {
+        //         //         title: 'BUG HUNT'
+        //         //     },
+        //         //     {
+        //         //         title: 'WEB DEV'
+        //         //     },
+        //         //     {
+        //         //         title: 'FLAWLESS'
+        //         //     },
+        //         //     {
+        //         //         title: 'BUG HUNT'
+        //         //     },
+        //         //     {
+        //         //         title: 'WEB DEV'
+        //         //     }
+        //         // ],
+        //         eventData: [
         //             {
-        //                 title: 'FLAWLESS'
+        //                 title: 'FLAWLESS',
+        //                 subtitle: 'The game of code',
+        //                 eventCode: 'CB001',
+        //                 eventPrice: 120
         //             },
         //             {
-        //                 title: 'BUG HUNT'
+        //                 title: 'BUG HUNT',
+        //                 subtitle: 'The hunt of code',
+        //                 eventCode: 'CB003',
+        //                 eventPrice: 90
         //             },
         //             {
-        //                 title: 'WEB DEV'
+        //                 title: 'WEB DEV',
+        //                 subtitle: 'The build of code',
+        //                 eventCode: 'CB006',
+        //                 eventPrice: 110
+        //             }
+        //         ],
+        //         comboData: [
+        //             {
+        //                 title: 'CIIC COMBO',
+        //                 eventCode: 'CB001',
+        //                 eventPrice: 120,
+        //                 events: [
+        //                     {
+        //                         title: 'BUSINESS MODEL PLAN',
+        //                         eventCode: 'CI05'
+        //                     },
+        //                     {
+        //                         title: 'BRAND-IT',
+        //                         eventCode: 'CI07'
+        //                     }
+        //                 ]
         //             },
         //             {
-        //                 title: 'FLAWLESS'
-        //             },
-        //             {
-        //                 title: 'BUG HUNT'
-        //             },
-        //             {
-        //                 title: 'WEB DEV'
+        //                 title: 'ELEVATION COMBO',
+        //                 eventCode: 'IV003',
+        //                 eventPrice: 150,
+        //                 events: [
+        //                     {
+        //                         title: 'PAPER-O-VATION',
+        //                         eventCode: 'IV05'
+        //                     },
+        //                     {
+        //                         title: 'CAD-O-MANIA',
+        //                         eventCode: 'IV07'
+        //                     }
+        //                 ]
         //             }
         //         ]
         //     },
         //     payment: {
         //         method: 'UPI',
-        //         amount: 56644,
+        //         amount: 59000,
         //         refundId: 'fsdfds-gdgds-ffdg-dfgdg',
         //         refundReason: 'Aise hi',
         //         id: 'pay_sffedsggrgrgrg'
         //     }
         // };
+
         if (req.user.paymentSuccess) {
-            res.render('successMail', req.user);
+            if (req.user.invoice.events)
+                res.render('intraSuccessMail', req.user);
+            else res.render('successMail', req.user);
         } else {
             res.render('rejectedMail', req.user);
         }
@@ -177,11 +298,21 @@ exports.createInvoice = async (req, res) => {
                 });
             }
         }
+        if (response.sum == 0) {
+            user.registeredEvents.push(...eventCodes);
+            await user.save();
+            return res.status(200).json({
+                success: true,
+                freeEvents: true
+            });
+        }
 
         const invoice = await TemporaryInvoiceSchema.create({
             user: req.user._id,
             amount: response.sum,
-            events: eventCodes,
+            events: response.eventCodes,
+            comboData: response.comboData,
+            eventData: response.eventData,
             type: response.intra ? 'INTRA' : 'EDGE'
         });
 

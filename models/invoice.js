@@ -16,6 +16,27 @@ var InvoiceSchema = new Schema(
             enum: ['INTRA', 'EDGE']
         },
         events: [String],
+        eventData: [
+            {
+                title: String,
+                subtitle: String,
+                eventCode: String,
+                eventPrice: Number
+            }
+        ],
+        comboData: [
+            {
+                title: String,
+                eventCode: String,
+                eventPrice: Number,
+                events: [
+                    {
+                        title: String,
+                        eventCode: String
+                    }
+                ]
+            }
+        ],
         payment_id: {
             type: String,
             required: true
