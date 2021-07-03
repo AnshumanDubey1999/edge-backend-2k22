@@ -23,7 +23,8 @@ const validateInvoiceId = {
 
 const validatePage = {
     query: Joi.object({
-        page: Joi.number().min(1).required()
+        page: Joi.number().min(1).required(),
+        userId: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{24,24}$'))
     })
 };
 

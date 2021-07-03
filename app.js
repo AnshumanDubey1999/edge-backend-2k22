@@ -16,6 +16,7 @@ var eventsRouter = require('./routes/events');
 var categoryRouter = require('./routes/categories');
 var razorPayRouter = require('./routes/razorpay');
 var sponsorRouter = require('./routes/sponsor');
+var adminRouter = require('./routes/admin');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,6 +35,7 @@ app.use('/events', eventsRouter);
 app.use('/categories', categoryRouter);
 app.use('/confirmPayments', razorPayRouter);
 app.use('/sponsors', sponsorRouter);
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -12,16 +12,15 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDIyZDg0YmZlNzJkYjQ4OWU1YTVhYTUiLCJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwicGhvbmUiOiIrOTE5MTIzMDMyMzE5IiwicGVybWlzc2lvbnMiOlsicmVzdWx0cyIsInJlZ2lzdGVyIl0sImF2YXRhciI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tTkxodXJTZ0hlT0EvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjbk0zcVBZeHc0WWl4ZFEwcExyOHYzWlFTZW1hZy9zOTYtYy9waG90by5qcGciLCJpYXQiOjE2MjM4NjgyNTIsImV4cCI6MTYyMzg2ODU1Mn0.dF5D-G3oO43M351eStWUsapqplrCRoxzs8rSGf_cAg8",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDIyZDg0YmZlNzJkYjQ4OWU1YTVhYTUiLCJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwicGhvbmUiOiIrOTE5MTIzMDMyMzE5IiwicGVybWlzc2lvbnMiOlsicmVzdWx0cyIsInJlZ2lzdGVyIiwicXVpeiJdLCJhdmF0YXIiOiJodHRwczovL2xoNC5nb29nbGV1c2VyY29udGVudC5jb20vLU5MaHVyU2dIZU9BL0FBQUFBQUFBQUFJL0FBQUFBQUFBQUFBL0FNWnV1Y25NM3FQWXh3NFlpeGRRMHBMcjh2M1pRU2VtYWcvczk2LWMvcGhvdG8uanBnIiwiaWF0IjoxNjI1MzMzMDgzLCJleHAiOjE2MjUzMzMzODN9.3fkX648JX9Vn7SX1Yt5to-w8bXHrwsPPrWLeKshyMCg",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "localhost:3000/users/login",
+					"raw": "{{baseurl}}/users/login",
 					"host": [
-						"localhost"
+						"{{baseurl}}"
 					],
-					"port": "3000",
 					"path": [
 						"users",
 						"login"
@@ -1174,6 +1173,89 @@
 					"path": [
 						"invoices",
 						"verifyMailToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddLogo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MGJiMWNiYzUwYjk3MTAwMTVkYjRiNDUiLCJpYXQiOjE2MjQyNzk5NTIsImV4cCI6MTYyNDM2NjM1Mn0.VOwcyKI11Fl9aXBhclBvzmHrjE_a-hOZEfZ6iFPQ_XY",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "logo",
+							"type": "file",
+							"src": "/home/anshumandubey/Downloads/Screenshot_from_2021-06-05_20-20-34-removebg-preview.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/events/addLogo?_id=60c907d8198e8f33a123cc3g",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"events",
+						"addLogo"
+					],
+					"query": [
+						{
+							"key": "_id",
+							"value": "60c907d8198e8f33a123cc3g"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dashboard",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MGJiMWNiYzUwYjk3MTAwMTVkYjRiNDUiLCJpYXQiOjE2MjUzMzMzMTgsImV4cCI6MTYyNTQxOTcxOH0.dOmAN03-lfYI2GCmVRMXM4PLjUCfmgXuJ1Sk2k3pX4g",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{regT1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/admin/dashboard",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"admin",
+						"dashboard"
 					]
 				}
 			},
