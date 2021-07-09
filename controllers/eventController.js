@@ -154,7 +154,7 @@ exports.getSantizedEventObject = (req) => {
     if (req.body.subtitle) updatedEvent['subtitle'] = req.body.subtitle;
     updatedEvent['eventPrice'] = req.body.eventPrice || 0;
     if (req.body.desc) updatedEvent['desc'] = req.body.desc;
-    if (req.body.isActive) updatedEvent['isActive'] = req.body.isActive;
+    if ('isActive' in req.body) updatedEvent['isActive'] = req.body.isActive;
     if (req.body.discount) updatedEvent['discount'] = req.body.discount;
     if (req.body.combos) updatedEvent['combos'] = req.body.combos;
     if (req.body.cid) updatedEvent['category'] = req.body.cid;

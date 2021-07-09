@@ -32,6 +32,14 @@ const getTotalAndValidity = async (eventCodes, registeredEvents) => {
 
     for (let i = 0; i < events.length; i++) {
         const event = events[i];
+        if (!event.isActive) {
+            //If an event is inactive
+            return {
+                sum: 0,
+                validity: false,
+                error: 'One or more events are inactive!'
+            };
+        }
         if (event.eventType == 'INTRA') intraCount++;
         sum += event.eventPrice;
 
