@@ -32,6 +32,14 @@ const getTotalAndValidity = async (eventCodes, registeredEvents) => {
 
     for (let i = 0; i < events.length; i++) {
         const event = events[i];
+        if (!event.isActive) {
+            //If an event is inactive
+            return {
+                sum: 0,
+                validity: false,
+                error: 'One or more events are inactive!'
+            };
+        }
         if (event.eventType == 'INTRA') intraCount++;
         sum += event.eventPrice;
 
@@ -343,7 +351,11 @@ exports.allInvoices = async (req, res) => {
     try {
         const limit = 20;
         const skip = (Number(req.query.page) - 1) * 20;
-        const invoices = await InvoiceSchema.find()
+        const filter = {};
+        if (req.query.userId) {
+            filter['user'] = req.query.userId;
+        }
+        const invoices = await InvoiceSchema.find(filter)
             .skip(skip)
             .limit(limit)
             .populate('payment_details');
