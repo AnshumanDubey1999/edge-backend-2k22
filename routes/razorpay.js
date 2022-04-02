@@ -123,7 +123,7 @@ router.post('/confirm', razor.verifyRazorWare, async (req, res) => {
             //If Intra and already have invoice
             if (
                 temporaryInvoice.type == 'INTRA' &&
-                user.intraInvoiceId != null
+                user.intra22InvoiceId != null
             ) {
                 await initiateRefund(
                     payment,
@@ -148,7 +148,7 @@ router.post('/confirm', razor.verifyRazorWare, async (req, res) => {
                 payment_details: payment._id
             });
             if (temporaryInvoice.type == 'INTRA')
-                user.intraInvoiceId = invoice._id;
+                user.intra22InvoiceId = invoice._id;
             user.registeredEvents.push(...temporaryInvoice.events);
             await user.save();
             await TemporaryInvoice.findByIdAndDelete(temporaryInvoice._id);

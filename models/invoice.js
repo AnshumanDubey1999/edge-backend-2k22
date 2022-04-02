@@ -37,18 +37,25 @@ var InvoiceSchema = new Schema(
                 ]
             }
         ],
-        payment_id: {
+        payment_method: {
             type: String,
-            required: true
+            default: 'online'
+        },
+        //offline
+        collector: {
+            type: mongoose.Schema.Types.ObjectID,
+            ref: 'users'
+        },
+        //online
+        payment_id: {
+            type: String
         },
         payment_details: {
             type: mongoose.Schema.Types.ObjectID,
-            ref: 'payments',
-            required: true
+            ref: 'payments'
         },
         order_id: {
-            type: String,
-            required: true
+            type: String
         }
     },
     { timestamps: true },

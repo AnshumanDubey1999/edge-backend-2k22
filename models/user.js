@@ -14,7 +14,7 @@ var UserSchema = new Schema(
         stream: String,
         year: String,
         instituteName: String,
-        intraInvoiceId: {
+        intra22InvoiceId: {
             type: mongoose.Schema.Types.ObjectId,
             default: null
         },

@@ -287,9 +287,9 @@ exports.createInvoice = async (req, res) => {
 
         //FOR INTRA
         if (response.intra) {
-            if (user.intraInvoiceId != null) {
+            if (user.intra22InvoiceId != null) {
                 const invoice = await InvoiceSchema.findById(
-                    user.intraInvoiceId
+                    user.intra22InvoiceId
                 );
                 for (let i = 0; i < eventCodes.length; i++) {
                     const code = eventCodes[i];

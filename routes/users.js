@@ -25,6 +25,14 @@ router.post(
 );
 
 //ADMIN ROUTES
+router.post(
+    '/add',
+    Authenticate.isLoggedIn,
+    Authenticate.isAdmin,
+    validateUser.addUser,
+    userController.addUser
+);
+
 router.get(
     '/allUsers',
     Authenticate.isLoggedIn,

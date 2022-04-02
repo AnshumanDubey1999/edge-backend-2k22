@@ -1,4 +1,5 @@
 const UserSchema = require('../models/user');
+const InvoiceSchema = require('../models/invoice');
 const EventSchema = require('../models/event');
 const generateAccessToken = require('../middlewares/auth').generateAccessToken;
 const fastCsv = require('fast-csv');
@@ -135,6 +136,55 @@ exports.updateProfile = async (req, res) => {
 };
 
 //ADMIN ONLY
+exports.addUser = async (req, res) => {
+    try {
+        const user = await UserSchema.findByEmail(req.body.email);
+        if(!user) {
+            throw new Error("User not registered!");
+        }
+        if(user.intra22InvoiceId) {
+            const invoice = await InvoiceSchema.findById(user.intra22InvoiceId);
+            console.log({e:req.body.events})
+            for(let i = 0; i < req.body.events.length; i++) {
+                const event = req.body.events[i];
+                if(!invoice.events.includes(event)) {
+                    invoice.events.push(event);
+                }
+            };
+            user.registeredEvents = invoice.events;
+            console.log({
+                user: user.registeredEvents,
+                inv: invoice.events
+            })
+            await user.save();
+            await invoice.save();
+            return res.status(200).json({
+                invoice
+            });
+        }
+        const invoice = await InvoiceSchema.create({
+            user: user._id,
+            amount: Number(process.env.INTRA_AMOUNT) || 300,
+            type: 'INTRA',
+            events: req.body.events,
+            payment_method: 'offline',
+            collector: req.user._id
+        });
+        user.registeredEvents = invoice.events;
+        user.intra22InvoiceId = invoice._id;
+        await user.save();
+        res.status(200).json({
+            invoice
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            err: error
+        });
+    }
+}
+
 exports.viewUser = async (req, res) => {
     try {
         let query = {};
@@ -317,7 +367,7 @@ exports.toCSV = (req, res) => {
             Year: doc.year,
             College: doc.instituteName,
             Events: doc.registeredEvents.join(','),
-            Invoice: doc.intraInvoiceId
+            Invoice: doc.intra22InvoiceId
         };
     };
 
