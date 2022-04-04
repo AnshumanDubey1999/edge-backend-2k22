@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 //MIDDLEWARES
 const Authenticate = require('../middlewares/auth');
@@ -9,6 +9,7 @@ const UserSchema = require('../models/user');
 const InvoiceSchema = require('../models/invoice');
 const RefundSchema = require('../models/refund');
 const EventSchema = require('../models/event');
+let data = {};
 
 router.get(
     '/dashboard',
@@ -17,6 +18,10 @@ router.get(
     async (req, res) => {
         try {
             const today = new Date();
+            if (data.timestamp && today - data.timestamp < 3600 * 1000) {
+                return res.json({ ...data, live: false });
+            }
+
             const dayLimit = new Date(today - 60 * 24 * 3600 * 1000);
             const userCount = await UserSchema.estimatedDocumentCount();
             let totalPayments = await InvoiceSchema.aggregate([
@@ -168,7 +173,7 @@ router.get(
                     }
                 }
             ]);
-            res.json({
+            data = {
                 success: true,
                 userCount,
                 usersPerDay,
@@ -178,7 +183,11 @@ router.get(
                 totalPayments,
                 earningPerDay,
                 totalRefunds,
-                eventsBought
+                eventsBought,
+                timestamp: today
+            };
+            res.json({
+                ...data
             });
         } catch (error) {
             res.json({

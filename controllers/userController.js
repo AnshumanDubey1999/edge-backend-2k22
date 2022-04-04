@@ -4,6 +4,7 @@ const EventSchema = require('../models/event');
 const generateAccessToken = require('../middlewares/auth').generateAccessToken;
 const fastCsv = require('fast-csv');
 const TokenSchema = require('../models/token');
+const mail = require('../middlewares/mail');
 
 exports.login = async (req, res) => {
     try {
@@ -139,23 +140,23 @@ exports.updateProfile = async (req, res) => {
 exports.addUser = async (req, res) => {
     try {
         const user = await UserSchema.findByEmail(req.body.email);
-        if(!user) {
-            throw new Error("User not registered!");
+        if (!user) {
+            throw new Error('User not registered!');
         }
-        if(user.intra22InvoiceId) {
+        if (user.intra22InvoiceId) {
             const invoice = await InvoiceSchema.findById(user.intra22InvoiceId);
-            console.log({e:req.body.events})
-            for(let i = 0; i < req.body.events.length; i++) {
+            // console.log({e:req.body.events})
+            for (let i = 0; i < req.body.events.length; i++) {
                 const event = req.body.events[i];
-                if(!invoice.events.includes(event)) {
+                if (!invoice.events.includes(event)) {
                     invoice.events.push(event);
                 }
-            };
+            }
             user.registeredEvents = invoice.events;
-            console.log({
-                user: user.registeredEvents,
-                inv: invoice.events
-            })
+            // console.log({
+            //     user: user.registeredEvents,
+            //     inv: invoice.events
+            // })
             await user.save();
             await invoice.save();
             return res.status(200).json({
@@ -172,6 +173,10 @@ exports.addUser = async (req, res) => {
         });
         user.registeredEvents = invoice.events;
         user.intra22InvoiceId = invoice._id;
+        await mail.sendPaymentConfirmationMail(user, invoice, {
+            amount: invoice.amount,
+            method: 'cash'
+        });
         await user.save();
         res.status(200).json({
             invoice
@@ -183,7 +188,7 @@ exports.addUser = async (req, res) => {
             err: error
         });
     }
-}
+};
 
 exports.viewUser = async (req, res) => {
     try {
