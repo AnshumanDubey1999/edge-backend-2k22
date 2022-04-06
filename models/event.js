@@ -90,6 +90,7 @@ eventSchema.statics.getAllEvents = function () {
 
 eventSchema.statics.getEventsByQuery = function (query) {
     var isActive = query.isActive;
+    var club = query.club;
     var category = query.category;
     var discount = query.discount;
     var eventPrice = query.eventPrice;
@@ -98,6 +99,7 @@ eventSchema.statics.getEventsByQuery = function (query) {
     var filter = [];
 
     if (isActive) filter.push({ isActive: isActive });
+    if (club) filter.push({ club: club });
     if (category) filter.push({ category: category });
     if (eventType) filter.push({ eventType: eventType });
     if (discount) filter.push({ discount: { $gte: discount } });
@@ -105,10 +107,9 @@ eventSchema.statics.getEventsByQuery = function (query) {
     if (combos) filter.push({ 'combos.0': { $exists: true } });
 
     console.log(filter);
-
-    // return this.find({}).populate('category');
-
-    return this.find({ $and: filter }).populate('category');
+    if (filter.length > 0)
+        return this.find({ $and: filter }).populate('category');
+    return this.find({}).populate('category');
 };
 
 module.exports = mongoose.model('Event', eventSchema);
