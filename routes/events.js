@@ -8,8 +8,7 @@ const logo_upload = require('../middlewares/s3').logo_upload;
 const imageValidator = require('../validations/event_validation_schema').addImage;
 
 //user and admin
-router.get('/', eventContoller.getAllEvents);
-router.get('/query',  eventContoller.getEvents);
+router.get('/', eventContoller.getEvents);
 router.get('/:eventCode', eventContoller.getEventByCode);
 
 
