@@ -57,7 +57,7 @@ exports.login = async (req, res) => {
         console.log(error);
         res.json({
             success: false,
-            err: error
+            err: String(error)
         });
     }
 };
@@ -95,7 +95,7 @@ exports.register = async (req, res) => {
         console.log(error);
         res.json({
             success: false,
-            err: error
+            err: String(error)
         });
     }
 };
@@ -111,7 +111,7 @@ exports.myProfile = async (req, res) => {
         console.log(error);
         res.json({
             success: false,
-            err: error
+            err: String(error)
         });
     }
 };
@@ -131,7 +131,7 @@ exports.updateProfile = async (req, res) => {
         console.log(error);
         res.json({
             success: false,
-            err: error
+            err: String(error)
         });
     }
 };
@@ -160,6 +160,7 @@ exports.addUser = async (req, res) => {
             await user.save();
             await invoice.save();
             return res.status(200).json({
+                amount: 0,
                 invoice
             });
         }
@@ -179,13 +180,14 @@ exports.addUser = async (req, res) => {
         });
         await user.save();
         res.status(200).json({
+            amount: invoice.amount,
             invoice
         });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         res.json({
             success: false,
-            err: error
+            err: String(error)
         });
     }
 };
@@ -226,7 +228,7 @@ exports.viewUser = async (req, res) => {
         console.log(error);
         res.json({
             success: false,
-            err: error
+            err: String(error)
         });
     }
 };
@@ -314,7 +316,7 @@ exports.allUsers = async (req, res) => {
         console.log(error);
         res.json({
             success: false,
-            err: error
+            err: String(error)
         });
     }
 };
@@ -330,7 +332,7 @@ exports.deleteUser = async (req, res) => {
         console.log(error);
         res.json({
             success: false,
-            err: error.message
+            err: String(error)
         });
     }
 };
@@ -397,13 +399,14 @@ exports.saveAdminToken = async (req, res) => {
         });
         res.status(200).json({
             success: true,
-            id: token._id
+            id: token._id,
+            url: `${process.env.ADMIN_URL}/?id=${token._id}`
         });
     } catch (error) {
         console.log(error);
         res.json({
             success: false,
-            err: error
+            err: String(error)
         });
     }
 };
@@ -424,7 +427,7 @@ exports.fetchAdminToken = async (req, res) => {
         // console.log(error);
         res.json({
             success: false,
-            err: error
+            err: String(error)
         });
     }
 };
