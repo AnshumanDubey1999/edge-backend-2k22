@@ -9,28 +9,28 @@ const imageValidator = require('../validations/event_validation_schema').addImag
 
 //user and admin
 router.get('/', eventContoller.getEvents);
+router.get('/registeredEvents', Authenticate.isLoggedIn, eventContoller.getRegisteredEvents);
 router.get('/:eventCode', eventContoller.getEventByCode);
 
-
 //admin
-router.post('/add', Authenticate.isLoggedIn,  Authenticate.isAdmin, eventContoller.addEvent);
+router.post('/add', Authenticate.isLoggedIn, Authenticate.isAdmin, eventContoller.addEvent);
 router.post(
-    '/addImage', 
-    Authenticate.isLoggedIn,  
-    Authenticate.isAdmin, 
-    imageValidator, 
-    upload.single('poster'), 
+    '/addImage',
+    Authenticate.isLoggedIn,
+    Authenticate.isAdmin,
+    imageValidator,
+    upload.single('poster'),
     eventContoller.addImage
 );
 router.post(
-    '/addLogo', 
-    Authenticate.isLoggedIn,  
-    Authenticate.isAdmin, 
-    imageValidator, 
-    logo_upload.single('logo'), 
+    '/addLogo',
+    Authenticate.isLoggedIn,
+    Authenticate.isAdmin,
+    imageValidator,
+    logo_upload.single('logo'),
     eventContoller.addLogo
 );
-router.put('/edit', Authenticate.isLoggedIn,  Authenticate.isAdmin, eventContoller.updateEvent);
-router.delete('/delete', Authenticate.isLoggedIn,  Authenticate.isAdmin, eventContoller.delete);
+router.put('/edit', Authenticate.isLoggedIn, Authenticate.isAdmin, eventContoller.updateEvent);
+router.delete('/delete', Authenticate.isLoggedIn, Authenticate.isAdmin, eventContoller.delete);
 
 module.exports = router;

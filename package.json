@@ -9,7 +9,7 @@
     "start": "node ./bin/www",
     "prepare": "husky install",
     "devStart": "nodemon ./bin/www",
-    "format": "./node_modules/.bin/eslint . --fix"
+    "format": "eslint . --fix"
   },
   "dependencies": {
     "aws-sdk": "^2.897.0",

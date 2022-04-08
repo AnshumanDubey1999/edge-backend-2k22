@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b1b8ba8a-8681-4dfd-863b-e1fed10419c4",
+		"_postman_id": "534d6c9b-a342-437e-ba10-c9cbac79ce9c",
 		"name": "Register",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -12,7 +12,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDIyZDg0YmZlNzJkYjQ4OWU1YTVhYTUiLCJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwicGhvbmUiOiIrOTE5MTIzMDMyMzE5IiwicGVybWlzc2lvbnMiOlsicmVzdWx0cyIsInJlZ2lzdGVyIiwicXVpeiJdLCJhdmF0YXIiOiJodHRwczovL2xoNC5nb29nbGV1c2VyY29udGVudC5jb20vLU5MaHVyU2dIZU9BL0FBQUFBQUFBQUFJL0FBQUFBQUFBQUFBL0FNWnV1Y25NM3FQWXh3NFlpeGRRMHBMcjh2M1pRU2VtYWcvczk2LWMvcGhvdG8uanBnIiwiaWF0IjoxNjI1MzMzMDgzLCJleHAiOjE2MjUzMzMzODN9.3fkX648JX9Vn7SX1Yt5to-w8bXHrwsPPrWLeKshyMCg",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGI0ZGQ4ZDJkNzM0YjRiODczYWE2NjciLCJuYW1lIjoiRGl2eWEga3VtYXIgQmFpZCIsImVtYWlsIjoiZGl2eWFrdW1hcmJhaWQuZGtiLjIwMDFAZ21haWwuY29tIiwicGhvbmUiOiIrOTE5MTIzMDY1NDcxIiwicGVybWlzc2lvbnMiOlsicmVnaXN0ZXIiXSwiYXZhdGFyIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2dkMEYzcURkblFaNUZjYi1RNVQ5TEVfb3dJQUU1RW5jQTFYRkJjPXM5Ni1jIiwiaWF0IjoxNjQ5NDQwMTY1LCJleHAiOjE2NDk0NDA0NjV9.0rgEbpfqbM808MrOvcN661-EG7xNuV0WSaxyYu5F_Zw",
 						"type": "text"
 					}
 				],
@@ -422,19 +422,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/events?club=curbrain",
+					"raw": "localhost:5000/events/",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "5000",
 					"path": [
-						"events"
-					],
-					"query": [
-						{
-							"key": "club",
-							"value": "curbrain"
-						}
+						"events",
+						""
 					]
 				}
 			},
@@ -448,7 +443,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiY29udGFjdCI6Iis5MTkxMjMwMzIzMTkiLCJfaWQiOiI2MGJiMWNiYzUwYjk3MTAwMTVkYjRiNDUiLCJpYXQiOjE2MjM4NjgyNjQsImV4cCI6MTYyMzk1NDY2NH0.Qyg441hqJEmA9LvGurRDnQy4wzh26qLoU-wGG0CaUrA",
+							"value": "{{auth_token}}",
 							"type": "string"
 						},
 						{
@@ -462,7 +457,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n   \"eventPrice\": 100,\n    \"isActive\": true,\n    \"discount\": 0,\n    \"combos\": [\n    ],\n    \"eventCode\": \"TEST01\",\n    \"title\": \"Coding QUIZ\",\n    \"subtitle\": \"Test ur coding trivia\",\n    \"desc\": \"A quiz to test how much u know about coding\",\n    \"club\": \"curbrain\",\n    \"eventType\": \"EDGE\"\n}",
+					"raw": "{\n   \"eventPrice\": 100,\n    \"isActive\": true,\n    \"discount\": 0,\n    \"combos\": [\n    ],\n    \"eventCode\": \"TEST3000\",\n    \"title\": \"Coding QUIZo\",\n    \"subtitle\": \"Test ur coding trivia\",\n    \"desc\": \"A quiz to test how much u know about coding\",\n    \"club\": \"curbrain\",\n    \"eventType\": \"EDGE\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -470,11 +465,11 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/events/add",
+					"raw": "localhost:5000/events/add",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "5000",
 					"path": [
 						"events",
 						"add"
@@ -776,11 +771,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/users/fetchAdminToken",
+					"raw": "localhost:5000/users/fetchAdminToken",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "5000",
 					"path": [
 						"users",
 						"fetchAdminToken"
@@ -797,7 +792,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5zaHVtYW4gRHViZXkiLCJlbWFpbCI6ImFuc2h1bWFuZGFwaG5pc2xhYnNAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiX2lkIjoiNjBiYjFjYmM1MGI5NzEwMDE1ZGI0YjQ1IiwiaWF0IjoxNjIyODc1MzI0LCJleHAiOjE2MjI5NjE3MjR9.lA4dvpfs-ZbG05yRAqJJQNWCYLBgeVEXlXZpRS0oxAc",
+							"value": "{{auth_token}}",
 							"type": "string"
 						},
 						{
@@ -810,11 +805,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/users/saveAdminToken",
+					"raw": "localhost:5000/users/saveAdminToken",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "5000",
 					"path": [
 						"users",
 						"saveAdminToken"
@@ -1256,6 +1251,30 @@
 					"path": [
 						"admin",
 						"dashboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getRegisteredEvents",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{auth_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseurl}}/events/registeredEvents",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"events",
+						"registeredEvents"
 					]
 				}
 			},

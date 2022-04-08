@@ -49,15 +49,15 @@ const validateAddUser = {
     body: Joi.object({
         email: Joi.string().email().required(),
         events: Joi.array()
-        .items(
-            Joi.string()
-                .required()
-                .pattern(new RegExp('^[a-zA-Z0-9]{1,500}$'))
-        )
-        .min(1)
-        .required()
+            .items(
+                Joi.string()
+                    .required()
+                    .pattern(new RegExp('^[a-zA-Z0-9]{1,500}$'))
+            )
+            .min(1)
+            .required()
     })
-}
+};
 
 exports.register = validate(register, {}, {});
 exports.updateProfile = validate(register, {}, {});

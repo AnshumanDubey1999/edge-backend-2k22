@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 const eventModel = require('../models/event');
+const UserModel = require('../models/user');
 const eventValidateSchema = require('../validations/event_validation_schema')
     .eventSchema;
 const paramsValidationSchema = require('../validations/event_validation_schema')
@@ -179,6 +180,21 @@ exports.getSantizedEventObject = (req) => {
             .replace(/>/g, '&gt;');
 
     return updatedEvent;
+};
+
+exports.getRegisteredEvents = async (req, res) => {
+    try {
+        const user = await UserModel.findById(req.user._id);
+        if (!user) {
+            throw new Error('User not found!');
+        }
+        const events = await eventModel.findAllByEventCode(
+            user.registeredEvents
+        );
+        res.status(200).json({ success: true, events });
+    } catch (error) {
+        res.json({ success: false, err: String(error) });
+    }
 };
 
 // eslint-disable-next-line no-unused-vars
