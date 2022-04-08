@@ -111,7 +111,9 @@ const getTotalAndValidity = async (eventCodes, registeredEvents) => {
         return {
             sum: Number(process.env.INTRA_AMOUNT) || 300,
             validity: true,
-            intra: true
+            intra: true,
+            eventCodes,
+            eventData
         };
     }
     return {
@@ -278,6 +280,7 @@ exports.createInvoice = async (req, res) => {
             eventCodes,
             user.registeredEvents
         );
+        // console.log('Res', { ...response });
         if (!response.validity) {
             return res.status(200).json({
                 success: false,
