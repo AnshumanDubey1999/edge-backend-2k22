@@ -95,11 +95,14 @@ exports.getEventByCode = (req, res) => {
     eventModel
         .getEventByCode(code)
         .then((event) => {
+            if (event === null) {
+                throw new Error('Event does not exist');
+            }
             res.status(200).json({ success: true, event });
         })
         .catch((err) => {
             console.log(err);
-            res.status(500).json({ success: false, err });
+            res.status(500).json({ success: false, err: err.message });
         });
 };
 
