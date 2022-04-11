@@ -189,7 +189,7 @@ exports.addUser = async (req, res) => {
         // console.log(error);
         res.json({
             success: false,
-            err: String(error)
+            err: error.message
         });
     }
 };
