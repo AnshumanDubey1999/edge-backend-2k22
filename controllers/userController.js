@@ -4,7 +4,7 @@ const EventSchema = require('../models/event');
 const generateAccessToken = require('../middlewares/auth').generateAccessToken;
 const fastCsv = require('fast-csv');
 const TokenSchema = require('../models/token');
-// const mail = require('../middlewares/mail');
+const mail = require('../middlewares/mail');
 
 exports.login = async (req, res) => {
     try {
@@ -159,6 +159,10 @@ exports.addUser = async (req, res) => {
             // })
             await user.save();
             await invoice.save();
+            await mail.sendPaymentConfirmationMail(user, invoice, {
+                amount: 0,
+                method: 'none'
+            });
             return res.status(200).json({
                 success: true,
                 amount: 0,
@@ -175,10 +179,10 @@ exports.addUser = async (req, res) => {
         });
         user.registeredEvents = invoice.events;
         user.intra22InvoiceId = invoice._id;
-        // await mail.sendPaymentConfirmationMail(user, invoice, {
-        //     amount: invoice.amount,
-        //     method: 'cash'
-        // });
+        await mail.sendPaymentConfirmationMail(user, invoice, {
+            amount: invoice.amount,
+            method: 'cash'
+        });
         await user.save();
         res.status(200).json({
             success: true,

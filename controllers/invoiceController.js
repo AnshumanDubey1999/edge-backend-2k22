@@ -3,6 +3,7 @@ const InvoiceSchema = require('../models/invoice');
 const TemporaryInvoiceSchema = require('../models/temporaryInvoice');
 const EventSchema = require('../models/event');
 const razorpay = require('../middlewares/razorpay');
+const mail = require('../middlewares/mail');
 // const s3 = require('../middlewares/s3').s3;
 
 require('dotenv').config();
@@ -302,6 +303,10 @@ exports.createInvoice = async (req, res) => {
                 user.registeredEvents.push(...eventCodes);
                 await invoice.save();
                 await user.save();
+                await mail.sendPaymentConfirmationMail(user, invoice, {
+                    amount: 0,
+                    method: 'none'
+                });
                 return res.status(200).json({
                     success: true,
                     invoice: invoice,
@@ -312,6 +317,10 @@ exports.createInvoice = async (req, res) => {
         if (response.sum == 0) {
             user.registeredEvents.push(...eventCodes);
             await user.save();
+            await mail.sendPaymentConfirmationMail(user, invoice, {
+                amount: 0,
+                method: 'none'
+            });
             return res.status(200).json({
                 success: true,
                 freeEvents: true
