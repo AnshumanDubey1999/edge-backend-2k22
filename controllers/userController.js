@@ -143,6 +143,7 @@ exports.addUser = async (req, res) => {
         if (!user) {
             throw new Error('User not registered!');
         }
+        const eventData = await EventSchema.findAllByEventCode(req.body.events);
         if (user.intra22InvoiceId) {
             const invoice = await InvoiceSchema.findById(user.intra22InvoiceId);
             // console.log({e:req.body.events})
@@ -150,6 +151,7 @@ exports.addUser = async (req, res) => {
                 const event = req.body.events[i];
                 if (!invoice.events.includes(event)) {
                     invoice.events.push(event);
+                    invoice.eventData.push(eventData[i]);
                 }
             }
             user.registeredEvents = invoice.events;
@@ -174,6 +176,7 @@ exports.addUser = async (req, res) => {
             amount: Number(process.env.INTRA_AMOUNT) || 300,
             type: 'INTRA',
             events: req.body.events,
+            eventData,
             payment_method: 'offline',
             collector: req.user._id
         });

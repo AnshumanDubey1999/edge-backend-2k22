@@ -258,7 +258,7 @@ exports.verifyMailToken = async (req, res) => {
         // };
 
         if (req.user.paymentSuccess) {
-            if (req.user.invoice.events)
+            if (req.user.invoice.type == 'INTRA')
                 res.render('intraSuccessMail', req.user);
             else res.render('successMail', req.user);
         } else {
@@ -297,15 +297,17 @@ exports.createInvoice = async (req, res) => {
                 );
                 for (let i = 0; i < eventCodes.length; i++) {
                     const code = eventCodes[i];
-                    if (!invoice.events.includes(code))
+                    if (!invoice.events.includes(code)) {
                         invoice.events.push(code);
+                        invoice.eventData.push(response.eventData[i]);
+                    }
                 }
                 user.registeredEvents.push(...eventCodes);
                 await invoice.save();
                 await user.save();
                 await mail.sendPaymentConfirmationMail(user, invoice, {
-                    amount: 0,
-                    method: 'none'
+                    amount: invoice.amount,
+                    method: 'Already Paid!'
                 });
                 return res.status(200).json({
                     success: true,
@@ -317,10 +319,19 @@ exports.createInvoice = async (req, res) => {
         if (response.sum == 0) {
             user.registeredEvents.push(...eventCodes);
             await user.save();
-            await mail.sendPaymentConfirmationMail(user, invoice, {
-                amount: 0,
-                method: 'none'
-            });
+            await mail.sendPaymentConfirmationMail(
+                user,
+                {
+                    _id: 'none',
+                    type: response.intra ? 'INTRA' : 'EDGE',
+                    eventData: response.eventData,
+                    comboData: response.comboData
+                },
+                {
+                    amount: 0,
+                    method: 'none'
+                }
+            );
             return res.status(200).json({
                 success: true,
                 freeEvents: true

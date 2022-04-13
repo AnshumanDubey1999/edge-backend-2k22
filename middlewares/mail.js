@@ -33,22 +33,27 @@ transport.verify((error, _success) => {
 
 module.exports.sendPaymentConfirmationMail = async (user, invoice, payment) => {
     const a = String(invoice._id);
-    const id =
-        a.slice(0, 4) +
-        '-' +
-        a.slice(4, 8) +
-        '-' +
-        a.slice(8, 12) +
-        '-' +
-        a.slice(12, 16) +
-        '-' +
-        a.slice(16);
+    let id = a;
+    if (id.length > 16) {
+        id =
+            a.slice(0, 4) +
+            '-' +
+            a.slice(4, 8) +
+            '-' +
+            a.slice(8, 12) +
+            '-' +
+            a.slice(12, 16) +
+            '-' +
+            a.slice(16);
+    }
+
     const token = generateAccessToken(
         {
             isMailToken: true,
             paymentSuccess: true,
             invoice: {
                 _id: id,
+                type: invoice.type,
                 amount: payment.amount,
                 eventData: invoice.eventData,
                 comboData: invoice.comboData
@@ -217,7 +222,7 @@ module.exports.sendAdminErrorMail = async (error, req, during) => {
     var mailOptions = {
         to: process.env.ADMIN_MAIL,
         from: process.env.EMAIL_ID,
-        subject: 'Razor Error | EDGE 2021 | Urgent',
+        subject: 'Razor Error | INTRA 2022 | Urgent',
         text: String(error) + '\n\n\n' + JSON.stringify(req.body),
         html: `<h2>Error caused during: ${during}</h2><br/>
         <strong>${String(error)}<br/><br/>${JSON.stringify(req.body)}</strong>`
