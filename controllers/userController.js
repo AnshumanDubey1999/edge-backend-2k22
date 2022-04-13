@@ -173,7 +173,7 @@ exports.addUser = async (req, res) => {
         }
         const invoice = await InvoiceSchema.create({
             user: user._id,
-            amount: Number(process.env.INTRA_AMOUNT) || 300,
+            amount: Number(process.env.INTRA_AMOUNT) || 150,
             type: 'INTRA',
             events: req.body.events,
             eventData,

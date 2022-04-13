@@ -306,7 +306,7 @@ exports.createInvoice = async (req, res) => {
                 await invoice.save();
                 await user.save();
                 await mail.sendPaymentConfirmationMail(user, invoice, {
-                    amount: invoice.amount,
+                    amount: invoice.amount * 100,
                     method: 'Already Paid!'
                 });
                 return res.status(200).json({
