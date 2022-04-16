@@ -1,8 +1,8 @@
 const UserSchema = require('../models/user');
 const InvoiceSchema = require('../models/invoice');
-const TemporaryInvoiceSchema = require('../models/temporaryInvoice');
+// const TemporaryInvoiceSchema = require('../models/temporaryInvoice');
 const EventSchema = require('../models/event');
-const razorpay = require('../middlewares/razorpay');
+// const razorpay = require('../middlewares/razorpay');
 const mail = require('../middlewares/mail');
 // const s3 = require('../middlewares/s3').s3;
 
@@ -338,28 +338,33 @@ exports.createInvoice = async (req, res) => {
             });
         }
 
-        const invoice = await TemporaryInvoiceSchema.create({
-            user: req.user._id,
-            amount: response.sum,
-            events: response.eventCodes,
-            comboData: response.comboData,
-            eventData: response.eventData,
-            type: response.intra ? 'INTRA' : 'EDGE'
+        return res.status(200).json({
+            success: false,
+            err: 'Payment not allowed!'
         });
 
-        const order = await razorpay.generateOrder(
-            invoice.amount,
-            String(invoice._id),
-            user.email
-        );
-        invoice.order_id = order.id;
-        invoice.save();
+        // const invoice = await TemporaryInvoiceSchema.create({
+        //     user: req.user._id,
+        //     amount: response.sum,
+        //     events: response.eventCodes,
+        //     comboData: response.comboData,
+        //     eventData: response.eventData,
+        //     type: response.intra ? 'INTRA' : 'EDGE'
+        // });
 
-        res.status(200).json({
-            success: true,
-            invoice: invoice,
-            order: order
-        });
+        // const order = await razorpay.generateOrder(
+        //     invoice.amount,
+        //     String(invoice._id),
+        //     user.email
+        // );
+        // invoice.order_id = order.id;
+        // invoice.save();
+
+        // res.status(200).json({
+        //     success: true,
+        //     invoice: invoice,
+        //     order: order
+        // });
     } catch (error) {
         console.log(error);
         res.json({
