@@ -36,6 +36,15 @@ app.use('/categories', categoryRouter);
 app.use('/confirmPayments', razorPayRouter);
 app.use('/sponsors', sponsorRouter);
 app.use('/admin', adminRouter);
+app.use('/payu', (req, res) => {
+    console.log({
+        body: req.body,
+        q: req.query,
+        p: req.params,
+        h: req.headers
+    });
+    res.status(200).json({});
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -35,6 +35,8 @@ async function initiateRefund(payment, order, reason, req, temporaryInvoice) {
     }
 }
 
+// router.use()
+
 router.post('/confirm', razor.verifyRazorWare, async (req, res) => {
     res.status(200).json({
         err: false
