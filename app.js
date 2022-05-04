@@ -17,6 +17,8 @@ var categoryRouter = require('./routes/categories');
 var razorPayRouter = require('./routes/razorpay');
 var sponsorRouter = require('./routes/sponsor');
 var adminRouter = require('./routes/admin');
+var payuRouter = require('./routes/payu');
+var instamojoRouter = require('./routes/instamojo');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,15 +38,17 @@ app.use('/categories', categoryRouter);
 app.use('/confirmPayments', razorPayRouter);
 app.use('/sponsors', sponsorRouter);
 app.use('/admin', adminRouter);
-app.use('/payu', (req, res) => {
-    console.log({
-        body: req.body,
-        q: req.query,
-        p: req.params,
-        h: req.headers
-    });
-    res.status(200).json({});
-});
+app.use('/payu', payuRouter);
+app.use('/instamojo', instamojoRouter);
+// app.use('/payu', (req, res) => {
+//     console.log({
+//         body: req.body,
+//         q: req.query,
+//         p: req.params,
+//         h: req.headers
+//     });
+//     res.status(200).json({});
+// });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

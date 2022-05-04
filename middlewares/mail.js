@@ -54,7 +54,7 @@ module.exports.sendPaymentConfirmationMail = async (user, invoice, payment) => {
             invoice: {
                 _id: id,
                 type: invoice.type,
-                amount: payment.amount,
+                amount: invoice.amount,
                 eventData: invoice.eventData,
                 comboData: invoice.comboData
             },
@@ -82,7 +82,7 @@ module.exports.sendPaymentConfirmationMail = async (user, invoice, payment) => {
                 isMailToken: false,
                 invoice: {
                     _id: id,
-                    amount: payment.amount,
+                    amount: invoice.amount,
                     eventData: invoice.eventData,
                     comboData: invoice.comboData
                 },
@@ -103,17 +103,7 @@ module.exports.sendPaymentConfirmationMail = async (user, invoice, payment) => {
 };
 
 module.exports.sendPaymentRejectionMail = async (payment, email) => {
-    const a = String(payment.refundId);
-    const id =
-        a.slice(0, 4) +
-        '-' +
-        a.slice(4, 8) +
-        '-' +
-        a.slice(8, 12) +
-        '-' +
-        a.slice(12, 16) +
-        '-' +
-        a.slice(16);
+    const id = String(payment.refundId);
     const token = generateAccessToken(
         {
             isMailToken: true,

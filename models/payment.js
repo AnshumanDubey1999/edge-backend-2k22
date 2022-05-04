@@ -38,7 +38,21 @@ var PaymentSchema = new Schema(
         refundReason: {
             type: String,
             default: ''
-        }
+        },
+        refundType: {
+            type: String,
+            default: 'PTH'
+        },
+        shorturl: String,
+        longurl: String,
+        fees: Number,
+        purpose: String,
+        buyer: String,
+        buyer_name: String,
+        buyer_phone: String,
+        payment_request_id: String,
+        payment_id: String,
+        mac: String
     },
     { timestamps: true },
     { collection: 'payments' }

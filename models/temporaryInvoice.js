@@ -39,11 +39,16 @@ var TemporaryInvoiceSchema = new Schema(
         events: [String],
         order_id: {
             type: String
-        }
+        },
+        instamojo_id: String
     },
     { timestamps: true },
     { collection: 'temporary_invoices' }
 );
+
+TemporaryInvoiceSchema.statics.findByInstaMojoId = function (instamojo_id) {
+    return this.findOne({ instamojo_id });
+};
 
 // TemporaryInvoiceSchema.index({ createdAt: 1 }, { expireAfterSeconds: 600 });
 

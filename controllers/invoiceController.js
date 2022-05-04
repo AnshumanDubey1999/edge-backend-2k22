@@ -4,7 +4,8 @@ const TemporaryInvoiceSchema = require('../models/temporaryInvoice');
 const EventSchema = require('../models/event');
 // const razorpay = require('../middlewares/razorpay');
 const mail = require('../middlewares/mail');
-const payu = require('../middlewares/payu');
+// const payu = require('../middlewares/payu');
+const instamojo = require('../middlewares/instamojo');
 // const s3 = require('../middlewares/s3').s3;
 
 require('dotenv').config();
@@ -362,11 +363,15 @@ exports.createInvoice = async (req, res) => {
         // invoice.order_id = order.id;
 
         //PAYU IMPLEMENTATION
-        const order = payu.generateOrder(invoice, user);
-        invoice.order = order;
+        // const order = payu.generateOrder(invoice, user);
+        // invoice.order = order;
 
-        invoice.save();
+        //INSTAMOJO IMPLEMENTATION
+        const order = await instamojo.generateOrder(invoice, user);
+        invoice.instamojo_id = order.id;
 
+        await invoice.save();
+        console.log({ invoice, order });
         res.status(200).json({
             success: true,
             invoice: invoice,

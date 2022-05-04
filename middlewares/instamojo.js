@@ -1,103 +1,85 @@
-const crypto = require('crypto');
-const fetch = require('node-fetch');
+// const crypto = require('crypto');
+// const fetch = require('node-fetch');
 const key = process.env.INSTAMOJO_KEY;
-const salt = process.env.INSTAMOJO_SALT;
+// const salt = process.env.INSTAMOJO_SALT;
 const auth_token = process.env.INSTAMOJO_AUTH_TOKEN;
 const base_url = process.env.BASE_URL;
 const frontend_url = process.env.FRONTEND_URL;
+const Insta = require('./_instamojo');
+Insta.setKeys(key, auth_token);
+// Insta.isSandboxMode(true);
 
-// const getAuthToken = async () => {
-//     return fetch('https://api.instamojo.com/oauth2/token/', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/x-www-form-urlencoded',
-//             Accept: 'application/json'
-//         },
-//         body: JSON.stringify({
-
-//         })
-//     });
-// }
-
-// const hashFunction = (plainText) => {
-//     const hashedText = crypto
-//         .createHash('sha512')
-//         .update(String(plainText))
-//         .digest('base64');
-//     return hashedText;
-// };
-
-exports.generateOrder = async (invoice, user) => {
-    const res = await fetch('https://api.instamojo.com/v2/payment_requests/', {
-        method: 'POST',
-        headers: {
-            Authorization: 'Bearer ' + auth_token
-        },
-        body: JSON.stringify({
-            purpose: invoice.type,
-            amount: invoice.amount.toFixed(2),
-            buyer_name: user.name,
-            email: user.email,
-            phone: user.contact,
-            redirect_url: frontend_url + '/instamojo/status',
-            webhook: base_url + '/instamojo/confirm',
-            send_email: false,
-            send_sms: false,
-            allow_repeated_payments: false
-        })
-    });
-    return await res.json();
-};
-
-exports.verifyHash = (payment, invoice) => {
-    const hash = hashFunction(
-        salt +
-            '|' +
-            payment.status +
-            '|||||||||||' +
-            invoice.order.email +
-            '|' +
-            invoice.order.firstname +
-            '|' +
-            invoice.type +
-            '|' +
-            invoice.amount.toFixed(2) +
-            '|' +
-            invoice._id +
-            '|' +
-            merchantID
-    );
-    return hash === payment.hash;
-};
-
-exports.generateRefund = async (payment, invoice) => {
-    const hash = hashFunction(
-        merchantID +
-            '|cancel_refund_transaction|' +
-            payment.mihpayid +
-            '|' +
-            salt
-    );
-    const body = {
-        key: merchantID,
-        command: 'cancel_refund_transaction',
-        var1: payment.mihpayid,
-        var2: invoice._id.slice(0, 23),
-        // var3: invoice.amount.toFixed(2),
-        // var4: '',
-        // var5: '',
-        // var6: '{}',
-        hash
+exports.generateOrder = (invoice, user) => {
+    const data = {
+        purpose: 'EDGE Event Registration',
+        amount: invoice.amount,
+        buyer_name: user.name,
+        email: user.email,
+        phone: user.contact,
+        redirect_url: frontend_url + '/instamojo/status',
+        webhook: base_url + '/instamojo/confirm',
+        send_email: false,
+        send_sms: false,
+        allow_repeated_payments: false
     };
-    const response = await fetch(process.env.PAYU_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            Accept: 'application/json'
-        },
-        body: Object.keys(body)
-            .map((k) => `${k}=${body[k]}`)
-            .join('&')
+    console.log({ data });
+    return new Promise((resolve, reject) => {
+        Insta.createPayment(data, function (error, response) {
+            if (error) {
+                console.log({ error });
+                reject(error);
+            } else {
+                // Payment redirection link at response.payment_request.longurl
+                console.log({ response });
+                resolve(JSON.parse(response).payment_request);
+            }
+        });
     });
-    return await response.json();
+};
+
+exports.generateRefund = (payment) => {
+    console.log('41', { payment });
+    return new Promise((resolve, reject) => {
+        try {
+            const refund = new Insta.RefundRequest();
+            console.log('44', { refund });
+            refund.payment_id = payment.payment_id; // This is the payment_id, NOT payment_request_id
+            refund.type = payment.refundType; // Available : ['RFD', 'TNR', 'QFL', 'QNR', 'EWN', 'TAN', 'PTH']
+            refund.body = payment.refundReason; // Reason for refund
+            refund.setRefundAmount(payment.amount);
+            console.log('49', { refund });
+            // const data = await Insta.createRefund(refund);
+            Insta.createRefund(refund, function (error, response) {
+                console.log('here', { error, response });
+                if (error) {
+                    console.log({ error });
+                    reject(error);
+                } else {
+                    // console.log({ response });
+                    resolve(response);
+                }
+            });
+        } catch (error) {
+            console.log('61', { error });
+            reject(error);
+        }
+    });
+};
+
+exports.verifyPayment = async (payment_request_id, payment_id) => {
+    return new Promise((resolve, reject) => {
+        Insta.getPaymentDetails(
+            payment_request_id,
+            payment_id,
+            (error, response) => {
+                if (error) {
+                    console.log({ error });
+                    reject(error);
+                } else {
+                    console.log({ response });
+                    resolve(response);
+                }
+            }
+        );
+    });
 };

@@ -56,16 +56,20 @@ var InvoiceSchema = new Schema(
         },
         order_id: {
             type: String
-        }
+        },
+        instamojo_id: String
     },
     { timestamps: true },
     { collection: 'invoices' }
 );
 
 InvoiceSchema.index({ user: 1 });
+InvoiceSchema.index({ instamojo_id: 1 });
 
 InvoiceSchema.statics.findByUser = function (user_id) {
     return this.find({ user: user_id });
 };
+
+
 
 module.exports = mongoose.model('invoices', InvoiceSchema);
