@@ -2,8 +2,9 @@ const UserSchema = require('../models/user');
 const InvoiceSchema = require('../models/invoice');
 const TemporaryInvoiceSchema = require('../models/temporaryInvoice');
 const EventSchema = require('../models/event');
-const razorpay = require('../middlewares/razorpay');
+// const razorpay = require('../middlewares/razorpay');
 const mail = require('../middlewares/mail');
+const payu = require('../middlewares/payu');
 // const s3 = require('../middlewares/s3').s3;
 
 require('dotenv').config();
@@ -352,12 +353,18 @@ exports.createInvoice = async (req, res) => {
             type: response.intra ? 'INTRA' : 'EDGE'
         });
 
-        const order = await razorpay.generateOrder(
-            invoice.amount,
-            String(invoice._id),
-            user.email
-        );
-        invoice.order_id = order.id;
+        //RAZORPAY IMPLEMENTATION
+        // const order = await razorpay.generateOrder(
+        //     invoice.amount,
+        //     String(invoice._id),
+        //     user.email
+        // );
+        // invoice.order_id = order.id;
+
+        //PAYU IMPLEMENTATION
+        const order = payu.generateOrder(invoice, user);
+        invoice.order = order;
+
         invoice.save();
 
         res.status(200).json({
