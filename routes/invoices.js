@@ -29,6 +29,12 @@ router.post(
 );
 
 router.get(
+    '/payment_id/:invoice_id',
+    Authenticate.isLoggedIn,
+    invoiceController.viewInvoiceByPaymentId
+);
+
+router.get(
     '/:invoice_id/view',
     Authenticate.isLoggedIn,
     validateInvoice.viewInvoice,

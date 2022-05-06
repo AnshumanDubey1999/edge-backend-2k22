@@ -75,7 +75,7 @@ module.exports.sendPaymentConfirmationMail = async (user, invoice, payment) => {
         } has been completed. The invoice id is: ${invoice._id}.`,
         html: ejs.render(
             readFileSync(
-                path.join(__dirname, '../views/intraSuccessMail.ejs'),
+                path.join(__dirname, '../views/successMail.ejs'),
                 'utf8'
             ),
             {

@@ -169,6 +169,26 @@ exports.viewInvoice = async (req, res) => {
     }
 };
 
+exports.viewInvoiceByPaymentId = async (req, res) => {
+    try {
+        const invoice = await InvoiceSchema.findByInstaMojoId(
+            req.params.invoice_id
+        );
+        if (!(req.user.isAdmin || req.user._id == invoice.user))
+            throw new Error('User does not have permission to view invoice.');
+        res.status(200).json({
+            success: true,
+            invoice: invoice
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            err: error.message
+        });
+    }
+};
+
 exports.verifyMailToken = async (req, res) => {
     try {
         // req.user = {
@@ -371,11 +391,11 @@ exports.createInvoice = async (req, res) => {
         invoice.instamojo_id = order.id;
 
         await invoice.save();
-        console.log({ invoice, order });
+        // console.log({ invoice, order });
         res.status(200).json({
             success: true,
             invoice: invoice,
-            order: order
+            order: order.longurl
         });
     } catch (error) {
         console.log(error);

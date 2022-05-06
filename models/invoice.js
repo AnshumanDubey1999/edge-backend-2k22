@@ -70,4 +70,8 @@ InvoiceSchema.statics.findByUser = function (user_id) {
     return this.find({ user: user_id });
 };
 
+InvoiceSchema.statics.findByInstaMojoId = function (instamojo_id) {
+    return this.findOne({ instamojo_id });
+};
+
 module.exports = mongoose.model('invoices', InvoiceSchema);

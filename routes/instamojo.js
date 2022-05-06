@@ -175,6 +175,7 @@ router.post('/confirm', async (req, res) => {
             eventData: temporaryInvoice.eventData,
             comboData: temporaryInvoice.comboData,
             order_id: temporaryInvoice.order_id,
+            instamojo_id: temporaryInvoice.instamojo_id,
             payment_id: payment.mihpayid,
             payment_details: payment._id
         });
@@ -199,15 +200,47 @@ router.post('/confirm', async (req, res) => {
 });
 
 router.get('/status', async (req, res) => {
-    console.log({
-        b: req.body,
-        h: req.headers,
-        q: req.query,
-        p: req.params
-    });
-    res.status(200).json({
-        err: false
-    });
+    try {
+        console.log('________________________________________________________');
+        console.log({
+            b: req.body,
+            h: req.headers,
+            q: req.query,
+            p: req.params
+        });
+        // const temporaryInvoice = await TemporaryInvoice.findByInstaMojoId(
+        //     req.query.payment_request_id
+        // );
+
+        let payment_data = await instamojo.verifyPayment(
+            req.query.payment_request_id,
+            req.query.payment_id
+        );
+        console.log({ payment_data });
+        if (!payment_data.success || !payment_data.payment_request) {
+            return res.redirect(process.env.FRONTEND_URL + '/paymentfailure');
+        }
+        payment_data = payment_data.payment_request;
+        if (payment_data.status !== 'Completed') {
+            return res.redirect(process.env.FRONTEND_URL + '/paymentfailure');
+        }
+        res.redirect(
+            process.env.FRONTEND_URL +
+                '/paymentsuccess?id=' +
+                req.query.payment_request_id
+        );
+
+        // res.status(200).json({
+        //     success: true,
+        //     status: temporaryInvoice.instamojo_status || 'failure'
+        // });
+        // console.log(temporaryInvoice);
+        // if (temporaryInvoice.instamojo_status === 'success')
+        //     return res.redirect(process.env.FRONTEND_URL + '/paymentsuccess');
+        // res.redirect(process.env.FRONTEND_URL + '/paymentfailure');
+    } catch (error) {
+        res.redirect(process.env.FRONTEND_URL + '/paymentfailure');
+    }
 });
 
 module.exports = router;

@@ -4,7 +4,7 @@ const key = process.env.INSTAMOJO_KEY;
 // const salt = process.env.INSTAMOJO_SALT;
 const auth_token = process.env.INSTAMOJO_AUTH_TOKEN;
 const base_url = process.env.BASE_URL;
-const frontend_url = process.env.FRONTEND_URL;
+// const frontend_url = process.env.FRONTEND_URL;
 const Insta = require('./_instamojo');
 Insta.setKeys(key, auth_token);
 // Insta.isSandboxMode(true);
@@ -16,7 +16,7 @@ exports.generateOrder = (invoice, user) => {
         buyer_name: user.name,
         email: user.email,
         phone: user.contact,
-        redirect_url: frontend_url + '/instamojo/status',
+        redirect_url: base_url + '/instamojo/status',
         webhook: base_url + '/instamojo/confirm',
         send_email: false,
         send_sms: false,
