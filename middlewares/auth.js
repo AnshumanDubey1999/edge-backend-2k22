@@ -124,5 +124,6 @@ module.exports = {
     isTemporary,
     generateAccessToken,
     isAdmin,
-    isMailToken
+    isMailToken,
+    auth
 };

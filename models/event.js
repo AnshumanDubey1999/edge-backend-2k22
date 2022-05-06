@@ -88,8 +88,7 @@ eventSchema.statics.getAllEvents = function () {
     return this.find({}).populate('category');
 };
 
-eventSchema.statics.getEventsByQuery = function (query) {
-    var isActive = query.isActive;
+eventSchema.statics.getEventsByQuery = function (query, isAdmin) {
     var club = query.club;
     var category = query.category;
     var discount = query.discount;
@@ -98,7 +97,7 @@ eventSchema.statics.getEventsByQuery = function (query) {
     var combos = query.combos;
     var filter = [];
 
-    if (isActive) filter.push({ isActive: isActive });
+    if (!isAdmin) filter.push({ isActive: true });
     if (club) filter.push({ club: club });
     if (category) filter.push({ category: category });
     if (eventType) filter.push({ eventType: eventType });

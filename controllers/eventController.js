@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 const eventModel = require('../models/event');
 const UserModel = require('../models/user');
+const auth = require('../middlewares/auth');
 const eventValidateSchema = require('../validations/event_validation_schema')
     .eventSchema;
 const paramsValidationSchema = require('../validations/event_validation_schema')
@@ -74,8 +75,11 @@ exports.getAllEvents = async (req, res) => {
 };
 
 exports.getEvents = (req, res) => {
+    const userData = auth.auth(req);
+    let isAdmin = false;
+    if (userData.success) isAdmin = userData.user.isAdmin;
     eventModel
-        .getEventsByQuery(req.query)
+        .getEventsByQuery(req.query, isAdmin)
         .then((events) => {
             return res.status(200).json({ success: true, events });
         })
