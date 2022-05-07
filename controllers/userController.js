@@ -5,6 +5,7 @@ const generateAccessToken = require('../middlewares/auth').generateAccessToken;
 const fastCsv = require('fast-csv');
 const TokenSchema = require('../models/token');
 const mail = require('../middlewares/mail');
+const { getTotalAndValidity } = require('./invoiceController');
 
 exports.login = async (req, res) => {
     try {
@@ -143,62 +144,168 @@ exports.addUser = async (req, res) => {
         if (!user) {
             throw new Error('User not registered!');
         }
-        const eventData = await EventSchema.findAllByEventCode(req.body.events);
-        if (user.intra22InvoiceId) {
-            const invoice = await InvoiceSchema.findById(user.intra22InvoiceId);
-            // console.log({e:req.body.events})
-            for (let i = 0; i < req.body.events.length; i++) {
-                const event = req.body.events[i];
-                if (!invoice.events.includes(event)) {
-                    invoice.events.push(event);
-                    invoice.eventData.push(eventData[i]);
-                }
-            }
-            user.registeredEvents = invoice.events;
-            // console.log({
-            //     user: user.registeredEvents,
-            //     inv: invoice.events
-            // })
-            await user.save();
-            await invoice.save();
-            await mail.sendPaymentConfirmationMail(user, invoice, {
-                amount: 0,
-                method: 'none'
-            });
+        const eventCodes = req.body.eventCodes;
+        const response = await getTotalAndValidity(
+            eventCodes,
+            user.registeredEvents
+        );
+        // console.log('Res', { ...response });
+        if (!response.validity) {
             return res.status(200).json({
-                success: true,
-                amount: 0,
-                invoice
+                success: false,
+                error: response.error
             });
         }
-        const invoice = await InvoiceSchema.create({
-            user: user._id,
-            amount: Number(process.env.INTRA_AMOUNT) || 150,
-            type: 'INTRA',
-            events: req.body.events,
-            eventData,
-            payment_method: 'offline',
-            collector: req.user._id
-        });
-        user.registeredEvents = invoice.events;
-        user.intra22InvoiceId = invoice._id;
-        await mail.sendPaymentConfirmationMail(user, invoice, {
-            amount: invoice.amount,
-            method: 'cash'
-        });
-        await user.save();
+
+        //FOR INTRA
+        if (response.intra) {
+            if (user.intra22InvoiceId != null) {
+                const invoice = await InvoiceSchema.findById(
+                    user.intra22InvoiceId
+                );
+                for (let i = 0; i < eventCodes.length; i++) {
+                    const code = eventCodes[i];
+                    if (!invoice.events.includes(code)) {
+                        invoice.events.push(code);
+                        invoice.eventData.push(response.eventData[i]);
+                    }
+                }
+                user.registeredEvents.push(...eventCodes);
+                await invoice.save();
+                await user.save();
+                await mail.sendPaymentConfirmationMail(user, invoice, {
+                    amount: invoice.amount * 100,
+                    method: 'Already Paid!'
+                });
+                return res.status(200).json({
+                    success: true,
+                    invoice: invoice,
+                    intraInvoice: true
+                });
+            }
+        }
+        if (response.sum == 0) {
+            user.registeredEvents.push(...eventCodes);
+            await user.save();
+            await mail.sendPaymentConfirmationMail(
+                user,
+                {
+                    _id: 'none',
+                    type: response.intra ? 'INTRA' : 'EDGE',
+                    eventData: response.eventData,
+                    comboData: response.comboData
+                },
+                {
+                    amount: 0,
+                    method: 'none'
+                }
+            );
+            return res.status(200).json({
+                success: true,
+                freeEvents: true
+            });
+        }
+
+        // return res.status(200).json({
+        //     success: false,
+        //     err: 'Payment not allowed!'
+        // });
+
+        // const invoice = await TemporaryInvoiceSchema.create({
+        //     user: req.user._id,
+        //     amount: response.sum,
+        //     events: response.eventCodes,
+        //     comboData: response.comboData,
+        //     eventData: response.eventData,
+        //     type: response.intra ? 'INTRA' : 'EDGE'
+        // });
+
+        //RAZORPAY IMPLEMENTATION
+        // const order = await razorpay.generateOrder(
+        //     invoice.amount,
+        //     String(invoice._id),
+        //     user.email
+        // );
+        // invoice.order_id = order.id;
+
+        //PAYU IMPLEMENTATION
+        // const order = payu.generateOrder(invoice, user);
+        // invoice.order = order;
+
+        //INSTAMOJO IMPLEMENTATION
+        // const order = await instamojo.generateOrder(invoice, user);
+        // invoice.instamojo_id = order.id;
+
+        // await invoice.save();
+        // console.log({ invoice, order });
         res.status(200).json({
-            success: true,
-            amount: invoice.amount,
-            invoice
+            success: true
+            // invoice: invoice,
+            // order: order.longurl
         });
     } catch (error) {
-        // console.log(error);
+        console.log(error);
         res.json({
             success: false,
             err: error.message
         });
     }
+    //     const eventData = await EventSchema.findAllByEventCode(req.body.events);
+    //     if (user.intra22InvoiceId) {
+    //         const invoice = await InvoiceSchema.findById(user.intra22InvoiceId);
+    //         // console.log({e:req.body.events})
+    //         for (let i = 0; i < req.body.events.length; i++) {
+    //             const event = req.body.events[i];
+    //             if (!invoice.events.includes(event)) {
+    //                 invoice.events.push(event);
+    //                 invoice.eventData.push(eventData[i]);
+    //             }
+    //         }
+    //         user.registeredEvents = invoice.events;
+    //         // console.log({
+    //         //     user: user.registeredEvents,
+    //         //     inv: invoice.events
+    //         // })
+    //         await user.save();
+    //         await invoice.save();
+    //         await mail.sendPaymentConfirmationMail(user, invoice, {
+    //             amount: 0,
+    //             method: 'none'
+    //         });
+    //         return res.status(200).json({
+    //             success: true,
+    //             amount: 0,
+    //             invoice
+    //         });
+    //     }
+    //     const invoice = await InvoiceSchema.create({
+    //         user: user._id,
+    //         amount: Number(process.env.INTRA_AMOUNT) || 150,
+    //         type: 'INTRA',
+    //         events: req.body.events,
+    //         eventData,
+    //         payment_method: 'offline',
+    //         collector: req.user._id
+    //     });
+    //     user.registeredEvents = invoice.events;
+    //     user.intra22InvoiceId = invoice._id;
+    //     await mail.sendPaymentConfirmationMail(user, invoice, {
+    //         amount: invoice.amount,
+    //         method: 'cash'
+    //     });
+    //     await user.save();
+    //     res.status(200).json({
+    //         success: true,
+    //         amount: invoice.amount,
+    //         invoice
+    //     });
+    // } catch (error) {
+    //     // console.log(error);
+    //     res.json({
+    //         success: false,
+    //         err: error.message
+    //     });
+    // }
 };
 
 exports.viewUser = async (req, res) => {

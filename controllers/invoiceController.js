@@ -451,6 +451,8 @@ exports.allInvoices = async (req, res) => {
 //     }
 // };
 
+exports.getTotalAndValidity = getTotalAndValidity;
+
 exports.deleteInvoice = async (req, res) => {
     try {
         const invoice = await InvoiceSchema.findByIdAndDelete(

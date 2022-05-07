@@ -27,11 +27,11 @@ router.get(
             let totalPayments = await InvoiceSchema.aggregate([
                 { $group: { _id: null, n: { $sum: '$amount' } } }
             ]);
-            totalPayments = totalPayments[0].n;
+            totalPayments = totalPayments[0]?.n || 0;
             let totalRefunds = await RefundSchema.aggregate([
                 { $group: { _id: null, n: { $sum: '$amount' } } }
             ]);
-            totalRefunds = totalRefunds[0].n / 100;
+            totalRefunds = (totalRefunds[0]?.n || 0) / 100;
             const usersPerDay = await UserSchema.aggregate([
                 { $match: { createdAt: { $gte: dayLimit } } },
                 {
@@ -192,7 +192,7 @@ router.get(
         } catch (error) {
             res.json({
                 success: false,
-                error: error
+                error: String(error)
             });
         }
     }
