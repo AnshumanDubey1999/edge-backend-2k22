@@ -144,7 +144,7 @@ exports.addUser = async (req, res) => {
         if (!user) {
             throw new Error('User not registered!');
         }
-        const eventCodes = req.body.eventCodes;
+        const eventCodes = req.body.events;
         const response = await getTotalAndValidity(
             eventCodes,
             user.registeredEvents
@@ -238,10 +238,29 @@ exports.addUser = async (req, res) => {
 
         // await invoice.save();
         // console.log({ invoice, order });
+
+        const invoice = await InvoiceSchema.create({
+            user: user._id,
+            amount: response.sum,
+            type: 'EDGE',
+            events: req.body.events,
+            eventData: response.eventData,
+            payment_method: 'offline',
+            collector: req.user._id
+        });
+
+        user.registeredEvents.push(...eventCodes);
+
+        await user.save();
+        await mail.sendPaymentConfirmationMail(user, invoice, {
+            amount: response.sum,
+            method: 'offline'
+        });
+
         res.status(200).json({
-            success: true
-            // invoice: invoice,
-            // order: order.longurl
+            success: true,
+            amount: invoice.amount,
+            invoice
         });
     } catch (error) {
         console.log(error);
